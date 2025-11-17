@@ -1,0 +1,9 @@
+name: testlab
+
+# Servicios a desplegar
+services: 
+
+  wiremock:
+    image: wiremock
+    ports: 9156:8080
+    volume: ./docker/wiremock:/home/wiremock

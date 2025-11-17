@@ -1,3 +1,6 @@
 .vscode
-docker
-docker-compose.yaml
+#docker
+#docker-compose.yaml
+docker/apache
+docker/db
+docker/php
