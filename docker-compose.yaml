@@ -4,6 +4,7 @@ name: testlab
 services: 
 
   wiremock:
-    image: wiremock
-    ports: 9156:8080
+    image: wiremock/wiremock:latest
     volume: ./docker/wiremock:/home/wiremock
+    entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]
+    ports: 9156:8080

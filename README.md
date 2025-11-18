@@ -52,6 +52,7 @@ USUARIOS ||--o{ EJECUCIONES : "realiza"
 PROYECTOS ||--o{ VERSIONES : "posee"
 PROYECTOS ||--o{ CASOS_PRUEBA : "define"
 VERSIONES ||--o{ EJECUCIONES :"agrupa"
+VERSIONES ||--o{ CASOS_PRUEBA :"tiene"
 CASOS_PRUEBA ||--o{ EJECUCIONES : "se prueban en"
 
 USUARIOS { 
@@ -88,7 +89,8 @@ EJECUCIONES {
     int id PK 
     int caso_prueba_id FK 
     int version_id FK 
-    int usuario_id FK 
+    int usuario_id FK
+    enum usuario_perfil
     string resultado 
     string mensaje 
     string datos_utilizados 
