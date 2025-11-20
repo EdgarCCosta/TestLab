@@ -1,0 +1,4 @@
+{
+  "request": {"method": "DELETE", "urlPathPattern": "/proyecto/101"},
+  "response": {"status": 409, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"PROYECTO_CONFLICT","message":"Proyecto id=101 tiene versiones activas"}}
+}

@@ -1,0 +1,10 @@
+{
+  "id": 304,
+  "titulo": "Generar informe mensual",
+  "objetivo": "Compilar métricas ventas",
+  "condiciones": "Datos mes completo",
+  "pasos": "1 Abrir panel BI\n2 Seleccionar rango\n3 Exportar PDF",
+  "resultado_esperado": "PDF con KPI correctos",
+  "rol": "product_owner",
+  "proyecto_id": 104
+}

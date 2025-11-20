@@ -1,0 +1,14 @@
+{
+  "id": 410,
+  "caso_prueba_id": 310,
+  "version_id": 210,
+  "usuario_id": 10,
+  "usuario_perfil": "tester",
+  "resultado": "passed",
+  "mensaje": "Chat inicia sesión",
+  "datos_utilizados": "mensaje=Hola soporte",
+  "estado_error": null,
+  "correccion": null,
+  "observaciones": "Asignado agente #23",
+  "fecha_ejecucion": "2025-04-01T17:00:00Z"
+}

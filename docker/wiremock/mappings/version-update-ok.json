@@ -1,0 +1,4 @@
+{
+  "request": {"method": "PUT", "urlPathPattern": "/version/206", "bodyPatterns": [{"contains": "1.0.2"}]},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":206,"numero_version":"1.0.2","fecha_lanzamiento":"2025-04-06","descripcion":"Segundo hotfix notificaciones","proyecto_id":106,"updated_at":"2025-04-02T12:15:00Z"}}
+}

@@ -1,0 +1,7 @@
+{
+  "id": 103,
+  "nombre": "Inventory Service",
+  "descripcion": "Microservicio stock y reservas (refactor)",
+  "usuario_id": 6,
+  "updated_at": "2025-04-02T11:05:00Z"
+}

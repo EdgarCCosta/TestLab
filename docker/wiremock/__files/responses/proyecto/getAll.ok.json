@@ -1,0 +1,5 @@
+[
+  {"id":101,"nombre":"Store Front","usuario_id":7},
+  {"id":102,"nombre":"Payment Gateway","usuario_id":3},
+  {"id":103,"nombre":"Inventory Service","usuario_id":6}
+]

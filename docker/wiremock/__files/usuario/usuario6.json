@@ -1,0 +1,7 @@
+{
+  "id": 6,
+  "nombre": "Fernando Sáez",
+  "email": "fernando.saez@example.com",
+  "password": "$2y$10$fernandosaezhash",
+  "rol": "developer"
+}

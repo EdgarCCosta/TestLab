@@ -1,0 +1,14 @@
+{
+  "id": 406,
+  "caso_prueba_id": 306,
+  "version_id": 206,
+  "usuario_id": 3,
+  "usuario_perfil": "developer",
+  "resultado": "passed",
+  "mensaje": "Retry exitoso",
+  "datos_utilizados": "SMTP=down luego up",
+  "estado_error": null,
+  "correccion": null,
+  "observaciones": "Segundo intento 45s",
+  "fecha_ejecucion": "2025-04-01T14:10:00Z"
+}

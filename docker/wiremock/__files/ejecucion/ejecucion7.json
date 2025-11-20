@@ -1,0 +1,14 @@
+{
+  "id": 407,
+  "caso_prueba_id": 307,
+  "version_id": 207,
+  "usuario_id": 2,
+  "usuario_perfil": "tester",
+  "resultado": "passed",
+  "mensaje": "Resultados relevantes",
+  "datos_utilizados": "query=cam",
+  "estado_error": null,
+  "correccion": null,
+  "observaciones": "Orden por score",
+  "fecha_ejecucion": "2025-04-01T14:55:00Z"
+}

@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/version/206"},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":206,"numero_version":"1.0.1","fecha_lanzamiento":"2025-04-05","descripcion":"Hotfix notificaciones","proyecto_id":106}}
+}

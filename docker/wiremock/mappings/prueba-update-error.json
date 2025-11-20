@@ -1,0 +1,4 @@
+{
+  "request": {"method": "PUT", "urlPathPattern": "/prueba/304", "bodyPatterns": [{"contains": "pasos_largos_excesivos"}]},
+  "response": {"status": 422, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"CASO_PRUEBA_STEP_FORMAT","message":"Campo pasos excede longitud máxima"}}
+}

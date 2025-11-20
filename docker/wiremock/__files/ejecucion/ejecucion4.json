@@ -1,0 +1,14 @@
+{
+  "id": 404,
+  "caso_prueba_id": 304,
+  "version_id": 204,
+  "usuario_id": 7,
+  "usuario_perfil": "product_owner",
+  "resultado": "passed",
+  "mensaje": "Informe generado",
+  "datos_utilizados": "rango=2025-03",
+  "estado_error": null,
+  "correccion": null,
+  "observaciones": "Validado totales",
+  "fecha_ejecucion": "2025-04-01T12:40:00Z"
+}

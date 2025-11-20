@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPath": "/ejecucion", "queryParameters": {"empty": {"matches": "true"}}},
+  "response": {"status": 404, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"EJECUCIONES_EMPTY","message":"No hay ejecuciones registradas"}}
+}

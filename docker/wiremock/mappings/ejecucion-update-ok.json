@@ -1,0 +1,4 @@
+{
+  "request": {"method": "PUT", "urlPathPattern": "/ejecucion/408", "bodyPatterns": [{"contains": "passed"}, {"contains": "timezone"}]},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":408,"caso_prueba_id":308,"version_id":208,"usuario_id":5,"resultado":"passed","correccion":"Añadido timezone","updated_at":"2025-04-02T14:25:00Z"}}
+}

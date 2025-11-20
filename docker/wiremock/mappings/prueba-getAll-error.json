@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPath": "/prueba", "queryParameters": {"empty": {"matches": "true"}}},
+  "response": {"status": 404, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"CASOS_PRUEBA_EMPTY","message":"No hay casos de prueba"}}
+}

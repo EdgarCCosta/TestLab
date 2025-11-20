@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/proyecto/103"},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":103,"nombre":"Inventory Service","descripcion":"Microservicio stock y reservas","usuario_id":6}}
+}

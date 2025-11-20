@@ -1,0 +1,14 @@
+{
+  "id": 401,
+  "caso_prueba_id": 301,
+  "version_id": 201,
+  "usuario_id": 2,
+  "usuario_perfil": "tester",
+  "resultado": "passed",
+  "mensaje": "Login correcto",
+  "datos_utilizados": "usuario=ana, pwd=***",
+  "estado_error": null,
+  "correccion": null,
+  "observaciones": "Tiempo respuesta 120ms",
+  "fecha_ejecucion": "2025-04-01T09:15:00Z"
+}

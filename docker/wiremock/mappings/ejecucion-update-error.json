@@ -1,0 +1,4 @@
+{
+  "request": {"method": "PUT", "urlPathPattern": "/ejecucion/408", "bodyPatterns": [{"contains": "passed"}, {"absent": "correccion"}]},
+  "response": {"status": 422, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"EJECUCION_STATE_INVALID","message":"Transición de failed a passed requiere campo correccion"}}
+}

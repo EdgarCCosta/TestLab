@@ -1,0 +1,10 @@
+{
+  "id": 310,
+  "titulo": "Chat mensaje inicial",
+  "objetivo": "Abrir conversación soporte",
+  "condiciones": "Usuario autenticado",
+  "pasos": "1 Abrir chat\n2 Escribir mensaje\n3 Enviar",
+  "resultado_esperado": "Mensaje visible y agente asignado",
+  "rol": "tester",
+  "proyecto_id": 110
+}

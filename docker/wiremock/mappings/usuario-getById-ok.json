@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/usuario/1"},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":1,"nombre":"Ana García","email":"ana.garcia@example.com","rol":"admin"}}
+}
