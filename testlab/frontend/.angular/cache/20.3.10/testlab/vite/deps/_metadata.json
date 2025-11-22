@@ -1,37 +1,58 @@
 {
-  "hash": "a024b9d8",
-  "configHash": "4cbcfcae",
-  "lockfileHash": "dff669f6",
-  "browserHash": "49e3b552",
+  "hash": "beb518f0",
+  "configHash": "5d25b0ef",
+  "lockfileHash": "25b1d72b",
+  "browserHash": "76d33606",
   "optimized": {
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "2444017d",
+      "fileHash": "05b1a597",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "6bba92eb",
+      "fileHash": "3ec85f9d",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "7cadcae5",
+      "fileHash": "bf8dfcd4",
       "needsInterop": false
     },
     "zone.js": {
       "src": "../../../../../../node_modules/zone.js/fesm2015/zone.js",
       "file": "zone__js.js",
-      "fileHash": "6354ef82",
+      "fileHash": "1e05000d",
       "needsInterop": true
+    },
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "b27ae5df",
+      "needsInterop": false
+    },
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "609d4f31",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-IUPBNWQQ": {
-      "file": "chunk-IUPBNWQQ.js"
+    "chunk-OQF73SN5": {
+      "file": "chunk-OQF73SN5.js"
+    },
+    "chunk-IH3X4FLD": {
+      "file": "chunk-IH3X4FLD.js"
+    },
+    "chunk-53NIY5YS": {
+      "file": "chunk-53NIY5YS.js"
+    },
+    "chunk-APPCZKFW": {
+      "file": "chunk-APPCZKFW.js"
     },
     "chunk-JRC4WPNH": {
       "file": "chunk-JRC4WPNH.js"
