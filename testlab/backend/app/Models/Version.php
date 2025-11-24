@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class Version extends Model
@@ -18,46 +19,52 @@ class Version extends Model
         'project_id'
     ];
 
+    // --- Casting de tipos ---
     protected $casts = [
         'release_date' => 'date',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
+     // --- Relaciones ---
+
     /**
-     * Relación con el proyecto
+     * Una versión pertenece a un proyecto
      */
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
+     // --- Métodos útiles ---
+
     /**
-     * Verificar si la versión está lanzada
+     * Determina si la versión ya fue liberada
      */
     public function isReleased(): bool
     {
-        return $this->release_date->isPast();
+        return $this->release_date?->isPast() ?? false;
     }
 
     /**
-     * Verificar si es una versión futura
+     * Determina si la versión está programada para futuro
      */
     public function isUpcoming(): bool
     {
-        return $this->release_date->isFuture();
+        return $this->release_date?->isFuture() ?? false;
     }
 
-    /**
-     * Obtener versión en formato semántico (v1.0.0)
+      /**
+     * Devuelve la versión en formato semántico "vX.X.X"
      */
     public function getSemanticVersionAttribute(): string
     {
         return "v{$this->version_number}";
     }
 
-    /**
-     * Días hasta el lanzamiento (si es futura)
+     /**
+     * Calcula días restantes hasta la liberación de la versión
+     * @return int|null - null si ya fue liberada
      */
     public function getDaysUntilReleaseAttribute(): ?int
     {
@@ -68,8 +75,8 @@ class Version extends Model
         return now()->diffInDays($this->release_date, false);
     }
 
-    /**
-     * Validar formato del número de versión
+     /**
+     * Valida el formato de número de versión (estilo semántico)
      */
     public static function isValidVersionNumber(string $version): bool
     {

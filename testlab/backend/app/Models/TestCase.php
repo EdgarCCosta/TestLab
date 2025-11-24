@@ -4,40 +4,72 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TestCase extends Model
 {
     use HasFactory;
 
+    protected $table = 'test_cases';
+    
     protected $fillable = [
         'title',
         'objective',
-        'preconditions',
+        'conditions',
         'steps',
         'expected_result',
-        'user_profile',
-        'version_id'
+        'role',
+        'project_id'
     ];
 
-    protected $casts = [
-        'steps' => 'array' // Para manejar JSON automáticamente
-    ];
+    // --- Relaciones ---
 
-    // Relación con Version
-    public function version()
+    /**
+     * Un test case pertenece a un proyecto
+     */
+    public function project(): BelongsTo
     {
-        return $this->belongsTo(Version::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
-    // Acceso indirecto al Project a través de Version
-    public function project()
+    /**
+     * Un test case puede tener muchas ejecuciones
+     */
+    public function executions(): HasMany
     {
-        return $this->throughVersion->hasProject();
+        return $this->hasMany(TestExecution::class, 'test_case_id');
     }
 
-    // Relación con TestExecutions (las ejecuciones de este test case)
-    /* public function testExecutions()
+    /**
+     * Relación muchos a muchos con Version
+     */
+    public function versions(): BelongsToMany
     {
-        return $this->hasMany(TestExecution::class);
-    }*/
+        return $this->belongsToMany(
+            Version::class,        
+            'version_test_cases',  
+            'test_case_id',        
+            'version_id'           
+        )->withTimestamps();
+    }
+
+    // --- Scopes útiles ---
+
+    /**
+     * Filtrar por rol del test case
+     */
+    public function scopeByRole($query, string $role)
+    {
+        return $query->where('role', $role);
+    }
+
+    /**
+     * Filtrar por proyecto
+     */
+    public function scopeByProject($query, int $projectId)
+    {
+        return $query->where('project_id', $projectId);
+    }
 }
