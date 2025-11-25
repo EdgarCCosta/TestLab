@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('version_test_cases', function(Blueprint $table) {
             $table->id();
 
-            $table->foreignId('versions')->constrained('versions')->onDelete('cascade');
+            $table->foreignId('version_id')->constrained('versions')->onDelete('cascade');
             $table->foreignId('test_case_id')->constrained('test_cases')->onDelete('cascade');
 
-            $table->timestamps();
         });
         
     }

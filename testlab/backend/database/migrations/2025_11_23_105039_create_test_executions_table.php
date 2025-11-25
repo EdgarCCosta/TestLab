@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
 
             // Relaciones
-            $table->foreignId('test_case_id')->constrained()->onDelete('cascade');
-            $table->foreignId('version_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('test_case_id')->constrained('test_cases')->onDelete('cascade');
+            $table->foreignId('version_id')->constrained('versions')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             // Resultados de la ejecución
             $table->enum('result', ['passed', 'failed', 'blocked', 'pending'])->default('pending');

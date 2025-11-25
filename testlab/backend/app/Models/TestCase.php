@@ -17,21 +17,25 @@ class TestCase extends Model
     protected $fillable = [
         'title',
         'objective',
-        'conditions',
+        'preconditions',
         'steps',
         'expected_result',
-        'role',
-        'project_id'
+        'user_profile',
+        'version_id'
     ];
+
+    protected $casts = [
+        'steps' => 'array',
+    ] ;  
 
     // --- Relaciones ---
 
     /**
-     * Un test case pertenece a un proyecto
+     * Un test case pertenece a una versión
      */
-    public function project(): BelongsTo
+    public function version(): BelongsTo
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Version::class, 'version_id');
     }
 
     /**
@@ -60,16 +64,16 @@ class TestCase extends Model
     /**
      * Filtrar por rol del test case
      */
-    public function scopeByRole($query, string $role)
+    public function scopeByUserProfile($query, string $profile)
     {
-        return $query->where('role', $role);
+        return $query->where('user_profile', $profile);
     }
 
     /**
      * Filtrar por proyecto
      */
-    public function scopeByProject($query, int $projectId)
+    public function scopeByVersion($query, int $versionId)
     {
-        return $query->where('project_id', $projectId);
+        return $query->where('version_id', $versionId);
     }
 }

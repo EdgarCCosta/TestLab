@@ -33,7 +33,7 @@ class TestExecution extends Model
     /**
      * Una ejecución pertenece a un test case
      */
-    public function testCase()
+    public function testCase(): BelongsTo 
     {
         return $this->belongsTo(TestCase::class);
     }
@@ -41,7 +41,7 @@ class TestExecution extends Model
     /**
      * Una ejecución pertenece a una versión
      */
-    public function version()
+    public function version(): BelongsTo
     {
         return $this->belongsTo(Version::class);
     }
@@ -49,7 +49,7 @@ class TestExecution extends Model
     /**
      * Una ejecución pertenece a un usuario que la realizó
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

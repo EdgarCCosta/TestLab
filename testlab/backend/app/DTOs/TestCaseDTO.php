@@ -1,56 +1,61 @@
 <?php
 
 namespace App\DTOs;
+
 use App\Models\TestCase;
 
 class TestCaseDTO
 {
+    public int $id;
     public string $title;
     public string $objective;
-    public string $conditions;
-    public string $steps;
+    public ?string $preconditions;
+    public array $steps;
     public string $expected_result;
-    public string $role;
-    public string $project_name;
+    public string $user_profile;
 
-    /**
-     * Create a new class instance.
-     */
+    public int $version_id;
+    public string $version_number;
+
     public function __construct(
+        int $id,
         string $title,
         string $objective,
-        string $conditions,
-        string $steps,
+        ?string $preconditions,
+        array $steps,
         string $expected_result,
-        string $role,
-        string $project_name
-    )
-
-    {
+        string $user_profile,
+        int $version_id,
+        string $version_number
+    ) {
+        $this->id = $id;
         $this->title = $title;
         $this->objective = $objective;
-        $this->conditions = $conditions;
+        $this->preconditions = $preconditions;
         $this->steps = $steps;
         $this->expected_result = $expected_result;
-        $this->role = $role;
-        $this->project_name = $project_name;    }
+        $this->user_profile = $user_profile;
+        $this->version_id = $version_id;
+        $this->version_number = $version_number;
+    }
 
-    public static function fromModel(TestCase $testCase):self
+    public static function fromModel(TestCase $testCase): self
     {
-        return new self (
+        return new self(
+            $testCase->id,
             $testCase->title,
             $testCase->objective,
-            $testCase->conditions,
+            $testCase->preconditions,
             $testCase->steps,
             $testCase->expected_result,
-            $testCase->role,
-            $testCase->project->name
+            $testCase->user_profile,
+            $testCase->version?->id ?? 0,
+            $testCase->version?->version_number ?? 'N/A',
         );
     }
 
-    public static function fromCollection($testCases):array
+    public static function fromCollection($testCases): array
     {
-        return $testCases->map(fn($tc) => self::fromModel($tc))->toArray();
+        return $testCases->map(fn ($tc) => self::fromModel($tc))->toArray();
     }
 }
-
