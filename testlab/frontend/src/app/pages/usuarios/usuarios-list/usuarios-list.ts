@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-usuarios-list',
   imports: [CommonModule],
   templateUrl: './usuarios-list.html',
-  styleUrl: './usuarios-list.css',
+  
 })
 export class UsuariosList implements OnInit {
 
