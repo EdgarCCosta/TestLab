@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/prueba/304"},
+  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":304,"titulo":"Generar informe mensual","objetivo":"Compilar métricas ventas","condiciones":"Datos mes completo","resultado_esperado":"PDF con KPI correctos","proyecto_id":104}}
+}

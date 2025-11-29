@@ -1,0 +1,4 @@
+{
+  "request": {"method": "DELETE", "urlPathPattern": "/ejecucion/409"},
+  "response": {"status": 423, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"EJECUCION_LOCKED","message":"Ejecución bloqueada para auditoría"}}
+}

@@ -4,5 +4,30 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/prueba": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+  ,
+  "/ejecucion": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/proyecto": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/version": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
   }
 }

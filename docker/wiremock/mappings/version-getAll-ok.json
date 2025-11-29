@@ -1,8 +1,41 @@
 {
-  "request": {"method": "GET", "urlPath": "/version"},
-  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": [
-    {"id":201,"numero_version":"1.0.0","proyecto_id":101},
-    {"id":202,"numero_version":"1.1.0","proyecto_id":102},
-    {"id":203,"numero_version":"2.0.0","proyecto_id":103}
-  ]}
+  "request": {
+    "method": "GET",
+    "urlPath": "/version"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "id": 201,
+        "numero_version": "1.0.0",
+        "fecha_lanzamiento": "2025-11-10",
+        "descripcion": "Primera versión estable del proyecto Store Front",
+        "proyecto_id": 101,
+        "created_at": "2025-11-10T22:41:34.000000Z",
+        "updated_at": "2025-11-10T22:41:34.000000Z"
+      },
+      {
+        "id": 202,
+        "numero_version": "1.1.0",
+        "fecha_lanzamiento": "2025-11-15",
+        "descripcion": "Actualización con mejoras en el Payment Gateway",
+        "proyecto_id": 102,
+        "created_at": "2025-11-15T10:20:00.000000Z",
+        "updated_at": "2025-11-15T10:20:00.000000Z"
+      },
+      {
+        "id": 203,
+        "numero_version": "2.0.0",
+        "fecha_lanzamiento": "2025-11-20",
+        "descripcion": "Nueva versión mayor del Inventory Service",
+        "proyecto_id": 103,
+        "created_at": "2025-11-20T14:45:00.000000Z",
+        "updated_at": "2025-11-20T14:45:00.000000Z"
+      }
+    ]
+  }
 }

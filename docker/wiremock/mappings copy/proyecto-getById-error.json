@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/proyecto/999"},
+  "response": {"status": 404, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"PROYECTO_NOT_FOUND","message":"Proyecto id=999 no existe"}}
+}

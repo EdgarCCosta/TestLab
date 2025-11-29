@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/usuario",
+    "bodyPatterns": [
+      {"contains": "email"},
+      {"contains": "duplicado@example.com"}
+    ]
+  },
+  "response": {
+    "status": 409,
+    "headers": {"Content-Type": "application/json"},
+    "jsonBody": {"error_code":"USUARIO_EMAIL_DUP","message":"Email ya registrado"}
+  }
+}

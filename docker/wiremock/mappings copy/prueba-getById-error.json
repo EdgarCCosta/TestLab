@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/prueba/999"},
+  "response": {"status": 404, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"CASO_PRUEBA_NOT_FOUND","message":"Caso de prueba id=999 no existe"}}
+}

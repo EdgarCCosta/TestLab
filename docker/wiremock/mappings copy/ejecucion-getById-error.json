@@ -1,0 +1,4 @@
+{
+  "request": {"method": "GET", "urlPathPattern": "/ejecucion/999"},
+  "response": {"status": 404, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"EJECUCION_NOT_FOUND","message":"Ejecución id=999 no existe"}}
+}
