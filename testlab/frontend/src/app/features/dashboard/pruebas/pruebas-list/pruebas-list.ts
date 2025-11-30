@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Prueba } from '../../../models/prueba';
-import { PruebaService } from '../../../services/prueba';
+import { Prueba } from '../../../../models/prueba';
+import { PruebaService } from '../../../../services/prueba';
 import { CommonModule } from '@angular/common';
 
 @Component({
