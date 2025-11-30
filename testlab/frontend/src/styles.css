@@ -1,3 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  height: 100vh;
+}
+
+app-sidebar, app-root {
+  display: flex;
+  height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-bg: #C1CBFD;
+}
+
+.nav-link {
+  font-size: 1.8rem;
+  &:hover {
+    background-color: #C1CBFD;
+  }
+}
+
+.nav-link i {
+  font-size: 2rem;
+}

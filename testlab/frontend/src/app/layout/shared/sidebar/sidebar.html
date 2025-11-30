@@ -1,1 +1,54 @@
-<p>sidebar works!</p>
+<!-- SIDEBAR -->
+
+<div class="d-flex flex-column flex-shrink-0 py-5 px-5 text-white bg-light" style="width: 350px;">
+    <a routerLink="['/']" class="d-flex align-items-center mb-5 mb-md-0 me-md-auto text-white text-decoration-none">
+      <img src="img/testlab-logo.png" width="250" height="52" alt="TestLab logo">
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mt-5 mb-auto">
+      <li class="nav-item my-2">
+        <a [routerLink]="['/']" class="nav-link link-dark py-auto" [ngClass]="{'active': this.router.url==='/'}">
+          <i class="bi bi-speedometer2 me-2"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="my-2">
+        <a [routerLink]="['/usuarios']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/usuarios'}">
+          <i class="bi bi-person-circle me-2" width="32" height="32"></i>
+          Usuarios
+        </a>
+      </li>
+      <li class="my-2">
+        <a [routerLink]="['/proyectos']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/proyectos'}">
+          <i class="bi bi-grid me-2"></i>
+          Proyectos
+        </a>
+      </li>
+      <li class="my-2">
+        <a [routerLink]="['/pruebas']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/pruebas'}">
+          <i class="bi bi-flask me-2"></i>
+          Pruebas
+        </a>
+      </li>
+      <li class="my-2">
+        <a [routerLink]="['/estadisticas']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/estadisticas'}">
+          <i class="bi bi-graph-up-arrow me-2"></i>
+          Estadísticas
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>mdo</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="#">New project...</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Sign out</a></li>
+      </ul>
+    </div>
+  </div>
