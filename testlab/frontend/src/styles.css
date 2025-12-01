@@ -10,14 +10,32 @@ body {
   min-height: -webkit-fill-available;
   height: 100vh;
 }
+/* Lo dejo comentado porque el main se comportaba como le daba la gana si poníamos aquí flex.
+app-root {
+    height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+} */
 
-app-sidebar, app-root {
+app-sidebar{
   display: flex;
   height: 100vh;
   height: -webkit-fill-available;
   max-height: 100vh;
 }
 
+.layout {
+  display: flex;
+  height: 100vh;
+  height: -webkit-fill-available;
+  max-height: 100vh;
+}
+
+/* Content ocupa el resto */
+.content {
+  flex-grow: 1;       /* se expande para ocupar todo el espacio restante */
+  padding: 1rem;      /* opcional */
+}
 .nav-pills {
   --bs-nav-pills-link-active-bg: #C1CBFD;
 }

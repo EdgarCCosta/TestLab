@@ -23,7 +23,17 @@
           <i class="bi bi-grid me-2"></i>
           Proyectos
         </a>
+
+        <!-- <a [routerLink]="['/proyectos']"
+          class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          <i class="bi bi-grid me-2"></i>
+          Proyectos
+        </a> -->
       </li>
+
+      
       <li class="my-2">
         <a [routerLink]="['/pruebas']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/pruebas'}">
           <i class="bi bi-flask me-2"></i>

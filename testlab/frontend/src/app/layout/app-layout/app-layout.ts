@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+
 
 import { Sidebar } from '../shared/sidebar/sidebar';
 
 @Component({
-  selector: 'app-app-layout',
-  imports: [Sidebar],
+  selector: 'app-layout',
+  standalone: true,
+  imports: [Sidebar, RouterOutlet],
   templateUrl: './app-layout.html',
   styleUrl: './app-layout.css',
 })
@@ -16,6 +18,7 @@ export class AppLayout {
   esLogin(): boolean {
     // Comprueba si estamos en el Login para no mostrar el menú
     return this.router.url === '/login';
+    console.log(this.router.url);
   }
 
 }

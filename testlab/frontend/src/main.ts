@@ -6,6 +6,11 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 
 
+// Importa el JS de Bootstrap (bundle incluye Popper)
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
+
 bootstrapApplication(App,  {
   providers: [
     provideHttpClient(),
