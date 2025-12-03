@@ -13,16 +13,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let u of usuarios">
-        <td>{{ u.id }}</td>
-        <td>{{ u.nombre }}</td>
-        <td>{{ u.email }}</td>
-        <td>
-          <span class="badge bg-primary">{{ u.rol }}</span>
-        </td>
-        <td>{{ u.created_at | date:'short' }}</td>
-        <td>{{ u.updated_at | date:'short' }}</td>
-      </tr>
+      @for (u of usuarios; track u) {
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <span class="badge bg-primary">{{ u.rol }}</span>
+          </td>
+          <td>{{ u.created_at | date:'short' }}</td>
+          <td>{{ u.updated_at | date:'short' }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>

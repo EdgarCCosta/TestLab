@@ -9,6 +9,7 @@ body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
   height: 100vh;
+  --bs-body-font-family: Inter, var(--bs-font-sans-serif);
 }
 /* Lo dejo comentado porque el main se comportaba como le daba la gana si poníamos aquí flex.
 app-root {
@@ -16,6 +17,24 @@ app-root {
   height: -webkit-fill-available;
   max-height: 100vh;
 } */
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+}
+
+th {
+  background-color: rgba(var(--bs-light-rgb), 1) !important;
+  border-top: 1px solid #D6D5DC;
+  font-weight: 500;
+  font-size: 2rem;
+  padding: 2rem !important;
+}
+
+td {
+  padding: 2rem !important;
+  font-size: 2rem;
+}
 
 app-sidebar{
   display: flex;
@@ -34,8 +53,9 @@ app-sidebar{
 /* Content ocupa el resto */
 .content {
   flex-grow: 1;       /* se expande para ocupar todo el espacio restante */
-  padding: 1rem;      /* opcional */
+  padding: 4rem 3rem;      /* opcional */
 }
+
 .nav-pills {
   --bs-nav-pills-link-active-bg: #C1CBFD;
 }

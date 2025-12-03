@@ -1,1 +1,22 @@
-<p>proyectos-list works!</p>
+<h1>Proyectos</h1>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Proyecto</th>
+        <th scope="col">Versión</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of proyectos; track p) {
+        <tr>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.descripcion }}</td>
+          <td><i class="bi bi-circle-fill"></i> OK</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

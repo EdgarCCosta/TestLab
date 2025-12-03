@@ -14,22 +14,18 @@ export class UsuariosList implements OnInit {
 
   usuarios: Usuario[] = [];
 
-  constructor(private usuarioService: UsuarioService) {
+  constructor(private usuarioService: UsuarioService) {}
+
+  ngOnInit(): void {
+    this.usuarioService.getUsuarios().subscribe({
+      next: (lista) => this.usuarios = lista
+    });
   }
 
   getUsuarios() {
     this.usuarioService.getUsuarios().subscribe((usuarios) => {
       this.usuarios = usuarios;
     });
-
-
-
-
   }
 
-    ngOnInit(): void {
-    this.usuarioService.getUsuarios().subscribe({
-      next: (lista) => this.usuarios = lista
-    });
-  }
 }

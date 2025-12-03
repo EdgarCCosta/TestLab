@@ -19,7 +19,7 @@ export class UsuarioService {
     return this.http.get<Usuario>(`${this.baseUrl}/${id}`);
   }
 
-    createUsuario(dto: CreateUsuarioDto): Observable<Usuario> {
+  createUsuario(dto: CreateUsuarioDto): Observable<Usuario> {
     return this.http.post<Usuario>(this.baseUrl, dto);
   }
 
