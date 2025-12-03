@@ -5,5 +5,10 @@
     "PROJECTS": "Proyectos",
     "TESTS": "Pruebas",
     "STATISTICS": "Estadísticas"
+  },
+  "LANG_BUTTON": {
+    "ES": "Castellano",
+    "EN": "Inglés",
+    "EU": "Euskera"
   }
 }

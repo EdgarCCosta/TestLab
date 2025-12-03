@@ -5,5 +5,10 @@
     "PROJECTS": "Proiektuak",
     "TESTS": "Probak",
     "STATISTICS": "Estatistikak"
+  },
+  "LANG_BUTTON": {
+    "ES": "Gaztelania",
+    "EN": "Ingelera",
+    "EU": "Euskara"
   }
 }

@@ -5,6 +5,8 @@
       <img src="img/testlab-logo.png" width="250" height="52" alt="TestLab logo">
     </a>
     <hr>
+    <app-language-switcher></app-language-switcher>
+    
     <ul class="nav nav-pills flex-column mt-5 mb-auto">
       <li class="nav-item my-2">
         <a [routerLink]="['/']" class="nav-link link-dark py-auto" [ngClass]="{'active': this.router.url==='/'}">
