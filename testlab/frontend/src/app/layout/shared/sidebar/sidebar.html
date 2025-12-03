@@ -9,19 +9,20 @@
       <li class="nav-item my-2">
         <a [routerLink]="['/']" class="nav-link link-dark py-auto" [ngClass]="{'active': this.router.url==='/'}">
           <i class="bi bi-speedometer2 me-2"></i>
-          Dashboard
+          {{ 'SIDEBAR.DASHBOARD' | translate }}
         </a>
       </li>
       <li class="my-2">
         <a [routerLink]="['/usuarios']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/usuarios'}">
           <i class="bi bi-person-circle me-2" width="32" height="32"></i>
-          Usuarios
+          {{ 'SIDEBAR.USERS' | translate }}
+
         </a>
       </li>
       <li class="my-2">
         <a [routerLink]="['/proyectos']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/proyectos'}">
           <i class="bi bi-grid me-2"></i>
-          Proyectos
+          {{ 'SIDEBAR.PROJECTS' | translate }}
         </a>
 
         <!-- <a [routerLink]="['/proyectos']"
@@ -37,13 +38,13 @@
       <li class="my-2">
         <a [routerLink]="['/pruebas']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/pruebas'}">
           <i class="bi bi-flask me-2"></i>
-          Pruebas
+          {{ 'SIDEBAR.TESTS' | translate }}
         </a>
       </li>
       <li class="my-2">
         <a [routerLink]="['/estadisticas']" class="nav-link link-dark" [ngClass]="{'active': this.router.url==='/estadisticas'}">
           <i class="bi bi-graph-up-arrow me-2"></i>
-          Estadísticas
+          {{ 'SIDEBAR.STATISTICS' | translate }}
         </a>
       </li>
     </ul>

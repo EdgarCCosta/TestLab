@@ -1,0 +1,9 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Dashboard",
+    "USERS": "Usuarios",
+    "PROJECTS": "Proyectos",
+    "TESTS": "Pruebas",
+    "STATISTICS": "Estadísticas"
+  }
+}
