@@ -1,34 +1,27 @@
-<h2 class="mb-3">Pruebas</h2>
+<h1>Pruebas</h1>
 
 <div class="table-responsive">
-  <table class="table table-striped table-hover table-bordered align-middle">
-    <thead class="table-dark">
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">Título</th>
-        <th scope="col">Objetivo</th>
         <th scope="col">Condiciones</th>
-        <th scope="col">Pasos</th>
         <th scope="col">Resultado esperado</th>
-        <th scope="col">Rol</th>
         <th scope="col">Proyecto</th>
-        <th scope="col">Creado</th>
         <th scope="col">Actualizado</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of pruebas">
-        <td>{{ p.id }}</td>
-        <td>{{ p.titulo }}</td>
-        <td>{{ p.objetivo }}</td>
-        <td>{{ p.condiciones }}</td>
-        <td>{{ p.pasos }}</td>
-        <td>{{ p.resultado_esperado }}</td>
-        <td><span class="badge bg-info">{{ p.rol }}</span></td>
-        <td>{{ p.proyecto_id }}</td>
-        <td>{{ p.created_at | date:'short' }}</td>
-        <td>{{ p.updated_at | date:'short' }}</td>
-      </tr>
+      @for (p of pruebas; track p) {
+        <tr>
+          <td>{{ p.titulo }}</td>
+          <td>{{ p.condiciones }}</td>
+          <td>{{ p.resultado_esperado }}</td>
+          <td>{{ p.proyecto_id }}</td>
+          <td>{{ p.updated_at | date:'short' }}</td>
+        </tr>
+      }
+      
     </tbody>
   </table>
 </div>

@@ -1,0 +1,43 @@
+<h1>Detalle Usuario</h1>
+
+<form [formGroup]="formUsuario" (ngSubmit)="onSubmit()" class="border rounded p-4">
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre</label>
+    <input id="nombre" type="text" name="nombre" class="form-control" formControlName="nombre">
+    <div class="invalid-feedback">
+      Debes rellenar el nombre.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo</label>
+    <input id="email" type="email" name="email" class="form-control" formControlName="email">
+    <div class="invalid-feedback">
+      Debes escribir un correo válido.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input id="password" type="password" name="password" class="form-control" formControlName="password">
+    <div class="invalid-feedback">
+      El comentario no puede estar vacío.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="rol" class="form-label">Rol</label>
+    <select id="rol" name="rol" class="form-control" formControlName="rol">
+      <option value="admin">Admin</option>
+      <option value="manager">Manager</option>
+      <option value="tester">Tester</option>
+    </select>
+  </div>
+
+  <div class="d-flex justify-content-evenly">
+    <!-- <button type="submit" class="btn btn-primary" (click)="cancelar()">Cancelar</button>
+    <button type="submit" class="btn btn-danger" (click)="borrarComentario()" [disabled]="this.errorApiComentariosError != null">Borrar</button> -->
+    <button type="submit" class="btn btn-success" [disabled]="this.formUsuario.invalid">Enviar</button>
+  </div>
+  
+</form>

@@ -11,20 +11,13 @@ import { CommonModule } from '@angular/common';
 })
 export class ProyectosList implements OnInit {
 
-    proyectos: Proyecto[] = [];
-  
-    constructor(private proyectoService: ProyectoService) {}
-  
-    ngOnInit(): void {
-      this.proyectoService.getProyectos().subscribe({
-        next: (lista) => this.proyectos = lista
-      });
-    }
-  
-    getProyectos() {
-      this.proyectoService.getProyectos().subscribe((proyectos) => {
-        this.proyectos = proyectos;
-      });
-    }
+  proyectos: Proyecto[] = [];
 
+  constructor(private _proyectoService: ProyectoService) {}
+
+  ngOnInit(): void {
+    this._proyectoService.getProyectos().subscribe({
+      next: (lista) => this.proyectos = lista
+    });
+  }
 }

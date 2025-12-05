@@ -1,27 +1,23 @@
-<h2 class="mb-3">Usuarios</h2>
+<h1>Usuarios</h1>
 
 <div class="table-responsive">
-  <table class="table table-striped table-bordered align-middle">
-    <thead class="table-dark">
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">Nombre</th>
         <th scope="col">Email</th>
         <th scope="col">Rol</th>
-        <th scope="col">Creado</th>
         <th scope="col">Actualizado</th>
       </tr>
     </thead>
     <tbody>
       @for (u of usuarios; track u) {
-        <tr>
-          <td>{{ u.id }}</td>
+        <tr (click)="detalleUsuario(u.id)">
           <td>{{ u.nombre }}</td>
           <td>{{ u.email }}</td>
           <td>
             <span class="badge bg-primary">{{ u.rol }}</span>
           </td>
-          <td>{{ u.created_at | date:'short' }}</td>
           <td>{{ u.updated_at | date:'short' }}</td>
         </tr>
       }

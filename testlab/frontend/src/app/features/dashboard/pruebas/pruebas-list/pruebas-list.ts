@@ -12,12 +12,11 @@ import { CommonModule } from '@angular/common';
 export class PruebasList implements OnInit {
   pruebas: Prueba[] = [];
 
-  constructor(private pruebaService: PruebaService) {}
+  constructor(private _pruebaService: PruebaService) {}
 
   ngOnInit(): void {
-    this.pruebaService.getPruebas().subscribe({
+    this._pruebaService.getPruebas().subscribe({
       next: (lista) => (this.pruebas = lista),
     });
-    console.log(this.pruebas);
   }
 }

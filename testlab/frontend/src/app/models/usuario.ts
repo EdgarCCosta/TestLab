@@ -3,7 +3,7 @@ export interface Usuario {
   id: number;
   nombre: string;
   email: string;
-  rol: 'admin' | 'tester' | 'developer' | 'qa_lead';
+  rol: 'admin' | 'manager' | 'tester';
   created_at: string;   // ISO date string
   updated_at: string;   // ISO date string
 }
