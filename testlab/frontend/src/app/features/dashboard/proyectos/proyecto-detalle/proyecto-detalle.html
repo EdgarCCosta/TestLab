@@ -1,0 +1,29 @@
+<h1>Detalle Proyecto</h1>
+
+<div class="card border rounded p-4">
+  <div class="card-body">
+    <h5 class="card-title">{{ proyecto?.nombre }}</h5>
+    <p><strong>Descripción:</strong> {{ proyecto?.descripcion }}</p>
+    <p><strong>Versión:</strong> {{ proyecto?.version }}</p>
+    <p>
+      <strong>Estado:</strong>
+      <span class="badge"
+            [ngClass]="{
+              'bg-success': proyecto?.estado === 'ok',
+              'bg-warning': proyecto?.estado === 'pendiente',
+              'bg-danger': proyecto?.estado === 'error'
+            }">
+        {{ proyecto?.estado | uppercase }}
+      </span>
+    </p>
+    <hr>
+    <p><strong>Usuario:</strong> {{ usuarioNombre }}</p>
+    <p><strong>Creado:</strong> {{ proyecto?.created_at | date:'short' }}</p>
+    <p><strong>Actualizado:</strong> {{ proyecto?.updated_at | date:'short' }}</p>
+  </div>
+
+  <div class="d-flex justify-content-evenly mt-3">
+    <button class="btn btn-primary" (click)="editarProyecto()">Editar</button>
+    <button class="btn btn-danger" (click)="eliminarProyecto()">Eliminar</button>
+  </div>
+</div>
