@@ -9,6 +9,7 @@ import { PruebasList } from './features/dashboard/pruebas/pruebas-list/pruebas-l
 import { EjecucionesList } from './features/dashboard/ejecuciones/ejecuciones-list/ejecuciones-list';
 import { VersionesList } from './features/dashboard/versiones/versiones-list/versiones-list';
 import { UsuarioDetalle } from './features/dashboard/usuarios/usuario-detalle/usuario-detalle';
+import { ProyectoDetalle } from './features/dashboard/proyectos/proyecto-detalle/proyecto-detalle';
 
 export const routes: Routes = [
   { 
@@ -19,6 +20,7 @@ export const routes: Routes = [
       { path: 'usuarios', component: UsuariosList },
       { path: 'usuario/:id', component: UsuarioDetalle},
       { path: 'proyectos', component: ProyectosList },
+      { path: 'proyecto/:id', component: ProyectoDetalle },
       { path: 'pruebas', component: PruebasList },
       { path: 'ejecuciones', component: EjecucionesList },
       { path: 'versiones', component: VersionesList },
