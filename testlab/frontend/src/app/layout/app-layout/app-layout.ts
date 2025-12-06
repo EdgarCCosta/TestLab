@@ -3,11 +3,12 @@ import { Router, RouterOutlet } from '@angular/router';
 
 
 import { Sidebar } from '../shared/sidebar/sidebar';
+import { FooterMenu } from "../shared/footer-menu/footer-menu";
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [Sidebar, RouterOutlet],
+  imports: [Sidebar, RouterOutlet, FooterMenu],
   templateUrl: './app-layout.html',
   styleUrl: './app-layout.css',
 })

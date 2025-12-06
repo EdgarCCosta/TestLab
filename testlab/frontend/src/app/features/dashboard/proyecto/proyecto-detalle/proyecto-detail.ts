@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProyectoService } from '../../../../services/proyecto';
-import { UsuarioService } from '../../../../services/usuario';
+import { ProyectoService } from '../../../../services/proyecto-service';
+import { UsuarioService } from '../../../../services/usuario-service';
 
 @Component({
   selector: 'app-proyecto-detalle',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './proyecto-detalle.html',
-  styleUrls: ['./proyecto-detalle.css']
+  templateUrl: './proyecto-detail.html',
+  styleUrls: ['./proyecto-detail.css']
 })
-export class ProyectoDetalle {
+export class ProyectoDetail {
   proyectoId!: number;
   proyecto: any; // tipa con tu modelo ProyectoDto
   usuarioNombre: string | null = null;

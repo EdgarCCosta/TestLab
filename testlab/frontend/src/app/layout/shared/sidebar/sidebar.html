@@ -1,50 +1,56 @@
 <!-- SIDEBAR -->
 
-<div id="sidebar" class="d-flex flex-column flex-shrink-0 position-fixed p-5 text-white bg-light">
+<div class="sidebar flex-column position-fixed h-100 text-white bg-light">
     <a [routerLink]="['/']" class="d-flex align-items-center mb-5 mx-auto text-white text-decoration-none">
-      <img src="img/testlab-logo.png" width="250" height="52" alt="TestLab logo">
+      <img src="img/testlab-logo.png" class="d-none d-xxl-block" width="250" height="52" alt="TestLab logo">
+      <img src="img/testlab-logo-min.png" class="d-block d-xxl-none" width="44" height="52" alt="TestLab logo">
     </a>
 
     <ul class="nav nav-pills flex-column mt-2 mb-auto">
       <li class="nav-item my-2">
         <a [routerLink]="['/']" class="nav-link link-dark"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-speedometer2 me-2"></i>
-          {{ 'SIDEBAR.DASHBOARD' | translate }}
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.DASHBOARD' | translate }}">
+          <i class="bi bi-speedometer2"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
         </a>
       </li>
       <li class="nav-item my-2">
         <a [routerLink]="['/usuarios']" class="nav-link link-dark"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-person-circle me-2"></i>
-          {{ 'SIDEBAR.USERS' | translate }}
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.USERS' | translate }}">
+          <i class="bi bi-person-circle"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
 
         </a>
       </li>
       <li class="nav-item my-2">
         <a [routerLink]="['/proyectos']" class="nav-link link-dark" class="nav-link link-dark"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-grid me-2"></i>
-          {{ 'SIDEBAR.PROJECTS' | translate }}
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.PROJECTS' | translate }}">
+          <i class="bi bi-grid"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.PROJECTS' | translate }}</span>
         </a>
 
       <li class="nav-item my-2">
         <a [routerLink]="['/pruebas']" class="nav-link link-dark"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-flask me-2"></i>
-          {{ 'SIDEBAR.TESTS' | translate }}
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.TESTS' | translate }}">
+          <i class="bi bi-flask"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.TESTS' | translate }}</span>
         </a>
       </li>
       <li class="nav-item my-2">
         <a [routerLink]="['/estadisticas']" class="nav-link link-dark"
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="bi bi-graph-up me-2"></i>
-          {{ 'SIDEBAR.STATISTICS' | translate }}
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.STATISTICS' | translate }}">
+          <i class="bi bi-graph-up"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.STATISTICS' | translate }}</span>
         </a>
       </li>
     </ul>

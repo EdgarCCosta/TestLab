@@ -3,9 +3,14 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+:root {
+  font-size: 62.5%;
+}
 
 body {
+  box-sizing: border-box;
   --bs-body-font-family: Inter, var(--bs-font-sans-serif);
+  --bs-body-font-size: 1.6rem;
 }
 
 app-root {
@@ -14,13 +19,100 @@ app-root {
   max-height: 100vh;
 }
 
-app-toast {
-  position: fixed;
-  top: 50px;
-  right: 10px;
-  margin: .5em;
-  z-index: 1200;
+.layout {
+  height: 100vh;
+  min-height: 100vh;
+  padding-inline: 1rem;
+  width: 100%;
 }
+
+/******************** CONTENEDOR PRINCIPAL ********************/
+
+.contenedor-principal {
+  display: flex;
+  width: 100%;
+}
+
+/**************************** SIDEBAR ************************/
+
+@media only screen and (max-width: 939px) {
+  app-sidebar, .sidebar {
+    display: none;
+  }
+
+  app-footer-menu {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+
+    & ul {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+
+  .nav-link i {
+    font-size: 4rem !important;
+  }
+}
+
+@media only screen and (min-width: 940px) {
+  app-sidebar{
+    overflow: hidden;
+    display: flex;
+    min-width: 7.2rem;
+  }
+
+  .sidebar {
+    display: flex;
+    width: 7.2rem;
+    padding: 2rem 1.4rem;
+  }
+
+  app-footer-menu {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  app-sidebar{
+    overflow: hidden;
+    display: flex;
+    min-width: 30rem;
+  }
+
+  .sidebar {
+    display: flex;
+    width: 30rem;
+    padding: 2rem 1.6rem;
+  }
+
+  app-footer-menu {
+    display: none;
+  }
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-bg: #C1CBFD;
+}
+
+.nav-link {
+  font-size: 2.4rem;
+  &:hover {
+    background-color: #C1CBFD;
+  }
+}
+
+/**************************** MAIN ************************/
+
+article {
+  font-size: 3rem;
+}
+
 
 h1 {
   font-size: 3rem;
@@ -41,49 +133,10 @@ td {
   cursor: pointer;
 }
 
-app-sidebar{
-  width: 350px;
-}
-
-.layout {
-  display: flex;
-  height: 100vh;
-  height: -webkit-fill-available;
-  max-height: 100vh;
-}
-
-#sidebar {
-  display: flex;
-  position: fixed;
-  height: 100vh;
-  height: -webkit-fill-available;
-  max-height: 100vh;
-  width: 350px;
-}
-
-/* Content ocupa el resto */
-.content {
-  flex-grow: 1;
-  padding: 4rem 3rem;
-  margin-left: 350px;
-  min-width: calc(100% - 350px);
-}
-
-.nav-pills {
-  --bs-nav-pills-link-active-bg: #C1CBFD;
-}
-
-.nav-link {
-  font-size: 1.8rem;
-  &:hover {
-    background-color: #C1CBFD;
-  }
-}
-
-.nav-link i {
-  font-size: 2rem;
-}
-
 .ok {
   color:#75D193;
+}
+
+form, .form-control, .btn {
+  font-size: 2rem;
 }
