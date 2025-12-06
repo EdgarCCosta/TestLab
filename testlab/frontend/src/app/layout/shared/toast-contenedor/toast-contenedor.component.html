@@ -1,0 +1,13 @@
+<!-- Con la nueva directiva @for en lugar de ngFor -->
+
+@for (toast of this._toastsService.toasts; track toast) {
+
+  <ngb-toast class="my-2" header='infoeléctrica'
+    [autohide]="true"
+    [delay]="5000"
+    (hidden)="_toastsService.eliminar(toast)"
+  >
+
+    {{ toast }}
+  </ngb-toast>
+}

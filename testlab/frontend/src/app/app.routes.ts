@@ -3,12 +3,12 @@ import { Routes } from '@angular/router';
 
 import { AppLayout } from './layout/app-layout/app-layout';
 import { Login } from './features/login/login';
-import { UsuariosList } from './features/dashboard/usuarios/usuarios-list/usuarios-list';
-import { ProyectosList } from './features/dashboard/proyectos/proyectos-list/proyectos-list';
-import { PruebasList } from './features/dashboard/pruebas/pruebas-list/pruebas-list';
-import { EjecucionesList } from './features/dashboard/ejecuciones/ejecuciones-list/ejecuciones-list';
-import { VersionesList } from './features/dashboard/versiones/versiones-list/versiones-list';
-import { UsuarioDetalle } from './features/dashboard/usuarios/usuario-detalle/usuario-detalle';
+import { UsuarioList } from './features/dashboard/usuario/usuario-list/usuario-list';
+import { ProyectoList } from './features/dashboard/proyecto/proyecto-list/proyecto-list';
+import { PruebaList } from './features/dashboard/prueba/prueba-list/prueba-list';
+import { EjecucionList } from './features/dashboard/ejecucion/ejecucion-list/ejecucion-list';
+import { VersionList } from './features/dashboard/version/version-list/version-list';
+import { UsuarioDetail } from './features/dashboard/usuario/usuario-detail/usuario-detail';
 
 export const routes: Routes = [
   { 
@@ -16,12 +16,12 @@ export const routes: Routes = [
     component: AppLayout,
     children: [
       { path: 'login', component: Login },
-      { path: 'usuarios', component: UsuariosList },
-      { path: 'usuario/:id', component: UsuarioDetalle},
-      { path: 'proyectos', component: ProyectosList },
-      { path: 'pruebas', component: PruebasList },
-      { path: 'ejecuciones', component: EjecucionesList },
-      { path: 'versiones', component: VersionesList },
+      { path: 'usuarios', component: UsuarioList },
+      { path: 'usuario/:id', component: UsuarioDetail},
+      { path: 'proyectos', component: ProyectoList },
+      { path: 'pruebas', component: PruebaList },
+      { path: 'ejecuciones', component: EjecucionList },
+      { path: 'versiones', component: VersionList },
     ]
   },
 ];
