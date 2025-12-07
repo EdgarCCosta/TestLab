@@ -9,7 +9,7 @@ import { PruebaList } from './features/dashboard/prueba/prueba-list/prueba-list'
 import { EjecucionList } from './features/dashboard/ejecucion/ejecucion-list/ejecucion-list';
 import { VersionList } from './features/dashboard/version/version-list/version-list';
 import { UsuarioDetail } from './features/dashboard/usuario/usuario-detail/usuario-detail';
-import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detalle/proyecto-detail';
+import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detail/proyecto-detail';
 
 
 export const routes: Routes = [
