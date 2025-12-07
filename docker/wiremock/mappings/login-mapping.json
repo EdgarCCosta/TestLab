@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/loginuser"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "token": "fake-jwt-token-123456",
+      "usuario": {
+        "id": 1,
+        "nombre": "Ana García",
+        "email": "ana.garcia@example.com",
+        "rol": "admin"
+      }
+    }
+  }
+}
