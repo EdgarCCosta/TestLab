@@ -21,8 +21,8 @@ export class ProyectoDetail {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private proyectoService: ProyectoService,
-    private usuarioService: UsuarioService
+    private _proyectoService: ProyectoService,
+    private _usuarioService: UsuarioService
   ) {
     this.route.paramMap.subscribe(params => {
       this.proyectoId = params.get('id')!;
@@ -31,14 +31,14 @@ export class ProyectoDetail {
   }
 
   getProyectoById(id: string) {
-    this.proyectoService.getProyectoById(id).subscribe({
+    this._proyectoService.getProyectoById(id).subscribe({
       next: (p) => {
         this.proyecto = p;
 
         // 👇 con el usuario_id llamamos al UsuarioService
         if (this.proyecto?.usuario_id) {
           // this.usuarioService.getUsuarioById(this.proyecto.usuario_id.toString()).subscribe({
-          this.usuarioService.getUsuarioById(id).subscribe({
+          this._usuarioService.getUsuarioById(id).subscribe({
             next: (usuario) => this.usuarioNombre = usuario.nombre,
             error: (err) => console.error('Error cargando usuario:', err)
           });
@@ -53,7 +53,7 @@ export class ProyectoDetail {
   }
 
   eliminarProyecto() {
-    this.proyectoService.deleteProyecto(this.proyectoId).subscribe({
+    this._proyectoService.deleteProyecto(this.proyectoId).subscribe({
       next: () => this.router.navigate(['/proyectos']),
       error: (err) => console.error('Error eliminando proyecto:', err)
     });
