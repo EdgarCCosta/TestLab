@@ -73,7 +73,7 @@ export class UsuarioDetail {
   }
 
   volver(): void {
-    this._router.navigate(['usuarios']);
+    this._router.navigate(['usuario']);
   }
 
   onSubmit() {

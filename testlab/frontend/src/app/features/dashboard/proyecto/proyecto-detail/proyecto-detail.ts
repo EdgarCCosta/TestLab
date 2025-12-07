@@ -12,7 +12,7 @@ import { UsuarioService } from '../../../../services/usuario-service';
   styleUrls: ['./proyecto-detail.css']
 })
 export class ProyectoDetail {
-  proyectoId!: number;
+  proyectoId!: string;
   proyecto: any; // tipa con tu modelo ProyectoDto
   usuarioNombre: string | null = null;
 
@@ -25,12 +25,12 @@ export class ProyectoDetail {
     private usuarioService: UsuarioService
   ) {
     this.route.paramMap.subscribe(params => {
-      this.proyectoId = parseInt(params.get('id')!);
+      this.proyectoId = params.get('id')!;
       this.getProyectoById(this.proyectoId);
     });
   }
 
-  getProyectoById(id: number) {
+  getProyectoById(id: string) {
     this.proyectoService.getProyectoById(id).subscribe({
       next: (p) => {
         this.proyecto = p;
@@ -38,7 +38,7 @@ export class ProyectoDetail {
         // 👇 con el usuario_id llamamos al UsuarioService
         if (this.proyecto?.usuario_id) {
           // this.usuarioService.getUsuarioById(this.proyecto.usuario_id.toString()).subscribe({
-          this.usuarioService.getUsuarioById("1").subscribe({
+          this.usuarioService.getUsuarioById(id).subscribe({
             next: (usuario) => this.usuarioNombre = usuario.nombre,
             error: (err) => console.error('Error cargando usuario:', err)
           });

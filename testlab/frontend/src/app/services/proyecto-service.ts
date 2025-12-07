@@ -15,7 +15,7 @@ export class ProyectoService {
     return this.http.get<Proyecto[]>(this.baseUrl);
   }
 
-  getProyectoById(id: number): Observable<Proyecto> {
+  getProyectoById(id: string): Observable<Proyecto> {
     return this.http.get<Proyecto>(`${this.baseUrl}/${id}`);
   }
 
@@ -23,11 +23,11 @@ export class ProyectoService {
     return this.http.post<Proyecto>(this.baseUrl, dto);
   }
 
-  updateProyecto(id: number, dto: UpdateProyectoDto): Observable<Proyecto> {
+  updateProyecto(id: string, dto: UpdateProyectoDto): Observable<Proyecto> {
     return this.http.put<Proyecto>(`${this.baseUrl}/${id}`, dto);
   }
 
-  deleteProyecto(id: number): Observable<void> {
+  deleteProyecto(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
