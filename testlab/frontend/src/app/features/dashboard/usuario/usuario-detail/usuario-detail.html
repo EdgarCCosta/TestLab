@@ -4,24 +4,49 @@
   <div class="mb-3">
     <label for="nombre" class="form-label">Nombre</label>
     <input id="nombre" type="text" name="nombre" class="form-control" formControlName="nombre">
-    <div class="invalid-feedback">
-      Debes rellenar el nombre.
+    <div>
+      @if (
+            this.formUsuario.get('nombre').invalid && 
+            (this.formUsuario.get('nombre').dirty || this.formUsuario.get('nombre').touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar el nombre.
+        </div>
+      }
     </div>
   </div>
 
   <div class="mb-3">
     <label for="email" class="form-label">Correo</label>
     <input id="email" type="email" name="email" class="form-control" formControlName="email">
-    <div class="invalid-feedback">
-      Debes escribir un correo válido.
+    <div>
+      @if (
+            this.formUsuario.get('email').invalid && 
+            (this.formUsuario.get('email').dirty || this.formUsuario.get('email').touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir un correo válido.
+        </div>
+      }
     </div>
-  </div>d
+    
+  </div>
 
   <div class="mb-3">
     <label for="password" class="form-label">Contraseña</label>
     <input id="password" type="password" name="password" class="form-control" formControlName="password">
-    <div class="invalid-feedback">
-      El comentario no puede estar vacío.
+    <div>
+      @if (
+            this.formUsuario.get('password').invalid && 
+            (this.formUsuario.get('password').dirty || this.formUsuario.get('password').touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una contraseña válida (al menos 6 caracteres).
+        </div>
+      }
     </div>
   </div>
 
@@ -32,9 +57,20 @@
       <option value="manager">Manager</option>
       <option value="tester">Tester</option>
     </select>
+    <div>
+      @if (
+            this.formUsuario.get('rol').invalid && 
+            (this.formUsuario.get('rol').dirty || this.formUsuario.get('rol').touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes elegir un rol.
+        </div>
+      }
+    </div>
   </div>
 
-  <div class="d-flex justify-content-evenly">
+  <div class="d-flex justify-content-evenly mt-5">
     <button type="submit" class="btn btn-primary" (click)="volver()">Volver</button>
     <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId)">Borrar</button> 
     <button type="submit" class="btn btn-success" [disabled]="this.formUsuario.invalid">Enviar</button>

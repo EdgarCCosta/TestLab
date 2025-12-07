@@ -137,6 +137,12 @@ td {
   color:#75D193;
 }
 
+/********************* FORMS ********************************/
+
 form, .form-control, .btn {
   font-size: 2rem;
+}
+
+form input + div, form select + div {
+  height: 3rem;
 }

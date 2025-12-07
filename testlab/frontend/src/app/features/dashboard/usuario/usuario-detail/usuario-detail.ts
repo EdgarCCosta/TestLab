@@ -34,10 +34,6 @@ export class UsuarioDetail {
       password: ['', [Validators.required, Validators.minLength(6)]], // Contraseña requerida con mínimo 6 caracteres
       rol: ['', Validators.required] // Rol requerido
     });
-
-    
-
-    console.log('Formulario creado?');
   }
 
   /*** Recuperación de Usuario ***/
