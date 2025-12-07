@@ -1,0 +1,102 @@
+[
+  {
+    "id": 310,
+    "titulo": "Chat mensaje inicial",
+    "objetivo": "Abrir conversación soporte",
+    "condiciones": "Usuario autenticado",
+    "pasos": "1 Abrir chat\n2 Escribir mensaje\n3 Enviar",
+    "resultado_esperado": "Mensaje visible y agente asignado",
+    "rol": "tester",
+    "proyecto_id": 110
+  },
+  {
+    "id": 301,
+    "titulo": "Login básico",
+    "objetivo": "Verificar acceso usuario",
+    "condiciones": "Usuario activo",
+    "pasos": "1 Navegar /login\n2 Introducir credenciales\n3 Pulsar entrar",
+    "resultado_esperado": "Acceso permitido panel",
+    "rol": "tester",
+    "proyecto_id": 101
+  },
+  {
+    "id": 302,
+    "titulo": "Pago tarjeta válido",
+    "objetivo": "Procesar compra con VISA",
+    "condiciones": "Stock disponible",
+    "pasos": "1 Añadir producto\n2 Ir a checkout\n3 Introducir tarjeta válida\n4 Confirmar",
+    "resultado_esperado": "Pedido confirmado",
+    "rol": "tester",
+    "proyecto_id": 102
+  },
+  {
+    "id": 303,
+    "titulo": "Reserva stock simultánea",
+    "objetivo": "Prevenir sobreventa",
+    "condiciones": "Dos sesiones concurrentes",
+    "pasos": "1 Seleccionar producto\n2 Iniciar checkout en ambas sesiones\n3 Confirmar",
+    "resultado_esperado": "Una reserva exitosa, otra error",
+    "rol": "qa_lead",
+    "proyecto_id": 103
+  },
+  {
+    "id": 304,
+    "titulo": "Generar informe mensual",
+    "objetivo": "Compilar métricas ventas",
+    "condiciones": "Datos mes completo",
+    "pasos": "1 Abrir panel BI\n2 Seleccionar rango\n3 Exportar PDF",
+    "resultado_esperado": "PDF con KPI correctos",
+    "rol": "product_owner",
+    "proyecto_id": 104
+  },
+  {
+    "id": 305,
+    "titulo": "Registro app móvil",
+    "objetivo": "Crear cuenta nueva",
+    "condiciones": "Email no registrado",
+    "pasos": "1 Abrir app\n2 Completar formulario\n3 Aceptar términos\n4 Enviar",
+    "resultado_esperado": "Cuenta creada y login automático",
+    "rol": "tester",
+    "proyecto_id": 105
+  },
+  {
+    "id": 306,
+    "titulo": "Retry notificación fallida",
+    "objetivo": "Reintento envío email",
+    "condiciones": "Simular SMTP caído",
+    "pasos": "1 Enviar email\n2 Forzar fallo\n3 Esperar reintento",
+    "resultado_esperado": "Reenvío exitoso en segundo intento",
+    "rol": "developer",
+    "proyecto_id": 106
+  },
+  {
+    "id": 307,
+    "titulo": "Búsqueda término parcial",
+    "objetivo": "Encontrar productos por prefijo",
+    "condiciones": "Índice cargado",
+    "pasos": "1 Abrir buscador\n2 Escribir prefijo\n3 Revisar resultados",
+    "resultado_esperado": "Lista relevante ordenada",
+    "rol": "tester",
+    "proyecto_id": 107
+  },
+  {
+    "id": 308,
+    "titulo": "Programar campaña email",
+    "objetivo": "Definir envío futuro",
+    "condiciones": "Plantilla activa",
+    "pasos": "1 Crear campaña\n2 Configurar fecha futura\n3 Guardar",
+    "resultado_esperado": "Campaña en estado programado",
+    "rol": "tester",
+    "proyecto_id": 108
+  },
+  {
+    "id": 309,
+    "titulo": "Detección intento fraude",
+    "objetivo": "Marcar transacción sospechosa",
+    "condiciones": "Patrón riesgo alto",
+    "pasos": "1 Simular compra riesgo\n2 Procesar\n3 Evaluar score",
+    "resultado_esperado": "Transacción marcada y alerta",
+    "rol": "qa_lead",
+    "proyecto_id": 109
+  }
+]

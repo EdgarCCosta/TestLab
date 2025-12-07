@@ -8,43 +8,6 @@
     "headers": {
       "Content-Type": "application/json"
     },
-    "jsonBody": [
-      {
-        "id": 301,
-        "titulo": "Login básico",
-        "objectivo": "Verificar login con credenciales válidas",
-        "condiciones": "Usuario registrado en el sistema",
-        "pasos": "1. Abrir login; 2. Ingresar usuario y contraseña; 3. Click en Ingresar",
-        "resultado_esperado": "Ingreso exitoso al sistema",
-        "rol": "tester",
-        "proyecto_id": 101,
-        "created_at": "2025-11-10T22:41:34.000000Z",
-        "updated_at": "2025-11-10T22:41:34.000000Z"
-      },
-      {
-        "id": 302,
-        "titulo": "Pago tarjeta válido",
-        "objectivo": "Validar pago con tarjeta correcta",
-        "condiciones": "Usuario con tarjeta registrada",
-        "pasos": "1. Seleccionar producto; 2. Ir a checkout; 3. Ingresar tarjeta válida; 4. Confirmar pago",
-        "resultado_esperado": "Pago procesado correctamente",
-        "rol": "tester",
-        "proyecto_id": 102,
-        "created_at": "2025-11-11T10:20:00.000000Z",
-        "updated_at": "2025-11-11T10:20:00.000000Z"
-      },
-      {
-        "id": 303,
-        "titulo": "Reserva stock simultánea",
-        "objectivo": "Comprobar reserva de stock en concurrencia",
-        "condiciones": "Dos usuarios intentando reservar el mismo producto",
-        "pasos": "1. Usuario A reserva producto; 2. Usuario B intenta reservar el mismo producto",
-        "resultado_esperado": "Solo uno de los usuarios logra reservar",
-        "rol": "tester",
-        "proyecto_id": 103,
-        "created_at": "2025-11-12T15:45:00.000000Z",
-        "updated_at": "2025-11-12T15:45:00.000000Z"
-      }
-    ]
+    "bodyFileName": "prueba/combined-pruebas.json"
   }
 }

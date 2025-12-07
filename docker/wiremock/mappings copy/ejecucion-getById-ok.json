@@ -1,4 +1,0 @@
-{
-  "request": {"method": "GET", "urlPathPattern": "/ejecucion/401"},
-  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":401,"caso_prueba_id":301,"version_id":201,"usuario_id":2,"resultado":"passed","mensaje":"Login correcto"}}
-}

@@ -1,20 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "urlPathPattern": "/proyecto/103"
+    "urlPathPattern": "/proyecto/([0-9]+)"
   },
   "response": {
     "status": 200,
     "headers": {
       "Content-Type": "application/json"
     },
-    "jsonBody": {
-      "id": 103,
-      "nombre": "Inventory Service",
-      "descripcion": "Microservicio stock y reservas",
-      "usuario_id": 6,
-      "created_at": "2025-11-13T15:45:00.000000Z",
-      "updated_at": "2025-11-13T15:45:00.000000Z"
-    }
+    "bodyFileName": "proyecto/proyecto{{request.pathSegments.[1]}}.json"
   }
 }

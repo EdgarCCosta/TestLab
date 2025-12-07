@@ -1,5 +1,0 @@
-[
-  {"id":1,"nombre":"Ana García","email":"ana.garcia@example.com","rol":"admin"},
-  {"id":2,"nombre":"Bruno Pérez","email":"bruno.perez@example.com","rol":"tester"},
-  {"id":3,"nombre":"Carla Ruiz","email":"carla.ruiz@example.com","rol":"developer"}
-]

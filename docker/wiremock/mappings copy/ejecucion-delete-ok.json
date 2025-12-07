@@ -1,4 +1,0 @@
-{
-  "request": {"method": "DELETE", "urlPathPattern": "/ejecucion/410"},
-  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"deleted":true,"id":410,"timestamp":"2025-04-02T15:00:00Z"}}
-}

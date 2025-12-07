@@ -8,6 +8,11 @@ services:
     container_name: ${NAME}-wiremock
     volumes:
       - ./docker/wiremock:/home/wiremock
-    entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]
+    command: [
+        "--global-response-templating",
+        "--disable-gzip",
+        "--verbose",
+        "--print-all-network-traffic"
+      ]
     ports:
       - 9561:8080

@@ -1,24 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "urlPathPattern": "/prueba/304"
+    "urlPathPattern": "/prueba/([0-9]+)"
   },
   "response": {
     "status": 200,
     "headers": {
       "Content-Type": "application/json"
     },
-    "jsonBody": {
-      "id": 304,
-      "titulo": "Generar informe mensual",
-      "objetivo": "Compilar métricas ventas",
-      "condiciones": "Datos mes completo",
-      "pasos": "1. Acceder al módulo de reportes; 2. Seleccionar rango mensual; 3. Generar informe",
-      "resultado_esperado": "PDF con KPI correctos",
-      "rol": "tester",
-      "proyecto_id": 104,
-      "created_at": "2025-11-25T09:00:00.000000Z",
-      "updated_at": "2025-11-25T09:00:00.000000Z"
-    }
+    "bodyFileName": "prueba/prueba{{request.pathSegments.[1]}}.json"
   }
 }

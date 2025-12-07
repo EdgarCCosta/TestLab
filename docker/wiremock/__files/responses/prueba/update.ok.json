@@ -1,9 +1,0 @@
-{
-  "id": 304,
-  "titulo": "Generar informe mensual",
-  "objetivo": "Compilar métricas y validar KPIs",
-  "condiciones": "Datos mes completo",
-  "resultado_esperado": "PDF con KPI y tendencias",
-  "proyecto_id": 104,
-  "updated_at": "2025-04-02T13:05:00Z"
-}

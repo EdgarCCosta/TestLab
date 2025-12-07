@@ -18,13 +18,13 @@ export const routes: Routes = [
     component: AppLayout,
     children: [
       { path: 'login', component: Login },
-      { path: 'usuarios', component: UsuarioList },
+      { path: 'usuario', component: UsuarioList },
       { path: 'usuario/:id', component: UsuarioDetail},
-      { path: 'proyectos', component: ProyectoList },
+      { path: 'proyecto', component: ProyectoList },
       { path: 'proyecto/:id', component: ProyectoDetail },
-      { path: 'pruebas', component: PruebaList },
-      { path: 'ejecuciones', component: EjecucionList },
-      { path: 'versiones', component: VersionList },
+      { path: 'prueba', component: PruebaList },
+      { path: 'ejecucion', component: EjecucionList },
+      { path: 'version', component: VersionList },
     ]
   },
 ];

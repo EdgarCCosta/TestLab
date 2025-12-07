@@ -1,27 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "urlPathPattern": "/ejecucion/401"
+    "urlPathPattern": "/ejecucion/([0-9]+)"
   },
   "response": {
     "status": 200,
     "headers": {
       "Content-Type": "application/json"
     },
-    "jsonBody": {
-      "id": 401,
-      "caso_prueba_id": 301,
-      "version_id": 201,
-      "usuario_id": 2,
-      "resultado": "OK",
-      "mensaje": "Login correcto",
-      "estado_error": "",
-      "datos_utilizados": "Usuario: bruno.perez@example.com, Password: tester456",
-      "correcion": "",
-      "observaciones": "Todo correcto",
-      "fecha_ejecucion": "2025-11-10",
-      "created_at": "2025-11-10T22:41:34.000000Z",
-      "updated_at": "2025-11-10T22:41:34.000000Z"
-    }
+    "bodyFileName": "ejecucion/ejecucion{{request.pathSegments.[1]}}.json"
   }
 }

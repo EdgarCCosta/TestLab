@@ -1,4 +1,0 @@
-{
-  "request": {"method": "PUT", "urlPathPattern": "/prueba/304", "bodyPatterns": [{"contains": "KPIs"}]},
-  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":304,"titulo":"Generar informe mensual","objetivo":"Compilar métricas y validar KPIs","resultado_esperado":"PDF con KPI y tendencias","proyecto_id":104,"updated_at":"2025-04-02T13:05:00Z"}}
-}
