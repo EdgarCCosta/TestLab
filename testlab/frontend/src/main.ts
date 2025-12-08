@@ -7,6 +7,7 @@ import { routes } from './app/app.routes';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { importProvidersFrom, inject } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 // import { provideTransloco } from '@ngneat/transloco'; // *O* TranslateModule/core
 
 // 🛑 Importa la función de configuración de la librería
@@ -19,6 +20,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 bootstrapApplication(App, {
   providers: [
+    provideAnimationsAsync(),
     provideHttpClient(),
     provideRouter(routes),
     importProvidersFrom(
