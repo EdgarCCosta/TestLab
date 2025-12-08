@@ -6,7 +6,7 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher';
 
 @Component({
   selector: 'app-footer-menu',
-  imports: [RouterLink, RouterLinkActive, TranslateModule, LanguageSwitcher],
+  imports: [RouterLink, RouterLinkActive, TranslateModule],
   templateUrl: './footer-menu.html',
   styleUrl: './footer-menu.css',
 })

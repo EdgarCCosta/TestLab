@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { CommonModule } from '@angular/common';
 
@@ -11,22 +11,28 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.html'
 })
 export class Login {
-  form!: FormGroup;
-  error: string | null = null;
+  formLogin!: FormGroup;
+  error!: string;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+    this.formLogin = this.fb.group({
+      email: this.fb.control('', {
+        validators: [Validators.required, Validators.email],
+        updateOn: 'change',
+      }), // Email requerido
+      password: this.fb.control('', {
+        validators: [Validators.required, Validators.minLength(6)],
+        updateOn: 'change',
+      }) // Contraseña requerida, mayor que 6 caracteres
     });
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      const { email, password } = this.form.value;
+    if (this.formLogin.valid) {
+      const { email, password } = this.formLogin.value;
       console.log(email, password);
       this.auth.login(email, password).subscribe({
-        next: () => this.router.navigate(['/proyectos']),
+        next: () => this.router.navigate(['/']),
         error: () => this.error = 'Credenciales inválidas'
       });
     }

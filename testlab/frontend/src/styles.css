@@ -5,35 +5,76 @@
 
 :root {
   font-size: 62.5%;
+  box-sizing: border-box;
 }
 
 body {
-  box-sizing: border-box;
   --bs-body-font-family: Inter, var(--bs-font-sans-serif);
   --bs-body-font-size: 1.6rem;
 }
 
 app-root {
   height: 100vh;
-  height: -webkit-fill-available;
   max-height: 100vh;
 }
 
 .layout {
   height: 100vh;
-  min-height: 100vh;
-  padding-inline: 1rem;
   width: 100%;
+}
+
+.fondoTestlab {
+  background-color: #F9F9FD;
+}
+
+
+/********************** LOGIN ******************************/
+
+app-login {
+  display: flex;
+  height: 100%;
+}
+
+#formWrapper {
+  border-radius: 4rem;
+  corner-shape: squircle;
+  background-color: white;
+}
+
+#formLogin {
+  width: 30rem;
+  padding: .4rem;
+
+  & button {
+    background-color: #737ADE;
+    color: white;
+    border-radius: 1.2rem;
+  }
+
+  & span {
+    position: absolute;
+    margin: .5rem 1rem;
+  }
+
+  & input {
+    padding-left: 4rem;
+  }
 }
 
 /******************** CONTENEDOR PRINCIPAL ********************/
 
 .contenedor-principal {
   display: flex;
+  height: 100vh;
+  min-height: 100vh;
   width: 100%;
 }
 
 /**************************** SIDEBAR ************************/
+
+.sidebar {
+  background-color: #F9F9FD;
+}
 
 @media only screen and (max-width: 939px) {
   app-sidebar, .sidebar {

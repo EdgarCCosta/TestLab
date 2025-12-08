@@ -10,7 +10,7 @@
         <th scope="col">Actualizado</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
       @for (u of usuarios; track u) {
         <tr (click)="detalleUsuario(u.id)">
           <td>{{ u.nombre }}</td>

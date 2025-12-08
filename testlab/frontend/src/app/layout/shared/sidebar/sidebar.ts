@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, TranslateModule, LanguageSwitcher, CommonModule],
+  imports: [RouterLink, RouterLinkActive, TranslateModule, CommonModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })

@@ -1,6 +1,6 @@
 <!-- SIDEBAR -->
 
-<div class="sidebar flex-column position-fixed h-100 text-white bg-light">
+<div class="sidebar flex-column position-fixed h-100 text-white">
     <a [routerLink]="['/']" class="d-flex align-items-center mb-5 mx-auto text-white text-decoration-none">
       <img src="img/testlab-logo.png" class="d-none d-xxl-block" width="250" height="52" alt="TestLab logo">
       <img src="img/testlab-logo-min.png" class="d-block d-xxl-none" width="44" height="52" alt="TestLab logo">
@@ -23,11 +23,10 @@
           title="{{ 'SIDEBAR.USERS' | translate }}">
           <i class="bi bi-person-circle"></i>
           <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
-
         </a>
       </li>
       <li class="nav-item my-2">
-        <a [routerLink]="['/proyecto']" class="nav-link link-dark" class="nav-link link-dark"
+        <a [routerLink]="['/proyecto']" class="nav-link link-dark"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           title="{{ 'SIDEBAR.PROJECTS' | translate }}">
