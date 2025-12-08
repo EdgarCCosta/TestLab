@@ -12,7 +12,7 @@ services:
         "--global-response-templating",
         "--disable-gzip",
         "--verbose",
-        "--print-all-network-traffic"
+        # "--print-all-network-traffic"
       ]
     ports:
       - 9561:8080

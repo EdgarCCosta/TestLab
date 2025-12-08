@@ -38,7 +38,7 @@ export class ProyectoDetail {
         // 👇 con el usuario_id llamamos al UsuarioService
         if (this.proyecto?.usuario_id) {
           // this.usuarioService.getUsuarioById(this.proyecto.usuario_id.toString()).subscribe({
-          this._usuarioService.getUsuarioById(id).subscribe({
+          this._usuarioService.getUsuarioById(p.usuario_id).subscribe({
             next: (usuario) => this.usuarioNombre = usuario.nombre,
             error: (err) => console.error('Error cargando usuario:', err)
           });

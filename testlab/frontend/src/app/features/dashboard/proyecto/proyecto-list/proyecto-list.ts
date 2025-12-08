@@ -22,8 +22,7 @@ export class ProyectoList implements OnInit {
     });
   }
 
-  detalleProyecto(id: number) {
-    id=103;
+  detalleProyecto(id: string) {
     this.router.navigate(['/proyecto', id]);
   }
 }

@@ -1,8 +1,8 @@
 export interface Proyecto {
-  id: number;
+  id: string;
   nombre: string;
   descripcion: string;
-  usuario_id: number;
+  usuario_id: string;
   created_at: string;   // ISO date string
   updated_at: string;   // ISO date string
 }
@@ -10,11 +10,11 @@ export interface Proyecto {
 export interface CreateProyectoDto {
   nombre: string;
   descripcion: string;
-  usuario_id: number;
+  usuario_id: string;
 }
 
 export interface UpdateProyectoDto {
   nombre?: string;
   descripcion?: string;
-  usuario_id?: number;
+  usuario_id?: string;
 }
