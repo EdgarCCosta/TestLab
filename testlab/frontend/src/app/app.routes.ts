@@ -10,6 +10,7 @@ import { EjecucionList } from './features/dashboard/ejecucion/ejecucion-list/eje
 import { VersionList } from './features/dashboard/version/version-list/version-list';
 import { UsuarioDetail } from './features/dashboard/usuario/usuario-detail/usuario-detail';
 import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detail/proyecto-detail';
+import { Home } from './features/dashboard/home/home';
 
 
 export const routes: Routes = [
@@ -17,6 +18,7 @@ export const routes: Routes = [
     path: '', 
     component: AppLayout,
     children: [
+      { path: '', component: Home },
       { path: 'login', component: Login },
       { path: 'usuario', component: UsuarioList },
       { path: 'usuario/:id', component: UsuarioDetail},
