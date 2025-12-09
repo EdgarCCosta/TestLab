@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Responses\ApiResponse;
+use App\DTOs\UserDTO;
 
 class AuthController extends Controller
 {
@@ -22,12 +24,16 @@ class AuthController extends Controller
         }
 
         // Crear token
-        $token = $user->createToken('angular-client')->plainTextToken;
+        try {
+            $token = $user->createToken('angular-client')->plainTextToken;
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to create authentication token', 500, $e->getMessage());
+        }
 
-        return response()->json([
+        return ApiResponse::success([
             'message' => 'Login successful',
             'token' => $token,
-            'user' => $user
+            'user' => UserDTO::fromModel($user)
         ]);
     }
 
@@ -35,6 +41,6 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Logged out']);
+        return ApiResponse::success(['message' => 'Logged out']);
     }
 }

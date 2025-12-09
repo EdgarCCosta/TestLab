@@ -1,23 +1,27 @@
 <?php
 
 namespace App\DTOs;
+
 use App\Models\Project;
 
 class ProjectDTO
 {
+    public int $id;
     public string $name;
     public ?string $description;
     public string $status;
-    public ?string $latest_version; 
-    public int $versions_count;      
+    public ?string $latest_version;
+    public int $versions_count;
 
     public function __construct(
+        int $id,
         string $name,
         ?string $description,
         string $status,
         ?string $latest_version,
         int $versions_count
     ) {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->status = $status;
@@ -28,6 +32,8 @@ class ProjectDTO
     public static function fromModel(Project $project): self
     {
         return new self(
+
+            $project->id,
             $project->name,
             $project->description,
             $project->status,

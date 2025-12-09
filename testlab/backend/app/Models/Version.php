@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 
 class Version extends Model
@@ -54,15 +54,12 @@ class Version extends Model
         return $this->release_date?->isFuture() ?? false;
     }
 
-      /**
-     * Devuelve la versión en formato semántico "vX.X.X"
-     */
-    public function getSemanticVersionAttribute(): string
+    public function testCases()
     {
-        return "v{$this->version_number}";
+        return $this->hasMany(TestCase::class, 'version_id');
     }
 
-     /**
+    /**
      * Calcula días restantes hasta la liberación de la versión
      * @return int|null - null si ya fue liberada
      */
@@ -75,11 +72,11 @@ class Version extends Model
         return now()->diffInDays($this->release_date, false);
     }
 
-     /**
+    /**
      * Valida el formato de número de versión (estilo semántico)
      */
     public static function isValidVersionNumber(string $version): bool
     {
-        return preg_match('/^\d+(\.\d+)*$/', $version) === 1;
+        return preg_match('/^v\d+(\.\d+)*$/', $version) === 1;
     }
 }

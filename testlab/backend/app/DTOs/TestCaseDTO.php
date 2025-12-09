@@ -50,12 +50,12 @@ class TestCaseDTO
             $testCase->expected_result,
             $testCase->user_profile,
             $testCase->version?->id ?? 0,
-            $testCase->version?->version_number ?? 'N/A',
+            $testCase->version?->version_number ?? null,
         );
     }
 
     public static function fromCollection($testCases): array
     {
-        return $testCases->map(fn ($tc) => self::fromModel($tc))->toArray();
+        return $testCases->map(fn($tc) => self::fromModel($tc))->toArray();
     }
 }

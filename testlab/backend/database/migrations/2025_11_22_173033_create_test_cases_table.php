@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('user_profile'); // Perfil de usuario objetivo
             $table->foreignId('version_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+
+            $table->index('user_profile');        // Para filtrar por perfil
+            $table->index('version_id');          // Para buscar por versión
+            $table->index(['version_id', 'user_profile']); // Búsquedas compuestas
         });
     }
 
