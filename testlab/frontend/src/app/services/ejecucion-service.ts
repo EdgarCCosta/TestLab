@@ -7,7 +7,7 @@ import { Ejecucion, CreateEjecucionDto, UpdateEjecucionDto } from '../models/eje
   providedIn: 'root',
 })
 export class EjecucionService {
-  private readonly baseUrl = '/ejecucion'; // 👈 coincide con proxy.conf.json
+  private readonly baseUrl = '/api/ejecucion'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 

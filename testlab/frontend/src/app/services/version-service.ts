@@ -7,7 +7,7 @@ import { Version, CreateVersionDto, UpdateVersionDto } from '../models/version';
   providedIn: 'root',
 })
 export class VersionService {
-  private readonly baseUrl = '/version'; // 👈 coincide con proxy.conf.json
+  private readonly baseUrl = '/api/version'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 

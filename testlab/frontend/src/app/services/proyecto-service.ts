@@ -7,7 +7,7 @@ import { Proyecto, CreateProyectoDto, UpdateProyectoDto } from '../models/proyec
   providedIn: 'root',
 })
 export class ProyectoService {
-  private readonly baseUrl = '/proyecto'; // 👈 coincide con proxy.conf.json
+  private readonly baseUrl = '/api/proyecto'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 

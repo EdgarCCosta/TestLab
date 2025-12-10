@@ -7,7 +7,7 @@ import { Prueba, CreatePruebaDto, UpdatePruebaDto } from '../models/prueba';
   providedIn: 'root',
 })
 export class PruebaService {
-  private readonly baseUrl = '/prueba'; // 👈 coincide con proxy.conf.json
+  private readonly baseUrl = '/api/prueba'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 

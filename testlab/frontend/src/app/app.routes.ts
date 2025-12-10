@@ -11,7 +11,7 @@ import { VersionList } from './features/dashboard/version/version-list/version-l
 import { UsuarioDetail } from './features/dashboard/usuario/usuario-detail/usuario-detail';
 import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detail/proyecto-detail';
 import { Home } from './features/dashboard/home/home';
-
+import { authGuard } from './services/auth-guard';
 
 export const routes: Routes = [
   { 
@@ -20,8 +20,8 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home },
       { path: 'login', component: Login },
-      { path: 'usuario', component: UsuarioList },
-      { path: 'usuario/:id', component: UsuarioDetail},
+      { path: 'usuario', component: UsuarioList, canActivate: [authGuard] },
+      { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
       { path: 'proyecto', component: ProyectoList },
       { path: 'proyecto/:id', component: ProyectoDetail },
       { path: 'prueba', component: PruebaList },

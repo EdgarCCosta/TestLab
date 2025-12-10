@@ -85,7 +85,7 @@ export class Calendar implements OnInit {
   refresh() {
     this.loading = true;
 
-    this.http.get<Proyecto[]>('http://localhost:4200/proyecto')
+    this.http.get<Proyecto[]>('/api/proyecto')
       .subscribe({
         next: (res) => {
           this.proyectos = res;

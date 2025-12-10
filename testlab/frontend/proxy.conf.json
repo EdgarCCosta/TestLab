@@ -1,33 +1,37 @@
 {
-  "/usuario": {
+  "/api/usuario": {
     "target": "http://localhost:9561",
     "secure": false,
     "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
     "logLevel": "debug"
   },
-  "/prueba": {
+  "/api/prueba": {
     "target": "http://localhost:9561",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
-  }
-  ,
-  "/ejecucion": {
-    "target": "http://localhost:9561",
-    "secure": false,
-    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
     "logLevel": "debug"
   },
-  "/proyecto": {
+  "/api/ejecucion": {
     "target": "http://localhost:9561",
     "secure": false,
     "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
     "logLevel": "debug"
   },
-  "/version": {
+  "/api/proyecto": {
     "target": "http://localhost:9561",
     "secure": false,
     "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  "/api/version": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
     "logLevel": "debug"
   },
   "/loginuser": {

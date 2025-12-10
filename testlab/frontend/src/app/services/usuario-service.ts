@@ -7,7 +7,7 @@ import { Usuario, CreateUsuarioDto, UpdateUsuarioDto } from '../models/usuario';
   providedIn: 'root',
 })
 export class UsuarioService {
-  private readonly baseUrl = '/usuario'; // 👈 coincide con proxy.conf.json
+  private readonly baseUrl = '/api/usuario'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 
