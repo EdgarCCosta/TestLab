@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { importProvidersFrom } from '@angular/core';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth-service';
 
 
 
@@ -18,7 +19,7 @@ export class Sidebar {
    usuarioNombre: string | null = null;
 
 
-  constructor (public router: Router) {
+  constructor (public router: Router, public authService: AuthService) {
     const usuarioStr = localStorage.getItem('usuario');
     if (usuarioStr) {
       const usuario = JSON.parse(usuarioStr);
@@ -26,10 +27,14 @@ export class Sidebar {
 
     }
   }
-  logout() {
-    localStorage.removeItem('usuario');
-    this.router.navigate(['/loginuser']);
-    //  this.router.navigate(['/login']); // redirige al login
+
+  logout(event: Event) {
+    event.preventDefault();
+    const confirmado = window.confirm('¿Seguro que quieres cerrar sesión?');
+    if (confirmado) {
+      this.authService.logout();              // borra token y usuario
+      this.router.navigate(['/login']); // redirige al login
+    }
 
   }
 

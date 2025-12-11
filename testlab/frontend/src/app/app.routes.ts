@@ -14,12 +14,13 @@ import { Home } from './features/dashboard/home/home';
 import { authGuard } from './services/auth-guard';
 
 export const routes: Routes = [
+   { path: 'login', component: Login },   // 👈 libre de guard
+
   { 
     path: '', 
     component: AppLayout,
     children: [
       { path: '', component: Home },
-      { path: 'login', component: Login },
       { path: 'usuario', component: UsuarioList, canActivate: [authGuard] },
       { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
       { path: 'proyecto', component: ProyectoList },
@@ -29,4 +30,5 @@ export const routes: Routes = [
       { path: 'version', component: VersionList },
     ]
   },
+  { path: '**', redirectTo: '/login' },
 ];
