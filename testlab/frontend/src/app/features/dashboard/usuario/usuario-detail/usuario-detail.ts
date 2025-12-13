@@ -14,9 +14,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } 
 export class UsuarioDetail {
 
   usuarioId: any;
-  usuario: UpdateUsuarioDto|null = null;
-
-  formUsuario: any;
+  usuario!: UpdateUsuarioDto;
+  form!: FormGroup;
 
   constructor(
     private _usuarioService: UsuarioService, private _route: ActivatedRoute,
@@ -24,13 +23,13 @@ export class UsuarioDetail {
   ) {
 
     this._route.paramMap.subscribe((params: ParamMap) => {
-      this.usuarioId = params.get('id');
+      this.usuarioId = params?.get('id');
       this.getUsuarioById(this.usuarioId);
     });
 
-    this.formUsuario = this.fb.group({
-      nombre: ['', Validators.required], // Nombre requerido
-      email: ['', [Validators.required, Validators.email]], // Email requerido con validación
+    this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(2)]], // Nombre requerido
+      email: ['', [Validators.required, Validators.email, Validators.minLength(3)]], // Email requerido con validación
       password: ['', [Validators.required, Validators.minLength(6)]], // Contraseña requerida con mínimo 6 caracteres
       rol: ['', Validators.required] // Rol requerido
     });
@@ -45,12 +44,15 @@ export class UsuarioDetail {
           this.usuario = usuario;
 
           // Inicializa el formulario con los valores del usuario recuperado
-          this.formUsuario.setValue({
+          this.form.setValue({
             nombre: this.usuario?.nombre,
             email: this.usuario?.email,
             password: this.usuario?.password,
             rol: this.usuario?.rol
           });
+
+          // Comprueba la validez inicial de los datos traídos
+          this.form.updateValueAndValidity();
         },
       error: (err) => {
         console.error('Error obteniendo el usuario:', err);
@@ -77,16 +79,16 @@ export class UsuarioDetail {
   }
 
   onSubmit() {
-    if (this.formUsuario.valid) {
-      console.log('Formulario enviado!!', this.formUsuario.value);
+    if (this.form.valid) {
+      console.log('Formulario enviado!!', this.form.value);
       // TODO: Update con el servicio
     }
   }
 
   // Getter para acceder fácilmente a los controls del formulario
   get formControls() {
-    console.log(this.formUsuario.invalid)
-    return this.formUsuario.controls;
+    console.log(this.form.invalid)
+    return this.form.controls;
   }
 
 }

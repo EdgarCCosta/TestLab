@@ -1,29 +1,30 @@
 <h1>Detalle Usuario</h1>
 
-<form [formGroup]="formUsuario" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
     <label for="nombre" class="form-label">Nombre</label>
-    <input id="nombre" type="text" name="nombre" class="form-control" formControlName="nombre">
+    <input id="nombre" type="text" name="nombre" class="form-control" formControlName="nombre" required minlength="2">
     <div>
       @if (
-            this.formUsuario.get('nombre').invalid && 
-            (this.formUsuario.get('nombre').dirty || this.formUsuario.get('nombre').touched)
+            this.form.get('nombre')?.invalid && 
+            (this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar el nombre.
+          Debes rellenar un nombre válido (mínimo 2 caracteres)
         </div>
       }
     </div>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-4" [class.was-validated]="this.form.get('email')?.dirty || this.form.get('email')?.touched">
     <label for="email" class="form-label">Correo</label>
-    <input id="email" type="email" name="email" class="form-control" formControlName="email">
+    <input id="email" type="email" name="email" class="form-control" formControlName="email" required>
     <div>
       @if (
-            this.formUsuario.get('email').invalid && 
-            (this.formUsuario.get('email').dirty || this.formUsuario.get('email').touched)
+            this.form.get('email')?.invalid && 
+            (this.form.get('email')?.dirty || this.form.get('email')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">
@@ -34,13 +35,13 @@
     
   </div>
 
-  <div class="mb-3">
+  <div class="mb-4" [class.was-validated]="this.form.get('password')?.dirty || this.form.get('password')?.touched">
     <label for="password" class="form-label">Contraseña</label>
-    <input id="password" type="password" name="password" class="form-control" formControlName="password">
+    <input id="password" type="password" name="password" class="form-control" formControlName="password" required minlength="6">
     <div>
       @if (
-            this.formUsuario.get('password').invalid && 
-            (this.formUsuario.get('password').dirty || this.formUsuario.get('password').touched)
+            this.form.get('password')?.invalid && 
+            (this.form.get('password')?.dirty || this.form.get('password')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">
@@ -50,7 +51,7 @@
     </div>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-4" [class.was-validated]="this.form.get('rol')?.dirty || this.form.get('rol')?.touched" required>
     <label for="rol" class="form-label">Rol</label>
     <select id="rol" name="rol" class="form-control" formControlName="rol">
       <option value="admin">Admin</option>
@@ -59,8 +60,8 @@
     </select>
     <div>
       @if (
-            this.formUsuario.get('rol').invalid && 
-            (this.formUsuario.get('rol').dirty || this.formUsuario.get('rol').touched)
+            this.form.get('rol')?.invalid && 
+            (this.form.get('rol')?.dirty || this.form.get('rol')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">
@@ -73,7 +74,7 @@
   <div class="d-flex justify-content-evenly mt-5">
     <button type="submit" class="btn btn-primary" (click)="volver()">Volver</button>
     <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId)">Borrar</button> 
-    <button type="submit" class="btn btn-success" [disabled]="this.formUsuario.invalid">Enviar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid">Enviar</button>
   </div>
   
 </form>

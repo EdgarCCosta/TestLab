@@ -11,25 +11,20 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.html'
 })
 export class Login {
-  formLogin!: FormGroup;
+  form!: FormGroup;
   error!: string;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
-    this.formLogin = this.fb.group({
-      email: this.fb.control('', {
-        validators: [Validators.required, Validators.email],
-        updateOn: 'change',
-      }), // Email requerido
-      password: this.fb.control('', {
-        validators: [Validators.required, Validators.minLength(6)],
-        updateOn: 'change',
-      }) // Contraseña requerida, mayor que 6 caracteres
+
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]], // Email requerido
+      password: ['', [Validators.required]], // Contraseña requerida, mayor que 6 caracteres
     });
   }
 
   onSubmit() {
-    if (this.formLogin.valid) {
-      const { email, password } = this.formLogin.value;
+    if (this.form.valid) {
+      const { email, password } = this.form.value;
       console.log(email, password);
       this.auth.login(email, password).subscribe({
         next: () => this.router.navigate(['/']),
