@@ -1,5 +1,3 @@
-<h1>Detalle Usuario</h1>
-
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   
   <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
@@ -72,9 +70,9 @@
   </div>
 
   <div class="d-flex justify-content-evenly mt-5">
-    <button type="submit" class="btn btn-primary" (click)="volver()">Volver</button>
-    <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId)">Borrar</button> 
-    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid">Enviar</button>
+    <button type="submit" class="btn btn-secondary" (click)="volver()">Cerrar</button>
+    <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())">Eliminar usuario</button> 
+    <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">Guardar cambios</button>
   </div>
   
 </form>

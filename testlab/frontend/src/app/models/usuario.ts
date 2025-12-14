@@ -1,6 +1,6 @@
 // Modelo público de usuario (lo que devuelve la API)
 export interface Usuario {
-  id: number;
+  id: string;
   nombre: string;
   email: string;
   rol: 'admin' | 'manager' | 'tester';

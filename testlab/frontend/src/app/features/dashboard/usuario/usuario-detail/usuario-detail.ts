@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, input, OnChanges, SimpleChanges } from '@angular/core';
 import { UpdateUsuarioDto } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ParamMap, ActivatedRoute } from '@angular/router';
@@ -11,21 +11,16 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } 
   styleUrl: './usuario-detail.css',
   standalone: true
 })
-export class UsuarioDetail {
+export class UsuarioDetail implements OnInit, OnChanges {
 
-  usuarioId: any;
+  usuarioId = input.required<string>();
   usuario!: UpdateUsuarioDto;
   form!: FormGroup;
-
+  
   constructor(
     private _usuarioService: UsuarioService, private _route: ActivatedRoute,
     private _router: Router, private fb: FormBuilder
   ) {
-
-    this._route.paramMap.subscribe((params: ParamMap) => {
-      this.usuarioId = params?.get('id');
-      this.getUsuarioById(this.usuarioId);
-    });
 
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]], // Nombre requerido
@@ -33,6 +28,18 @@ export class UsuarioDetail {
       password: ['', [Validators.required, Validators.minLength(6)]], // Contraseña requerida con mínimo 6 caracteres
       rol: ['', Validators.required] // Rol requerido
     });
+  }
+
+  ngOnInit(): void {
+    if (this.usuarioId() != '') {
+      this.getUsuarioById(this.usuarioId());
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['usuarioId'] && !changes['usuarioId'].firstChange) {
+      this.getUsuarioById(this.usuarioId());
+    }
   }
 
   /*** Recuperación de Usuario ***/
