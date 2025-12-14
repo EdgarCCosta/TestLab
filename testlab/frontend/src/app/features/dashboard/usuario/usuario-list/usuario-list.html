@@ -1,29 +1,17 @@
-<h1>Usuarios</h1>
+<input id="filtro" type="text" name="filtro" [(ngModel)]="filtro" placeholder="Buscar usuario" class="filtro rounded-3 ps-4 py-2">
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Email</th>
-        <th scope="col">Rol</th>
-        <th scope="col">Actualizado</th>
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
-      @for (u of usuarios; track u) {
-        <tr (click)="this.seleccionarUsuario(u.id)" data-bs-toggle="modal" data-bs-target="#detalleModal">
-          <td>{{ u.nombre }}</td>
-          <td>{{ u.email }}</td>
-          <td>
-            <span class="badge bg-primary">{{ u.rol }}</span>
-          </td>
-          <td>{{ u.updated_at | date:'short' }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+
+<div class="d-flex justify-content-between mb-5">
+  <h1>Usuarios</h1>
+  <button type="button" class="btn btn-nuevo"><i class="bi bi-plus-lg"></i> Nuevo usuario</button>
 </div>
+
+<app-listado [(itemSelId)]="this.usuarioSelId"
+  [cabeceras]="['Nombre', 'Email', 'Rol', 'Actualizado']" 
+  [datos]="this.usuariosFiltrados"
+  [atributos]="['nombre', 'email', 'rol','updated_at']">
+</app-listado>
+
 <app-modal>
   <app-usuario-detail [usuarioId]="this.usuarioSelId"></app-usuario-detail>
 </app-modal>

@@ -157,7 +157,6 @@ article {
 
 h1 {
   font-size: 3rem;
-  margin-bottom: 4rem;
 }
 
 th {
@@ -179,6 +178,22 @@ td {
 }
 
 /********************* FORMS ********************************/
+
+.filtro {
+  border: 1px solid #D6D5DC;
+  background-color: #F9F9FD;
+  margin-bottom: 6rem;
+}
+
+.btn-nuevo {
+  background-color: #737ADE;
+  color: white;
+  &:hover, &:active {
+    color: white !important;
+    background-color: #5a62d8 !important;
+  }
+  padding: 1rem;
+}
 
 form, .form-control, .btn {
   font-size: 2rem;
