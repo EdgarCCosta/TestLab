@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { UsuarioDetail } from '../usuario-detail/usuario-detail';
+import { Modal } from '../../../../layout/shared/modal/modal';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-usuario-list',
-  imports: [CommonModule, UsuarioDetail],
+  imports: [CommonModule, UsuarioDetail, Modal],
   templateUrl: './usuario-list.html',
   
 })
