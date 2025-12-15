@@ -11,7 +11,19 @@
       @for (item of this.datos(); track item) {
         <tr (click)="this.seleccionarItem(item.id)" data-bs-toggle="modal" data-bs-target="#detalleModal">
           @for (a of this.atributos(); track a) {
-            <td>{{ item[a] }}</td>
+            <!-- <td>{{ item[a] }}</td> -->
+             <td>
+            <!-- En caso de que la columna a mostrar sea Estado (Proyectos) comportamiento excepcional -->
+            @if (a === 'Estado') {
+              @if (item[a]) {
+                <span class="ok"><i class="bi bi-circle-fill text-success"></i> OK</span>
+              } @else {
+                <span class="ko"><i class="bi bi-circle-fill text-danger"></i> Fallido</span>
+              }
+            } @else {
+              {{ item[a] }}
+            }</td>
+
           }
         </tr>
       }

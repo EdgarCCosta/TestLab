@@ -1,7 +1,22 @@
 <h1>Proyectos</h1>
 
 <div class="table-responsive">
-  <table class="table table-hover">
+
+  <app-listado [(itemSelId)]="this.proyectoSelId"
+    [cabeceras]="['Proyecto', 'Descripción', 'Estado']" 
+    [datos]="this.proyectos"
+    [atributos]="['Proyecto', 'Descripción', 'Estado']">
+  </app-listado>
+
+  <!-- He dejado que abra la ruta proyecto/id porque intuyo que vamos a querer mostrar contenido ahí, y luego ya desde ahí
+   llamemos al modal para los edit -->
+
+
+
+  <!-- <pre>{{ proyectoSelId | json }}</pre> -->
+
+
+  <!-- <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Proyecto</th>
@@ -18,5 +33,5 @@
         </tr>
       }
     </tbody>
-  </table>
+  </table> -->
 </div>
