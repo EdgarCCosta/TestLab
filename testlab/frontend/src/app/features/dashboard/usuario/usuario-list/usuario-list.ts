@@ -18,8 +18,10 @@ import { Router } from '@angular/router';
 export class UsuarioList implements OnInit {
 
   usuarios: Usuario[] = [];
-  usuarioSelId: string = '';
+  usuarioSelId: string | null = null;
   usuariosFiltrados: Usuario[] = [];
+  nuevoUser: boolean = false;
+
 
   constructor(
     private _usuarioService: UsuarioService, private _router: Router
@@ -34,6 +36,15 @@ export class UsuarioList implements OnInit {
         this.usuariosFiltrados = lista;
       },
     });
+  // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
+    const modalEl = document.getElementById('detalleModal');
+    if (modalEl) {
+      modalEl.addEventListener('hidden.bs.modal', () => {
+        this.usuarioSelId = null; // reset automático
+        this.nuevoUser = false;
+      });
+    }
+
   }
 
   seleccionarUsuario(id: string): void {
@@ -52,5 +63,10 @@ export class UsuarioList implements OnInit {
     }
 
     console.log('Usuarios filtrados tras el cambio: ', this.usuariosFiltrados);
+  }
+
+  abrirNuevoUsuario() {
+    this.usuarioSelId = null;   // no hay id
+    this.nuevoUser = true;      // activar modo creación
   }
 }

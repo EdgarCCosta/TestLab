@@ -35,7 +35,7 @@
 
   <div class="mb-4" [class.was-validated]="this.form.get('password')?.dirty || this.form.get('password')?.touched">
     <label for="password" class="form-label">Contraseña</label>
-    <input id="password" type="password" name="password" class="form-control" formControlName="password" required minlength="6">
+    <input id="password" type="password" name="password" class="form-control" formControlName="password" required minlength="6" autocomplete="new-password">
     <div>
       @if (
             this.form.get('password')?.invalid && 
@@ -69,10 +69,18 @@
     </div>
   </div>
 
+  @if (this.modo() === 'detalle'){
+    <div class="d-flex justify-content-evenly mt-5">
+      <button type="submit" class="btn btn-secondary" (click)="volver()"  data-bs-dismiss="modal" >Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())" data-bs-dismiss="modal">Eliminar usuario</button> 
+      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+    </div>
+  } @else {
   <div class="d-flex justify-content-evenly mt-5">
-    <button type="submit" class="btn btn-secondary" (click)="volver()">Cerrar</button>
-    <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())">Eliminar usuario</button> 
-    <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">Guardar cambios</button>
+    <button type="submit" class="btn btn-secondary" (click)="volver()" data-bs-dismiss="modal">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear usuario</button>
   </div>
+}
+
   
 </form>

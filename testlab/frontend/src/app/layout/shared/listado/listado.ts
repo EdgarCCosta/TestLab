@@ -13,17 +13,23 @@ export class Listado {
   cabeceras = input<string[]>();
   datos = input<any[]>();
   atributos = input<string[]>();
-  itemSelId = model<string>();
+  itemSelId = model<string | null>();
 
   constructor() {
     effect(() => {
       // console.log('Cabeceras: ', this.cabeceras());
-      // console.log('Datos: ', this.datos());
-      // console.log('Atributos: ', this.atributos());
+      console.log('Datos: ', this.datos());
+      console.log('Atributos: ', this.atributos());
     });
   }
 
   seleccionarItem(id: any) {
+    console.log('Seleccionado: ', id);
     this.itemSelId.update(() => id);
   }
+
+resetSeleccion() {
+  this.itemSelId.set(null); // vuelve a estado vacío
+}
+
 }

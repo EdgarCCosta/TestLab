@@ -3,8 +3,13 @@
 
 <div class="d-flex justify-content-between mb-5">
   <h1>Usuarios</h1>
-  <button type="button" class="btn btn-nuevo"><i class="bi bi-plus-lg"></i> Nuevo usuario</button>
-</div>
+<button type="button"
+        class="btn btn-nuevo"
+        data-bs-toggle="modal"
+        data-bs-target="#detalleModal"
+        (click)="abrirNuevoUsuario()">
+  <i class="bi bi-plus-lg"></i> Nuevo usuario
+</button></div>
 
 <app-listado [(itemSelId)]="this.usuarioSelId"
   [cabeceras]="['Nombre', 'Email', 'Rol', 'Actualizado']" 
@@ -13,5 +18,9 @@
 </app-listado>
 
 <app-modal>
-  <app-usuario-detail [usuarioId]="this.usuarioSelId"></app-usuario-detail>
+  @if (nuevoUser && usuarioSelId === null) {
+    <app-usuario-detail [usuarioId]="null" modo="nuevo"></app-usuario-detail>
+  } @else if (usuarioSelId) {
+    <app-usuario-detail [usuarioId]="usuarioSelId" modo="detalle"></app-usuario-detail>
+  }
 </app-modal>

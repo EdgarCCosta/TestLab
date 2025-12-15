@@ -21,8 +21,10 @@ export const routes: Routes = [
     component: AppLayout,
     children: [
       { path: '', component: Home },
-      { path: 'usuario', component: UsuarioList, canActivate: [authGuard] },
-      { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
+      // { path: 'usuario', component: UsuarioList, canActivate: [authGuard] },
+      // { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
+      { path: 'usuario', component: UsuarioList},
+      { path: 'usuario/:id', component: UsuarioDetail },
       { path: 'proyecto', component: ProyectoList },
       { path: 'proyecto/:id', component: ProyectoDetail },
       { path: 'prueba', component: PruebaList },
