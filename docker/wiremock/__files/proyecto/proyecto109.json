@@ -2,5 +2,6 @@
   "id": 109,
   "nombre": "Fraud Detection",
   "descripcion": "Detección temprana de fraude",
-  "usuario_id": 8
+  "usuario_id": 8,
+  "fecha_entrega": "2026-01-08"
 }

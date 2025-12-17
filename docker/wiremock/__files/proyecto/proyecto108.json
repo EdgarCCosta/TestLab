@@ -2,5 +2,6 @@
   "id": 108,
   "nombre": "Email Marketing",
   "descripcion": "Automatización campañas email",
-  "usuario_id": 5
+  "usuario_id": 5,
+  "fecha_entrega": "2026-01-06"
 }

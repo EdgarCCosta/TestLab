@@ -2,5 +2,7 @@
   "id": 101,
   "nombre": "Store Front",
   "descripcion": "Frontend principal e-commerce",
-  "usuario_id": 7
+  "usuario_id": 7,
+  "fecha_entrega": "2025-12-22"
+
 }

@@ -2,5 +2,6 @@
   "id": 104,
   "nombre": "Reporting BI",
   "descripcion": "Panel analítico y KPIs",
-  "usuario_id": 4
+  "usuario_id": 4,
+  "fecha_entrega": "2025-12-28"
 }

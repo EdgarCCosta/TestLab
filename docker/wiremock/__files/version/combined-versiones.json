@@ -68,5 +68,110 @@
     "fecha_lanzamiento": "2025-05-01",
     "descripcion": "Modelos ML fraude",
     "proyecto_id": 109
+  },
+  {
+    "id": 211,
+    "numero_version": "1.0.1",
+    "fecha_lanzamiento": "2025-02-01",
+    "descripcion": "Hotfix login básico",
+    "proyecto_id": 101
+  },
+  {
+    "id": 212,
+    "numero_version": "1.2.0",
+    "fecha_lanzamiento": "2025-03-05",
+    "descripcion": "Mejora seguridad autenticación",
+    "proyecto_id": 101
+  },
+  {
+    "id": 213,
+    "numero_version": "1.1.1",
+    "fecha_lanzamiento": "2025-02-20",
+    "descripcion": "Corrección bug pagos recurrentes",
+    "proyecto_id": 102
+  },
+  {
+    "id": 214,
+    "numero_version": "1.2.0",
+    "fecha_lanzamiento": "2025-03-15",
+    "descripcion": "Integración con PayPal",
+    "proyecto_id": 102
+  },
+  {
+    "id": 215,
+    "numero_version": "2.0.1",
+    "fecha_lanzamiento": "2025-03-10",
+    "descripcion": "Fix concurrencia inventario",
+    "proyecto_id": 103
+  },
+  {
+    "id": 216,
+    "numero_version": "2.1.0",
+    "fecha_lanzamiento": "2025-04-01",
+    "descripcion": "Soporte multi-almacén",
+    "proyecto_id": 103
+  },
+  {
+    "id": 217,
+    "numero_version": "1.3.1",
+    "fecha_lanzamiento": "2025-03-25",
+    "descripcion": "Corrección métricas dashboard",
+    "proyecto_id": 104
+  },
+  {
+    "id": 218,
+    "numero_version": "1.4.0",
+    "fecha_lanzamiento": "2025-04-20",
+    "descripcion": "Exportación CSV avanzada",
+    "proyecto_id": 104
+  },
+  {
+    "id": 219,
+    "numero_version": "1.0.0",
+    "fecha_lanzamiento": "2025-03-10",
+    "descripcion": "Release app móvil estable",
+    "proyecto_id": 105
+  },
+  {
+    "id": 220,
+    "numero_version": "1.1.0",
+    "fecha_lanzamiento": "2025-04-15",
+    "descripcion": "Soporte notificaciones push",
+    "proyecto_id": 105
+  },
+  {
+    "id": 221,
+    "numero_version": "1.0.2",
+    "fecha_lanzamiento": "2025-04-10",
+    "descripcion": "Fix reintento notificaciones",
+    "proyecto_id": 106
+  },
+  {
+    "id": 222,
+    "numero_version": "1.1.0",
+    "fecha_lanzamiento": "2025-05-05",
+    "descripcion": "Soporte colas Kafka",
+    "proyecto_id": 106
+  },
+  {
+    "id": 223,
+    "numero_version": "1.4.0",
+    "fecha_lanzamiento": "2025-05-01",
+    "descripcion": "Mejora ranking búsqueda",
+    "proyecto_id": 107
+  },
+  {
+    "id": 224,
+    "numero_version": "1.5.0",
+    "fecha_lanzamiento": "2025-06-01",
+    "descripcion": "Autocomplete avanzado",
+    "proyecto_id": 107
+  },
+  {
+    "id": 225,
+    "numero_version": "0.6.0",
+    "fecha_lanzamiento": "2025-04-15",
+    "descripcion": "Chat soporte con adjuntos",
+    "proyecto_id": 110
   }
 ]

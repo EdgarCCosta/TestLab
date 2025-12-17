@@ -2,5 +2,6 @@
   "id": 102,
   "nombre": "Payment Gateway",
   "descripcion": "Integración de pasarela de pago",
-  "usuario_id": 3
+  "usuario_id": 3,
+  "fecha_entrega": "2025-12-24"
 }
