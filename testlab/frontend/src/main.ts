@@ -17,6 +17,14 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 // Importa el JS de Bootstrap (bundle incluye Popper)
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+// Fechas en formato español por defecto
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs, 'es');
+
+
 
 
 bootstrapApplication(App, {
@@ -34,7 +42,7 @@ bootstrapApplication(App, {
         prefix: './i18n/', 
         suffix: '.json'
     }),
-    
+    { provide: LOCALE_ID, useValue: 'es' },
     
     ...appConfig.providers
   ]
