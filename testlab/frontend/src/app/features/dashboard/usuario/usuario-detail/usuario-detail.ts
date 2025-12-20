@@ -71,9 +71,9 @@ export class UsuarioDetail implements OnInit, OnChanges {
       next: (usuario) => {
         this.usuario = usuario;
         this.form.setValue({
-          nombre: this.usuario?.nombre,
+          nombre: this.usuario?.name,
           email: this.usuario?.email,
-          password: this.usuario?.password,
+          password: "",
           rol: this.usuario?.rol
         });
         this.form.updateValueAndValidity();

@@ -12,9 +12,9 @@
 </button></div>
 
 <app-listado [(itemSelId)]="this.usuarioSelId"
-  [cabeceras]="['Nombre', 'Email', 'Rol', 'Actualizado']" 
+  [cabeceras]="['Nombre', 'Email', 'Rol']" 
   [datos]="this.usuariosFiltrados"
-  [atributos]="['nombre', 'email', 'rol','updated_at']">
+  [atributos]="['name', 'email', 'rol']">
 </app-listado>
 
 <app-modal>

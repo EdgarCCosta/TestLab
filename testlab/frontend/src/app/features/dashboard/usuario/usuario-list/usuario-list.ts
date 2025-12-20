@@ -34,6 +34,7 @@ export class UsuarioList implements OnInit {
       next: (lista) => {
         this.usuarios = lista;
         this.usuariosFiltrados = lista;
+        console.log('Lista de usuarios:', lista);
       },
     });
   // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
@@ -54,7 +55,7 @@ export class UsuarioList implements OnInit {
   set filtro(valor: string) {
     this.usuariosFiltrados = [];
     for (const u of this.usuarios) {
-      if (u.nombre.includes(valor) || u.email.includes(valor)|| u.rol.includes(valor)) {
+      if (u.name.includes(valor) || u.email.includes(valor)|| u.rol.includes(valor)) {
         this.usuariosFiltrados.push(u);
       }
     }
