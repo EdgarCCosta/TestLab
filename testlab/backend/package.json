@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "$schema": "https://www.schemastore.org/package.json",
+=======
+    "$schema": "https://json.schemastore.org/package.json",
+>>>>>>> backend_Adrian
     "private": true,
     "type": "module",
     "scripts": {
