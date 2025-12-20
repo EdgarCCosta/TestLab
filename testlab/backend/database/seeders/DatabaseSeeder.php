@@ -3,33 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-<<<<<<< HEAD
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-=======
 use App\Models\Project;
 use App\Models\Version;
 use App\Models\TestCase;
 use App\Models\TestExecution;
->>>>>>> backend_Adrian
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-<<<<<<< HEAD
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-=======
     public function run(): void
     {
         // 1. Crear usuarios
@@ -150,6 +131,5 @@ class DatabaseSeeder extends Seeder
         $this->command->info('   - 2 versiones');
         $this->command->info('   - 2 test cases');
         $this->command->info('   - 3 test executions');
->>>>>>> backend_Adrian
     }
 }
