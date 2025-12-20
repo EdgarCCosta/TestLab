@@ -33,6 +33,7 @@ app-root {
 app-login {
   display: flex;
   height: 100vh;
+  background-color: #F9F9FD;
 }
 
 #formWrapper {

@@ -52,17 +52,12 @@ export class UsuarioList implements OnInit {
   }
 
   set filtro(valor: string) {
-    console.log("Filtro cambiado: ", valor);
-    console.log('Usuarios filtrados previo el cambio: ', this.usuariosFiltrados);
     this.usuariosFiltrados = [];
-
     for (const u of this.usuarios) {
       if (u.nombre.includes(valor) || u.email.includes(valor)|| u.rol.includes(valor)) {
         this.usuariosFiltrados.push(u);
       }
     }
-
-    console.log('Usuarios filtrados tras el cambio: ', this.usuariosFiltrados);
   }
 
   abrirNuevoUsuario() {
