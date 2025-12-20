@@ -1,7 +1,0 @@
-{
-  "id": 4,
-  "nombre": "Diego López",
-  "email": "diego.lopez@example.com",
-  "password": "$2y$10$diegolopezhash",
-  "rol": "qa_lead"
-}

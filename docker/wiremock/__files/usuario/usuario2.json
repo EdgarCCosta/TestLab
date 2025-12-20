@@ -1,7 +1,0 @@
-{
-  "id": 2,
-  "nombre": "Bruno Pérez",
-  "email": "bruno.perez@example.com",
-  "password": "$2y$10$brunoperezhash",
-  "rol": "tester"
-}
