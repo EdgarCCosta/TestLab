@@ -14,7 +14,7 @@ import { Home } from './features/dashboard/home/home';
 import { authGuard } from './services/auth-guard';
 
 export const routes: Routes = [
-   { path: 'login', component: Login },   // 👈 libre de guard
+  { path: 'login', component: Login },   // 👈 libre de guard
 
   { 
     path: '', 

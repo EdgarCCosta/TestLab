@@ -1,7 +1,7 @@
 // Modelo público de usuario (lo que devuelve la API)
 export interface Usuario {
   id: string;
-  nombre: string;
+  name: string;
   email: string;
   rol: 'admin' | 'manager' | 'tester';
   created_at: string;   // ISO date string

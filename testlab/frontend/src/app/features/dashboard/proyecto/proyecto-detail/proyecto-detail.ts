@@ -57,7 +57,7 @@ export class ProyectoDetail {
  console.log("Proyecto recibido:", p);
         if (this.proyecto?.usuario_id) {
           this._usuarioService.getUsuarioById(this.proyecto.usuario_id).subscribe({
-            next: (usuario) => this.usuarioNombre = usuario.nombre,
+            next: (usuario) => this.usuarioNombre = usuario.name,
             error: (err) => console.error('Error cargando usuario:', err)
           });
         }

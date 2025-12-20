@@ -1,6 +1,6 @@
 {
   "/api/usuario": {
-    "target": "http://localhost:9561",
+    "target": "http://localhost/proyecto/testlab/testlab/backend/public/api/users",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": { "^/api": "" },
@@ -34,8 +34,8 @@
     "pathRewrite": { "^/api": "" },
     "logLevel": "debug"
   },
-  "/loginuser": {
-    "target": "http://localhost:9561",
+  "/login": {
+    "target": "http://localhost/proyecto/testlab/testlab/backend/public/api",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

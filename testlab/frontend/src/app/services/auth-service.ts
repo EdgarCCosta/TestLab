@@ -4,7 +4,7 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly baseUrl = '/loginuser'; // coincide con proxy.conf.json
+  private readonly baseUrl = 'http://localhost/proyecto/testlab/testlab/backend/public/api/login'; // coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 
@@ -13,8 +13,8 @@ export class AuthService {
     return this.http.post<any>(this.baseUrl, { email, password }).pipe(
       tap(response => {
         console.log(response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('usuario', JSON.stringify(response.usuario));
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('usuario', JSON.stringify(response.data.user.email));
       })
     );
   }
