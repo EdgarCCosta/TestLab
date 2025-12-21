@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 export class EjecucionService {
 
   private readonly apiUrl = environment.apiUrl;
-  private readonly endpoint = '/ejecucion'; // 👈 coincide con proxy.conf.json
+  private readonly endpoint = '/test-executions';
 
   constructor(private http: HttpClient) {}
 

@@ -35,17 +35,18 @@ export class ProyectoList implements OnInit {
 
 ngOnInit(): void {
   this._proyectoService.getProyectos().subscribe({
-    next: (lista) => {
-      this.proyectos = lista.map(p => {
-        // usa la fecha_entrega del modelo Proyecto pero habrá que hablar qué criterios seguimos
-        const vencida = new Date(p.fecha_entrega) > new Date();
-        return {
-          ...p,
-          Proyecto: p.nombre,
-          Descripción: p.descripcion,
-          Estado: vencida
-        };
-      });
+    next: (response) => {
+      let lista = response.data;
+      // this.proyectos = lista.map(p => {
+      //   // usa la fecha_entrega del modelo Proyecto pero habrá que hablar qué criterios seguimos
+      //   const vencida = new Date(p.fecha_entrega) > new Date();
+      //   return {
+      //     ...p,
+      //     Proyecto: p.nombre,
+      //     Descripción: p.descripcion,
+      //     Estado: vencida
+      //   };
+      // });
       console.log("Tenemos los proyectos: ", this.proyectos);
     }
   });

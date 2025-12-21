@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 export class VersionService {
 
   private readonly apiUrl = environment.apiUrl;
-  private readonly endpoint = '/version'; // 👈 coincide con proxy.conf.json
+  private readonly endpoint = '/versions';
 
   constructor(private http: HttpClient) {}
 

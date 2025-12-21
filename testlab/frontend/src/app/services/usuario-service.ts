@@ -23,6 +23,7 @@ export class UsuarioService {
   }
 
   createUsuario(dto: CreateUsuarioDto): Observable<any> {
+    console.log('DTO Usuario: ', dto);
     return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 

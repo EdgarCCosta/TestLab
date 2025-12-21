@@ -28,14 +28,22 @@ export class Sidebar {
     }
   }
 
-  logout(event: Event) {
-    event.preventDefault();
+  logout() {
     const confirmado = window.confirm('¿Seguro que quieres cerrar sesión?');
     if (confirmado) {
-      this.authService.logout();              // borra token y usuario
-      this.router.navigate(['/login']); // redirige al login
+      const email = localStorage.getItem('usuario');
+      if (email) {
+        this.authService.logout(email).subscribe({
+          next: (response) => {
+            console.log("Respuesta:", response);
+            // borra token y usuario
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            this.router.navigate(['/login']); // redirige al login
+          }
+        });
+      }
     }
-
   }
 
 }

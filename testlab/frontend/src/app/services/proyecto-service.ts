@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 export class ProyectoService {
 
   private readonly apiUrl = environment.apiUrl;
-  private readonly endpoint = '/proyecto'; // 👈 coincide con proxy.conf.json
+  private readonly endpoint = '/projects';
 
   constructor(private http: HttpClient) {}
 

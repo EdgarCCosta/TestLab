@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })
-export class Modal {}
+export class Modal {
+  title = input<string>();
+}
 
