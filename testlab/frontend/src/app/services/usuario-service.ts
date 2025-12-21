@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class UsuarioService {
-  private apiUrl = environment.apiUrl;
+
+  private readonly apiUrl = environment.apiUrl;
   private readonly endpoint = '/users'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
@@ -17,19 +18,19 @@ export class UsuarioService {
     return this.http.get(this.apiUrl + this.endpoint);
   }
 
-  getUsuarioById(id: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.endpoint}/${id}`);
+  getUsuarioById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
-  createUsuario(dto: CreateUsuarioDto): Observable<Usuario> {
-    return this.http.post<Usuario>(this.endpoint, dto);
+  createUsuario(dto: CreateUsuarioDto): Observable<any> {
+    return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updateUsuario(id: string, dto: UpdateUsuarioDto): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.endpoint}/${id}`, dto);
+  updateUsuario(id: string, dto: UpdateUsuarioDto): Observable<any> {
+    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deleteUsuario(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.endpoint}/${id}`);
+  deleteUsuario(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

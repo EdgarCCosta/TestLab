@@ -2,32 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Proyecto, CreateProyectoDto, UpdateProyectoDto } from '../models/proyecto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProyectoService {
-  private readonly baseUrl = '/api/proyecto'; // 👈 coincide con proxy.conf.json
+
+  private readonly apiUrl = environment.apiUrl;
+  private readonly endpoint = '/proyecto'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 
-  getProyectos(): Observable<Proyecto[]> {
-    return this.http.get<Proyecto[]>(this.baseUrl);
+  getProyectos(): Observable<any> {
+    return this.http.get(this.apiUrl + this.endpoint);
   }
 
-  getProyectoById(id: string): Observable<Proyecto> {
-    return this.http.get<Proyecto>(`${this.baseUrl}/${id}`);
+  getProyectoById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
-  createProyecto(dto: CreateProyectoDto): Observable<Proyecto> {
-    return this.http.post<Proyecto>(this.baseUrl, dto);
+  createProyecto(dto: CreateProyectoDto): Observable<any> {
+    return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updateProyecto(id: string, dto: UpdateProyectoDto): Observable<Proyecto> {
-    return this.http.put<Proyecto>(`${this.baseUrl}/${id}`, dto);
+  updateProyecto(id: string, dto: UpdateProyectoDto): Observable<any> {
+    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deleteProyecto(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  deleteProyecto(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

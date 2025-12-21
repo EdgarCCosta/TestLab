@@ -2,32 +2,34 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prueba, CreatePruebaDto, UpdatePruebaDto } from '../models/prueba';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PruebaService {
-  private readonly baseUrl = '/api/prueba'; // 👈 coincide con proxy.conf.json
+  private readonly apiUrl = environment.apiUrl;
+  private readonly endpoint = '/prueba'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 
-  getPruebas(): Observable<Prueba[]> {
-    return this.http.get<Prueba[]>(this.baseUrl);
+  getPruebas(): Observable<any> {
+    return this.http.get(this.apiUrl + this.endpoint);
   }
 
-  getPruebaById(id: number): Observable<Prueba> {
-    return this.http.get<Prueba>(`${this.baseUrl}/${id}`);
+  getPruebaById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
-  createPrueba(dto: CreatePruebaDto): Observable<Prueba> {
-    return this.http.post<Prueba>(this.baseUrl, dto);
+  createPrueba(dto: CreatePruebaDto): Observable<any> {
+    return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updatePrueba(id: number, dto: UpdatePruebaDto): Observable<Prueba> {
-    return this.http.put<Prueba>(`${this.baseUrl}/${id}`, dto);
+  updatePrueba(id: number, dto: UpdatePruebaDto): Observable<any> {
+    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deletePrueba(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  deletePrueba(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }
