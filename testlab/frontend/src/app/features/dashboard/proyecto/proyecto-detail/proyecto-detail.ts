@@ -11,7 +11,7 @@ import { Version } from '../../../../models/version';
 import { Ejecucion } from '../../../../models/ejecucion';
 
 @Component({
-  selector: 'app-proyecto-detalle',
+  selector: 'app-proyecto-detail',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './proyecto-detail.html',

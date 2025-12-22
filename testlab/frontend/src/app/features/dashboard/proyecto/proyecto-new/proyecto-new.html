@@ -1,0 +1,62 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
+    <label for="name" class="form-label">Nombre</label>
+    <input id="name" type="text" name="name" class="form-control" formControlName="name" required minlength="2">
+    <div>
+      @if (
+            this.form.get('nombre')?.invalid && 
+            (this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un nombre válido (mínimo 2 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('description')?.dirty || this.form.get('description')?.touched">
+    <label for="description" class="form-label">Descripción</label>
+    <input id="description" type="text" name="description" class="form-control" formControlName="description" required minlength="10">
+    <div>
+      @if (
+            this.form.get('description')?.invalid && 
+            (this.form.get('description')?.dirty || this.form.get('description')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una descripción válida (al menos 10 caracteres).
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('status')?.dirty || this.form.get('status')?.touched" required minlength="1">
+    <label for="rol" class="form-label">Estado</label>
+    <select id="status" name="status" class="form-control" formControlName="status">
+      <option value="active">Activo</option>
+      <option value="inactive">Inactivo</option>
+      <option value="archived">Archivado</option>
+    </select>
+    <div>
+      @if (
+            this.form.get('status')?.invalid && 
+            (this.form.get('status')?.dirty || this.form.get('status')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes elegir un estado.
+        </div>
+      }
+    </div>
+  </div>
+
+
+  <div class="d-flex justify-content-evenly mt-5">
+    <button type="submit" class="btn btn-secondary" (click)="volver()" data-bs-dismiss="modal">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear proyecto</button>
+  </div>
+
+  
+</form>

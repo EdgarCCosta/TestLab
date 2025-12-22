@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, input, model, output, effect } from '@angular/core';
+import { Component, input, model, effect } from '@angular/core';
 import { UpdateUsuarioDto } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,6 +12,7 @@ import { Modal } from 'bootstrap';
   templateUrl: './usuario-detail.html',
   styleUrls: ['./usuario-detail.css']
 })
+
 export class UsuarioDetail {
 
   usuarioId = input<string | null>();                 // puede ser string o null
@@ -55,19 +56,6 @@ export class UsuarioDetail {
       }
     });
   }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['usuarioId'] && !changes['usuarioId'].firstChange && this.modo() === 'detalle') {
-  //     this.getUsuarioById(this.usuarioId()!);
-  //   }
-  //   if (changes['modo'] && this.modo() === 'nuevo') {
-  //   this.form.reset({
-  //     name: '',
-  //     email: '',
-  //     password: '',
-  //     rol: ''
-  //   });
-  // }
 
   /*** Recuperación de Usuario ***/
   getUsuarioById(id: string): void {

@@ -14,10 +14,10 @@
     <tbody>
       @for (p of pruebas; track p) {
         <tr>
-          <td>{{ p.titulo }}</td>
-          <td>{{ p.condiciones }}</td>
-          <td>{{ p.resultado_esperado }}</td>
-          <td>{{ p.proyecto_id }}</td>
+          <td>{{ p.title }}</td>
+          <td>{{ p.preconditions }}</td>
+          <td>{{ p.expected_result }}</td>
+          <!-- <td>{{ p.proyecto_id }}</td> -->
           <td>{{ p.updated_at | date:'short' }}</td>
         </tr>
       }
