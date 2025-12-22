@@ -5,26 +5,25 @@
     <h5 class="card-title">
       <i class="bi bi-kanban"></i> {{ proyecto?.name }}
     </h5>
+
     <p><strong>Descripción:</strong> {{ proyecto?.description }}</p>
 
     <p>
-      <strong>Estado:</strong>
+      <strong>Estado: </strong>
       <span class="badge"
             [ngClass]="{
-              'bg-success': estadoProyecto === 'ok',
-              'bg-warning': estadoProyecto === 'pendiente',
-              'bg-danger': estadoProyecto === 'error'
+              'bg-success': proyecto?.status === 'active',
+              'bg-warning': proyecto?.status === 'archived',
+              'bg-danger': proyecto?.status === 'inactive'
             }">
-        {{ estadoProyecto | uppercase }}
+        {{ proyecto?.status | uppercase }}
       </span>
     </p>
 
     <hr>
 
-    <p><strong>Usuario:</strong> {{ usuarioNombre }}</p>
     <p><strong>Creado:</strong> {{ proyecto?.created_at | date:'short' }}</p>
     <p><strong>Actualizado:</strong> {{ proyecto?.updated_at | date:'short' }}</p>
-    <!-- <p><strong>Fecha entrega:</strong> {{ proyecto?.fecha_entrega | date:'longDate' }}</p> -->
   </div>
 
   <!-- Acciones -->
@@ -40,47 +39,102 @@
 
 <!-- Sección resumen -->
 <div class="row mt-4">
+
+  <!-- VERSIONES -->
   <div class="col-md-6">
     <div class="card shadow-sm">
       <div class="card-header bg-light">
         <i class="bi bi-box-seam"></i> Versiones
       </div>
+
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3))">
-          <strong>{{ v.numero_version }}</strong>
-          <span class="text-muted">({{ v.fecha_lanzamiento | date:'shortDate' }})</span>
-          <p class="mb-0">{{ v.descripcion }}</p>
+        <li class="list-group-item"
+            *ngFor="let v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3))">
+
+          <strong>{{ v.version_number }}</strong>
+          <span class="text-muted">
+            ({{ v.release_date | date:'shortDate' }})
+          </span>
+
+          <p class="mb-0">{{ v.description }}</p>
         </li>
       </ul>
+
       @if(versiones.length > 3) {
-      <button class="btn btn-link" (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
-        <i class="bi" [ngClass]="mostrarTodasVersiones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+      <button class="btn btn-link"
+              (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
+        <i class="bi"
+           [ngClass]="mostrarTodasVersiones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
         {{ mostrarTodasVersiones ? 'Ver menos' : 'Ver más' }}
       </button>
       }
     </div>
   </div>
 
+  <!-- EJECUCIONES -->
   <div class="col-md-6">
     <div class="card shadow-sm">
       <div class="card-header bg-light">
-        <i class="bi bi-check2-circle"></i> Pruebas
+        <i class="bi bi-check2-circle"></i> Ejecuciones
       </div>
+
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let pr of (mostrarTodasPruebas ? pruebas : pruebas.slice(0,3))">
-          <strong>{{ pr.titulo }}</strong>
-          <span class="badge bg-secondary ms-2">{{ pr.rol }}</span>
-          <p class="mb-0"><em>{{ pr.objetivo }}</em></p>
-          <small class="text-muted">Resultado esperado: {{ pr.resultado_esperado }}</small>
+        <li class="list-group-item"
+            *ngFor="let e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3))">
+
+          <!-- Título del caso de prueba -->
+          <strong>{{ e.test_case.title }}</strong>
+
+          <!-- Resultado -->
+          <span class="badge ms-2"
+                [ngClass]="{
+                  'bg-success': e.result === 'passed',
+                  'bg-danger': e.result === 'failed'
+                }">
+            {{ e.result | uppercase }}
+          </span>
+
+          <!-- Usuario -->
+          <p class="mb-0">
+            <small class="text-muted">
+              Ejecutado por: {{ e.user.name }}
+            </small>
+          </p>
+
+          <!-- Fecha -->
+          <small class="text-muted">
+            {{ e.executed_at | date:'short' }}
+          </small>
+
+          <!-- Comentario -->
+          <p class="mt-1 mb-0"><em>{{ e.comment }}</em></p>
+
+          <!-- Estado de error -->
+          <small 
+            class="fw-semibold"
+            [ngClass]="{
+              'text-danger': e.error_status === 'critical',
+              'text-warning': e.error_status === 'high',
+              'text-info': e.error_status === 'low',
+              'text-success': e.error_status === 'none'
+            }"
+          >
+            <i class="bi bi-exclamation-circle-fill"></i>
+            Error: {{ e.error_status }}
+          </small>
+
         </li>
       </ul>
-      
-      @if(pruebas.length > 3) {
-      <button class="btn btn-link" (click)="mostrarTodasPruebas = !mostrarTodasPruebas">
-        <i class="bi" [ngClass]="mostrarTodasPruebas ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-        {{ mostrarTodasPruebas ? 'Ver menos' : 'Ver más' }}
+
+      @if(ejecuciones.length > 3) {
+      <button class="btn btn-link"
+              (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
+        <i class="bi"
+           [ngClass]="mostrarTodasEjecuciones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+        {{ mostrarTodasEjecuciones ? 'Ver menos' : 'Ver más' }}
       </button>
       }
     </div>
   </div>
+
 </div>

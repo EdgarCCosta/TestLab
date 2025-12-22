@@ -33,13 +33,12 @@ export class ProyectoList implements OnInit {
     this._proyectoService.getProyectos().subscribe({
       next: (lista) => {
         // lista es directamente Proyecto[] gracias al map() del servicio
-        this.proyectos = lista.map(p => {
+        this.proyectos = lista.map(p => { // Mapeamos con los atributos a enviar al componente de listar
           return {
             ...p,
-            // Adaptación para tu componente Listado:
             Proyecto: p.name,
             Descripción: p.description,   // backend usa "description"
-            Estado: p.status // ejemplo: true si está activo
+            Estado: p.status
           };
         });
 

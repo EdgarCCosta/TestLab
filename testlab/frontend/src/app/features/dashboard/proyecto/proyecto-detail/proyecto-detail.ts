@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
 import { ProyectoService } from '../../../../services/proyecto-service';
-import { UsuarioService } from '../../../../services/usuario-service';
-import { PruebaService } from '../../../../services/prueba-service';
 import { VersionService } from '../../../../services/version-service';
-import { Prueba } from '../../../../models/prueba';
-import { Version } from '../../../../models/version';
+import { EjecucionService } from '../../../../services/ejecucion-service';
+
 import { Proyecto } from '../../../../models/proyecto';
-
-
-
+import { Version } from '../../../../models/version';
+import { Ejecucion } from '../../../../models/ejecucion';
 
 @Component({
   selector: 'app-proyecto-detalle',
@@ -20,106 +18,60 @@ import { Proyecto } from '../../../../models/proyecto';
   styleUrls: ['./proyecto-detail.css']
 })
 export class ProyectoDetail {
+
   proyectoId!: number;
   proyecto: Proyecto | null = null;
-  usuarioNombre: string | null = null;
 
-
-  pruebas: Prueba[] = [];    
-  versiones: Version[] = [];  
-
-  estadoProyecto = '';
+  versiones: Version[] = [];
+  ejecuciones: Ejecucion[] = [];
 
   mostrarTodasVersiones = false;
-  mostrarTodasPruebas = false;
+  mostrarTodasEjecuciones = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private _proyectoService: ProyectoService,
-    private _usuarioService: UsuarioService,
-    private _pruebaService: PruebaService,
-    private _versionService: VersionService
+    private _versionService: VersionService,
+    private _ejecucionService: EjecucionService
   ) {
     this.route.paramMap.subscribe(params => {
       this.proyectoId = Number(params.get('id'));
       this.getProyectoById(this.proyectoId);
-      this.getPruebasByProyecto(this.proyectoId);
       this.getVersionesByProyecto(this.proyectoId);
+      this.getEjecucionesByProyecto(this.proyectoId);
     });
   }
 
   getProyectoById(id: number) {
-    let idStr = id.toString();
-    this._proyectoService.getProyectoById(idStr).subscribe({
-      next: (response) => {
-        this.proyecto = response;
-        console.log("Proyecto recibido:", this.proyecto);
-        // if (this.proyecto?.usuario_id) {
-        //   this._usuarioService.getUsuarioById(this.proyecto.usuario_id).subscribe({
-        //     next: (usuario) => this.usuarioNombre = usuario?.name,
-        //     error: (err) => console.error('Error cargando usuario:', err)
-        //   });
-        // }
-              // 👇 recalcular solo si ya tenemos proyecto y pruebas
-      if (this.proyecto && this.pruebas.length > 0) {
-        this.estadoProyecto = this.calcularEstado(this.proyecto, this.pruebas);
-      }
-
+    this._proyectoService.getProyectoById(id.toString()).subscribe({
+      next: (proyecto) => {
+        this.proyecto = proyecto;
+        console.log("Proyecto recibido:", proyecto);
       },
       error: (err) => console.error('Error cargando proyecto:', err)
     });
   }
 
-  getPruebasByProyecto(proyectoId: number) {
-    this._pruebaService.getPruebas().subscribe({
-      next: (response) => {
-        // this.pruebas = response.data.filter(pr => pr.proyecto_id === proyectoId);
-        if (this.proyecto) {
-          this.estadoProyecto = this.calcularEstado(this.proyecto, this.pruebas);
-        }
-
-      },
-      error: (err) => console.error('Error cargando pruebas:', err)
-    });
-  }
-
   getVersionesByProyecto(proyectoId: number) {
     this._versionService.getVersiones().subscribe({
-      next: (response) => {
-        let lista = response.data;
-        // this.versiones = lista.filter(v => v.proyecto_id === proyectoId);
+      next: (lista) => {
+        this.versiones = lista.data.filter((v: Version) => v.project_id === proyectoId);
+        console.log("Versiones filtradas:", this.versiones);
       },
       error: (err) => console.error('Error cargando versiones:', err)
     });
   }
 
-  calcularEstado(proyecto: Proyecto, pruebas: Prueba[]): string {
-    const hoy = new Date();
-    const entrega = new Date();
-
-    console.log(hoy)
-    console.log(entrega)
-    console.log(entrega < hoy);
-
-    // 1. Si la fecha de entrega ya pasó → error
-    if (entrega < hoy) return 'error';
-
-    // 2. Calcular días restantes
-    const diff = entrega.getTime() - hoy.getTime();
-    const dias = diff / (1000 * 60 * 60 * 24);
-
-    // 3. Validar número mínimo de pruebas
-    if (!pruebas || pruebas.length < 3) {
-      return 'pendiente'; // o incluso 'error' si quieres ser más estricto
-    }
-
-    // 4. Estado según proximidad de entrega
-    if (dias <= 7) return 'pendiente';
-
-    return 'ok';
+  getEjecucionesByProyecto(proyectoId: number) {
+    this._ejecucionService.getEjecuciones().subscribe({
+      next: (lista) => {
+        this.ejecuciones = lista.data.filter((exec: Ejecucion) => exec.version.project_id === proyectoId);
+        console.log("Ejecuciones filtradas:", this.ejecuciones);
+      },
+      error: (err) => console.error('Error cargando test-executions:', err)
+    });
   }
-
 
   editarProyecto() {
     this.router.navigate(['/proyectos', this.proyectoId, 'editar']);

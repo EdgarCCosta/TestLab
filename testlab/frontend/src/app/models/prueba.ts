@@ -1,32 +1,32 @@
 export interface Prueba {
   id: number;
-  titulo: string;
-  objetivo: string;
-  condiciones: string;
-  pasos: string;
-  resultado_esperado: string;
-  rol: 'tester' | 'qa_lead';
-  proyecto_id: number;
-  created_at: string;   // ISO date string
-  updated_at: string;   // ISO date string
+  title: string;
+  objective: string;
+  preconditions: string;
+  steps: string[];               // 👈 array real del backend
+  expected_result: string;
+  user_profile: 'tester' | 'qa_lead';
+  version_id: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface CreatePruebaDto {
-  titulo: string;
-  objetivo: string;
-  condiciones: string;
-  pasos: string;
-  resultado_esperado: string;
-  rol: Prueba['rol'];
-  proyecto_id: number;
+  title: string;
+  objective: string;
+  preconditions: string;
+  steps: string[];
+  expected_result: string;
+  user_profile: Prueba['user_profile'];
+  version_id: number;
 }
 
 export interface UpdatePruebaDto {
-  titulo?: string;
-  objetivo?: string;
-  condiciones?: string;
-  pasos?: string;
-  resultado_esperado?: string;
-  rol?: Prueba['rol'];
-  proyecto_id?: number;
+  title?: string;
+  objective?: string;
+  preconditions?: string;
+  steps?: string[];
+  expected_result?: string;
+  user_profile?: Prueba['user_profile'];
+  version_id?: number;
 }
