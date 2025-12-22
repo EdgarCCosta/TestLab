@@ -6,7 +6,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-    // Permitir siempre la ruta de login
+  // Permitir siempre la ruta de login
   if (state.url.startsWith('/login')) {
     return true;
   }
@@ -15,6 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (auth.isLoggedIn()) {
     return true;
   }
+  
   router.navigate(['/login']);
   return false;
 };

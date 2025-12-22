@@ -3,47 +3,39 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario, CreateUsuarioDto, UpdateUsuarioDto } from '../models/usuario';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
-  private readonly baseUrl = 'http://127.0.0.1:8000/api/users';
+
+  private readonly apiUrl = environment.apiUrl;
+  private readonly endpoint = '/users'; // 👈 coincide con proxy.conf.json
 
   constructor(private http: HttpClient) {}
 
   /** Obtener todos los usuarios */
   getUsuarios(): Observable<Usuario[]> {
     return this.http
-      .get<{ success: boolean; message: string; data: Usuario[] }>(this.baseUrl)
+      .get<{ success: boolean; message: string; data: Usuario[] }>(this.apiUrl + this.endpoint)
       .pipe(map(response => response.data));
   }
 
-  /** Obtener un usuario por ID */
-  getUsuarioById(id: string): Observable<Usuario> {
-    return this.http
-      .get<{ success: boolean; message: string; data: Usuario }>(`${this.baseUrl}/${id}`)
-      .pipe(map(response => response.data));
+  getUsuarioById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
-  /** Crear un usuario */
-  createUsuario(dto: CreateUsuarioDto): Observable<Usuario> {
-    return this.http
-      .post<{ success: boolean; message: string; data: Usuario }>(this.baseUrl, dto)
-      .pipe(map(response => response.data));
+  createUsuario(dto: CreateUsuarioDto): Observable<any> {
+    console.log('DTO Usuario: ', dto);
+    return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  /** Actualizar un usuario */
-  updateUsuario(id: string, dto: UpdateUsuarioDto): Observable<Usuario> {
-    return this.http
-      .put<{ success: boolean; message: string; data: Usuario }>(`${this.baseUrl}/${id}`, dto)
-      .pipe(map(response => response.data));
+  updateUsuario(id: string, dto: UpdateUsuarioDto): Observable<any> {
+    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  /** Eliminar un usuario */
-  deleteUsuario(id: string): Observable<void> {
-    return this.http
-      .delete<{ success: boolean; message: string; data: null }>(`${this.baseUrl}/${id}`)
-      .pipe(map(() => void 0));
+  deleteUsuario(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

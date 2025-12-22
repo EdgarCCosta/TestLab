@@ -18,8 +18,8 @@ export class Listado {
   constructor() {
     effect(() => {
       // console.log('Cabeceras: ', this.cabeceras());
-      console.log('Datos: ', this.datos());
-      console.log('Atributos: ', this.atributos());
+      // console.log('Datos: ', this.datos());
+      // console.log('Atributos: ', this.atributos());
     });
   }
 

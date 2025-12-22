@@ -1,33 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Proyecto, CreateProyectoDto, UpdateProyectoDto } from '../models/proyecto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProyectoService {
-  private readonly baseUrl = '/api/proyecto'; // 👈 coincide con proxy.conf.json
+
+  private readonly apiUrl = environment.apiUrl;
+  private readonly endpoint = '/projects';
 
   constructor(private http: HttpClient) {}
 
+  /** Obtener todos los proyectos */
   getProyectos(): Observable<Proyecto[]> {
-    return this.http.get<Proyecto[]>(this.baseUrl);
+    return this.http
+      .get<{ success: boolean; message: string; data: Proyecto[] }>(
+        this.apiUrl + this.endpoint
+      )
+      .pipe(map(response => response.data));
   }
 
+  /** Obtener un proyecto por ID */
   getProyectoById(id: string): Observable<Proyecto> {
-    return this.http.get<Proyecto>(`${this.baseUrl}/${id}`);
+    return this.http
+      .get<{ success: boolean; message: string; data: Proyecto }>(
+        `${this.apiUrl + this.endpoint}/${id}`
+      )
+      .pipe(map(response => response.data));
   }
 
-  createProyecto(dto: CreateProyectoDto): Observable<Proyecto> {
-    return this.http.post<Proyecto>(this.baseUrl, dto);
+  /** Crear proyecto */
+  createProyecto(dto: CreateProyectoDto): Observable<any> {
+    return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updateProyecto(id: string, dto: UpdateProyectoDto): Observable<Proyecto> {
-    return this.http.put<Proyecto>(`${this.baseUrl}/${id}`, dto);
+  /** Actualizar proyecto */
+  updateProyecto(id: string, dto: UpdateProyectoDto): Observable<any> {
+    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deleteProyecto(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  /** Eliminar proyecto */
+  deleteProyecto(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

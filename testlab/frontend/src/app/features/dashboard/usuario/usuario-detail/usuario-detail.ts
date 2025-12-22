@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, input, model, output, effect } from '@angular/core';
 import { UpdateUsuarioDto } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -12,10 +12,11 @@ import { Modal } from 'bootstrap';
   templateUrl: './usuario-detail.html',
   styleUrls: ['./usuario-detail.css']
 })
-export class UsuarioDetail implements OnInit, OnChanges {
+export class UsuarioDetail {
 
   usuarioId = input<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
+  listado = model<any[]>([]);
 
   usuario!: UpdateUsuarioDto;
   form!: FormGroup;
@@ -26,54 +27,59 @@ export class UsuarioDetail implements OnInit, OnChanges {
     private _router: Router,
     private fb: FormBuilder
   ) {
+
     this.form = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rol: ['', Validators.required]
     });
-  }
 
-  ngOnInit(): void {
-    console.log("modo: " + this.modo());
-    if (this.modo() === 'detalle' && this.usuarioId()) {
-      this.getUsuarioById(this.usuarioId()!);
-    } else if (this.modo() === 'nuevo') {
-    // Caso nuevo → resetear el formulario en blanco
-    this.form.reset({
-      nombre: '',
-      email: '',
-      password: '',
-      rol: ''
+    effect(() => {
+      if (this.usuarioId() != null) {
+        console.log('Cambia el usuario');
+        this.getUsuarioById(this.usuarioId()!);
+      }
+
+      if (this.listado().length) {
+        console.log('Nuevo usuario añadido al listado:', this.listado);
+      }
+
+      if (this.modo() === 'nuevo') {
+        this.form.reset({
+          name: '',
+          email: '',
+          password: '',
+          rol: ''
+        });
+      }
     });
   }
 
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['usuarioId'] && !changes['usuarioId'].firstChange && this.modo() === 'detalle') {
-      this.getUsuarioById(this.usuarioId()!);
-    }
-    if (changes['modo'] && this.modo() === 'nuevo') {
-    this.form.reset({
-      nombre: '',
-      email: '',
-      password: '',
-      rol: ''
-    });
-  }
-
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['usuarioId'] && !changes['usuarioId'].firstChange && this.modo() === 'detalle') {
+  //     this.getUsuarioById(this.usuarioId()!);
+  //   }
+  //   if (changes['modo'] && this.modo() === 'nuevo') {
+  //   this.form.reset({
+  //     name: '',
+  //     email: '',
+  //     password: '',
+  //     rol: ''
+  //   });
+  // }
 
   /*** Recuperación de Usuario ***/
   getUsuarioById(id: string): void {
+    console.log('En propiedad getUsuarioById');
     this._usuarioService.getUsuarioById(id).subscribe({
-      next: (usuario) => {
-        this.usuario = usuario;
+      next: (datos) => {
+        console.log(datos);
+        this.usuario = datos.data;
         this.form.setValue({
-          nombre: this.usuario?.name,
+          name: this.usuario?.name,
           email: this.usuario?.email,
-          password: "",
+          password: '',
           rol: this.usuario?.rol
         });
         this.form.updateValueAndValidity();
@@ -116,7 +122,12 @@ export class UsuarioDetail implements OnInit, OnChanges {
         });
       } else if (this.modo() === 'nuevo') {
         this._usuarioService.createUsuario(this.form.value).subscribe({
-          next: () => console.log('Usuario creado'),
+          next: (datos) => {
+            console.log('Usuario creado');
+            // console.log('Listado antes de añadir:', this.listado());
+            this.listado.update((listado) => ([...listado, datos.data]));
+            // console.log('Listado tras añadir:', this.listado());
+          },
           error: (err) => console.error('Error creando usuario:', err)
         });
       }

@@ -15,14 +15,30 @@
              <td>
             <!-- En caso de que la columna a mostrar sea Estado (Proyectos) comportamiento excepcional -->
             @if (a === 'Estado') {
-              @if (item[a]) {
-                <span class="ok"><i class="bi bi-circle-fill text-success"></i> OK</span>
-              } @else {
-                <span class="ko"><i class="bi bi-circle-fill text-danger"></i> Fallido</span>
+
+              @if (item.status === 'active') {
+                <span class="text-success fw-semibold">
+                  <i class="bi bi-circle-fill text-success"></i> Activo
+                </span>
               }
+
+              @else if (item.status === 'inactive') {
+                <span class="text-danger fw-semibold">
+                  <i class="bi bi-circle-fill text-danger"></i> Inactivo
+                </span>
+              }
+
+              @else if (item.status === 'archived') {
+                <span class="text-warning fw-semibold">
+                  <i class="bi bi-circle-fill text-warning"></i> Archivado
+                </span>
+              }
+
             } @else {
               {{ item[a] }}
-            }</td>
+            }
+          
+          </td>
 
           }
         </tr>

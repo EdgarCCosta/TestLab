@@ -52,15 +52,15 @@ export class ProyectoDetail {
   getProyectoById(id: number) {
     let idStr = id.toString();
     this._proyectoService.getProyectoById(idStr).subscribe({
-      next: (p) => {
-        this.proyecto = p;
- console.log("Proyecto recibido:", p);
-        if (this.proyecto?.usuario_id) {
-          this._usuarioService.getUsuarioById(this.proyecto.usuario_id).subscribe({
-            next: (usuario) => this.usuarioNombre = usuario?.name,
-            error: (err) => console.error('Error cargando usuario:', err)
-          });
-        }
+      next: (response) => {
+        this.proyecto = response;
+        console.log("Proyecto recibido:", this.proyecto);
+        // if (this.proyecto?.usuario_id) {
+        //   this._usuarioService.getUsuarioById(this.proyecto.usuario_id).subscribe({
+        //     next: (usuario) => this.usuarioNombre = usuario?.name,
+        //     error: (err) => console.error('Error cargando usuario:', err)
+        //   });
+        // }
               // 👇 recalcular solo si ya tenemos proyecto y pruebas
       if (this.proyecto && this.pruebas.length > 0) {
         this.estadoProyecto = this.calcularEstado(this.proyecto, this.pruebas);
@@ -73,8 +73,8 @@ export class ProyectoDetail {
 
   getPruebasByProyecto(proyectoId: number) {
     this._pruebaService.getPruebas().subscribe({
-      next: (lista) => {
-        this.pruebas = lista.filter(pr => pr.proyecto_id === proyectoId);
+      next: (response) => {
+        // this.pruebas = response.data.filter(pr => pr.proyecto_id === proyectoId);
         if (this.proyecto) {
           this.estadoProyecto = this.calcularEstado(this.proyecto, this.pruebas);
         }
@@ -86,8 +86,9 @@ export class ProyectoDetail {
 
   getVersionesByProyecto(proyectoId: number) {
     this._versionService.getVersiones().subscribe({
-      next: (lista) => {
-        this.versiones = lista.filter(v => v.proyecto_id === proyectoId);
+      next: (response) => {
+        let lista = response.data;
+        // this.versiones = lista.filter(v => v.proyecto_id === proyectoId);
       },
       error: (err) => console.error('Error cargando versiones:', err)
     });
@@ -95,7 +96,7 @@ export class ProyectoDetail {
 
   calcularEstado(proyecto: Proyecto, pruebas: Prueba[]): string {
     const hoy = new Date();
-    const entrega = new Date(proyecto.fecha_entrega);
+    const entrega = new Date();
 
     console.log(hoy)
     console.log(entrega)

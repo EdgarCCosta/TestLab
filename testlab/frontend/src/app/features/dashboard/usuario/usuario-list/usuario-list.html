@@ -17,10 +17,10 @@
   [atributos]="['name', 'email', 'rol']">
 </app-listado>
 
-<app-modal>
+<app-modal [title]="(nuevoUser && usuarioSelId === null) ? 'Nuevo usuario' : 'Detalle usuario'">
   @if (nuevoUser && usuarioSelId === null) {
-    <app-usuario-detail [usuarioId]="null" modo="nuevo"></app-usuario-detail>
+    <app-usuario-detail [(listado)]="this.usuarios" (listadoChange)="listadoChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
   } @else if (usuarioSelId) {
-    <app-usuario-detail [usuarioId]="usuarioSelId" modo="detalle"></app-usuario-detail>
+    <app-usuario-detail [usuarioId]="usuarioSelId" [modo]="'detalle'"></app-usuario-detail>
   }
 </app-modal>

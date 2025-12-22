@@ -3,9 +3,9 @@
 <div class="card border rounded p-4 shadow-sm">
   <div class="card-body">
     <h5 class="card-title">
-      <i class="bi bi-kanban"></i> {{ proyecto?.nombre }}
+      <i class="bi bi-kanban"></i> {{ proyecto?.name }}
     </h5>
-    <p><strong>Descripción:</strong> {{ proyecto?.descripcion }}</p>
+    <p><strong>Descripción:</strong> {{ proyecto?.description }}</p>
 
     <p>
       <strong>Estado:</strong>
@@ -24,7 +24,7 @@
     <p><strong>Usuario:</strong> {{ usuarioNombre }}</p>
     <p><strong>Creado:</strong> {{ proyecto?.created_at | date:'short' }}</p>
     <p><strong>Actualizado:</strong> {{ proyecto?.updated_at | date:'short' }}</p>
-    <p><strong>Fecha entrega:</strong> {{ proyecto?.fecha_entrega | date:'longDate' }}</p>
+    <!-- <p><strong>Fecha entrega:</strong> {{ proyecto?.fecha_entrega | date:'longDate' }}</p> -->
   </div>
 
   <!-- Acciones -->

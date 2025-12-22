@@ -27,7 +27,12 @@ export class Login {
       const { email, password } = this.form.value;
       console.log(email, password);
       this.auth.login(email, password).subscribe({
-        next: () => this.router.navigate(['/']),
+        next: (response) => {
+          console.log(response);
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('usuario', JSON.stringify(response.data.user.email));
+          this.router.navigate(['/'])
+        },
         error: () => this.error = 'Credenciales inválidas'
       });
     }
