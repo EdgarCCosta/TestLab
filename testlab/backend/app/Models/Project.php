@@ -19,10 +19,6 @@ class Project extends Model
         'status'
     ];
 
-    protected $casts = [
-        // Si quieres convertir el status a un valor específico
-    ];
-
     // Relación con versions (un proyecto tiene muchas versiones)
     public function versions()
     {
@@ -32,7 +28,7 @@ class Project extends Model
     // Scope para proyectos activos
     public function scopeActive($query)
     {
-        return $query->where('active', 'inactive', 'archived');
+        return $query->where('status', 'active');
     }
 
     // Scope para proyectos archivados

@@ -13,7 +13,33 @@ class TestExecutionController extends Controller
     public function index(Request $request)
     {
         try {
-            $testExecutions = TestExecution::all();
+            $query = TestExecution::with(['testCase', 'version', 'user']);
+
+            if ($request->has('test_case_id')) {
+                $query->where('test_case_id', $request->test_case_id);
+            }
+
+            if ($request->has('version_id')) {
+                $query->where('version_id', $request->version_id);
+            }
+
+            if ($request->has('result')) {
+                $query->where('result', $request->result);
+            }
+
+            if ($request->has('user_id')) {
+                $query->where('user_id', $request->user_id);
+            }
+
+            if ($request->has('date_from')) {
+                $query->whereDate('executed_at', '>=', $request->date_from);
+            }
+
+            if ($request->has('date_to')) {
+                $query->whereDate('executed_at', '<=', $request->date_to);
+            }
+
+            $testExecutions = $query->orderBy('executed_at', 'desc')->get();
 
             return ApiResponse::success($testExecutions);
         } catch (\Exception $e) {
@@ -94,6 +120,56 @@ class TestExecutionController extends Controller
             return ApiResponse::deleted('Test execution deleted successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to delete test execution', 500, $e->getMessage());
+        }
+    }
+
+    /**
+     * Obtener ejecuciones de un test case específico
+     */
+    public function getByTestCase($testCaseId)
+    {
+        try {
+            $testCase = TestCase::findOrFail($testCaseId);
+
+            $executions = TestExecution::with(['user', 'version'])
+                ->where('test_case_id', $testCaseId)
+                ->orderBy('executed_at', 'desc')
+                ->get();
+
+            return ApiResponse::success([
+                'test_case' => $testCase,
+                'executions' => $executions,
+                'count' => $executions->count()
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return ApiResponse::notFound('Test case not found');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to retrieve test executions', 500, $e->getMessage());
+        }
+    }
+
+    /**
+     * Obtener ejecuciones de una versión específica
+     */
+    public function getByVersion($versionId)
+    {
+        try {
+            $version = Version::findOrFail($versionId);
+
+            $executions = TestExecution::with(['testCase', 'user'])
+                ->where('version_id', $versionId)
+                ->orderBy('executed_at', 'desc')
+                ->get();
+
+            return ApiResponse::success([
+                'version' => $version,
+                'executions' => $executions,
+                'count' => $executions->count()
+            ]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return ApiResponse::notFound('Version not found');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to retrieve test executions', 500, $e->getMessage());
         }
     }
 }

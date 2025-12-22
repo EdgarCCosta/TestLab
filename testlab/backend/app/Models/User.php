@@ -8,24 +8,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-<<<<<<< Updated upstream
-
-=======
 use Laravel\Sanctum\HasApiTokens;
-use App\Traits\HasEntityHash;
->>>>>>> Stashed changes
+
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-<<<<<<< Updated upstream
-    use HasFactory;
-=======
-    use HasFactory, HasApiTokens, HasEntityHash;
+    use HasFactory, HasApiTokens;
 
->>>>>>> Stashed changes
 
-  
     protected $fillable = [
         'name',
         'email',
@@ -49,18 +40,11 @@ class User extends Authenticatable
         self::ROLE_TESTER
     ];
 
-    /**
-     * Hash automaticamamente la password al asignar la     
-    */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
 
     // Relaciones
-    public function tests(): HasMany
+    public function testExecution(): HasMany
     {
-        return $this->hasMany(Test::class);
+        return $this->hasMany(TestExecution::class, 'user_id');
     }
 
     // Scopes

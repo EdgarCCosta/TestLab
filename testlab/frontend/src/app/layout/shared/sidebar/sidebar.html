@@ -1,0 +1,69 @@
+<!-- SIDEBAR -->
+
+<div class="sidebar flex-column position-fixed h-100 text-white">
+    <a [routerLink]="['/']" class="d-flex align-items-center mb-5 mx-auto text-white text-decoration-none">
+      <img src="img/testlab-logo.png" class="d-none d-xxl-block" width="250" height="52" alt="TestLab logo">
+      <img src="img/testlab-logo-min.png" class="d-block d-xxl-none" width="44" height="52" alt="TestLab logo">
+    </a>
+
+    <ul class="nav nav-pills flex-column mt-2 mb-auto">
+      <li class="nav-item my-2">
+        <a [routerLink]="['/']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.DASHBOARD' | translate }}">
+          <i class="bi bi-speedometer2"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
+        </a>
+      </li>
+      <li class="nav-item my-2">
+        <a [routerLink]="['/usuario']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.USERS' | translate }}">
+          <i class="bi bi-person-circle"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
+        </a>
+      </li>
+      <li class="nav-item my-2">
+        <a [routerLink]="['/proyecto']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.PROJECTS' | translate }}">
+          <i class="bi bi-grid"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.PROJECTS' | translate }}</span>
+        </a>
+
+      <li class="nav-item my-2">
+        <a [routerLink]="['/prueba']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.TESTS' | translate }}">
+          <i class="bi bi-flask"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.TESTS' | translate }}</span>
+        </a>
+      </li>
+      <li class="nav-item my-2">
+        <a [routerLink]="['/estadistica']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.STATISTICS' | translate }}">
+          <i class="bi bi-graph-up"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.STATISTICS' | translate }}</span>
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div>
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle me-2 fs-5 link-dark"></i>
+        @if (usuarioNombre) { <!-- Comprueba que está almacenado lo ha cargado de LocalStorage -->
+          <strong style="color: black;">
+            Bienvenido/a {{ usuarioNombre }}
+          </strong>
+        }
+
+      </a>
+      <a href="#" (click)="logout()">Sign out</a>
+    </div>
+  </div>

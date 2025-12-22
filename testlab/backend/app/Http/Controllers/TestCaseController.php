@@ -35,8 +35,8 @@ class TestCaseController extends Controller
             'title' => 'required|string|max:255',
             'objective' => 'required|string',
             'preconditions' => 'nullable|string',
-            'steps' => 'required|array',
-            'steps.*' => 'string|max:500',
+            'steps' => 'required|array|min:1',
+            'steps.*' => 'required|string|max:500',
             'expected_result' => 'required|string',
             'user_profile' => 'required|string|max:255',
             'version_id' => 'required|exists:versions,id'
@@ -61,7 +61,7 @@ class TestCaseController extends Controller
                 'title' => 'sometimes|string|max:255',
                 'objective' => 'sometimes|string',
                 'preconditions' => 'nullable|string',
-                'steps' => 'sometimes|array',
+                'steps' => 'sometimes|array|min:1',
                 'steps.*' => 'string|max:500',
                 'expected_result' => 'sometimes|string',
                 'user_profile' => 'sometimes|string|max:255',
@@ -93,18 +93,46 @@ class TestCaseController extends Controller
         }
     }
 
-    // En TestCaseController.php
+
     public function getByVersion($version_id)
     {
         try {
 
             $version = Version::findOrFail($version_id);
 
-            $testCases = TestCase::where('version_id', $version_id)->get();
+            $testCases = TestCase::with('version')->where('version_id', $version_id)->get();
 
             return ApiResponse::success($testCases);
         } catch (\Exception $e) {
             return ApiResponse::notFound('Test cases for this version not found');
+        }
+    }
+
+    /**
+     * Copia un test case a otra versión
+     */
+    public function copyToVersion(Request $request, string $id)
+    {
+        try {
+            $testCase = TestCase::findOrFail($id);
+
+            $validated = $request->validate([
+                'version_id' => 'required|exists:versions,id'
+            ]);
+
+            // Verificar que versión destino existe
+            $targetVersion = Version::findOrFail($validated['version_id']);
+
+            // Crear copia
+            $newTestCase = $testCase->replicate();
+            $newTestCase->version_id = $validated['version_id'];
+            $newTestCase->save();
+
+            return ApiResponse::created($newTestCase, 'Test case copied successfully to version ' . $targetVersion->version_number);
+        } catch (\Exception $e) {
+            return ApiResponse::notFound('Test case or version not found');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to copy test case', 500, $e->getMessage());
         }
     }
 }

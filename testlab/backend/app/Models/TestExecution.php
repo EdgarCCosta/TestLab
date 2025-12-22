@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TestExecution extends Model
 {
@@ -22,7 +23,7 @@ class TestExecution extends Model
         'executed_at'
     ];
 
-      // --- Casting de tipos ---
+    // --- Casting de tipos ---
     protected $casts = [
         'test_data' => 'array',
         'executed_at' => 'datetime'
@@ -33,7 +34,7 @@ class TestExecution extends Model
     /**
      * Una ejecución pertenece a un test case
      */
-    public function testCase(): BelongsTo 
+    public function testCase(): BelongsTo
     {
         return $this->belongsTo(TestCase::class);
     }
@@ -91,14 +92,6 @@ class TestExecution extends Model
      // --- Scopes específicos ---
 
     /**
-     * Filtrar ejecuciones que pasaron
-     */
-    public function scopePassed($query)
-    {
-        return $query->where('result', 'passed');
-    }
-
-     /**
      * Filtrar ejecuciones que fallaron
      */
     public function scopeFailed($query)

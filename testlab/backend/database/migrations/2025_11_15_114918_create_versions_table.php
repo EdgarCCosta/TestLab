@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('version_number', 50);
 
             // Fecha de lanzamiento
-            $table->date('release_date')->nullable(); 
+            $table->date('release_date');
 
             // Descripción de la versión
-            $table->text('description')->nullable();
+            $table->text('description');
 
             // Clave foránea hacia projects
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade')->onUpdate('cascade');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->index('release_date');
             $table->index('project_id');
             $table->index(['project_id', 'release_date']);
-            
+
             // Unique constraint: no puede haber dos versiones con el mismo número en el mismo proyecto
             $table->unique(['project_id', 'version_number']);
         });

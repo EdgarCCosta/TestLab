@@ -13,7 +13,7 @@ class TestCase extends Model
     use HasFactory;
 
     protected $table = 'test_cases';
-    
+
     protected $fillable = [
         'title',
         'objective',
@@ -26,7 +26,7 @@ class TestCase extends Model
 
     protected $casts = [
         'steps' => 'array',
-    ] ;  
+    ];  
 
     // --- Relaciones ---
 
@@ -46,18 +46,6 @@ class TestCase extends Model
         return $this->hasMany(TestExecution::class, 'test_case_id');
     }
 
-    /**
-     * Relación muchos a muchos con Version
-     */
-    public function versions(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            Version::class,        
-            'version_test_cases',  
-            'test_case_id',        
-            'version_id'           
-        )->withTimestamps();
-    }
 
     // --- Scopes útiles ---
 

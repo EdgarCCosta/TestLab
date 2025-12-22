@@ -12,7 +12,7 @@ class TestExecutionDTO
     public int $user_id;
     public string $result;
     public ?string $comment;
-    public array $test_data;
+    public ?array $test_data;
     public ?string $error_status;
     public ?string $correction_notes;
     public ?string $observations;
@@ -30,7 +30,7 @@ class TestExecutionDTO
         int $user_id,
         string $result,
         ?string $comment,
-        array $test_data,
+        ?array $test_data,
         ?string $error_status,
         ?string $correction_notes,
         ?string $observations,
