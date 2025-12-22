@@ -1,0 +1,160 @@
+{
+  "/api/usuario": {
+    "target": "http://localhost/proyecto/testlab/testlab/backend/public/api/users",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  "/api/prueba": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  "/api/ejecucion": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  "/api/proyecto": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  "/api/version": {
+    "target": "http://localhost:9561",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" },
+    "logLevel": "debug"
+  },
+  // "/login": {
+  //   "target": "http://localhost/proyecto/testlab/testlab/backend/public/api",
+  //   "secure": false,
+  //   "changeOrigin": true,
+  //   "logLevel": "debug"
+  // },
+  
+  "/api/login": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/users2": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/logout": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/projects": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/projects/*": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/versions": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/versions/*": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/test-cases": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/test-cases/*": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/test-executions": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/test-executions/*": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/users": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/users/*": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/api/dashboard/main": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/dashboard/projects-total": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/dashboard/active-test-cases": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/dashboard/tests-executed": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/dashboard/success-rates": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+  
+}

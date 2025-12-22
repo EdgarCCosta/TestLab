@@ -1,0 +1,48 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        @for (c of this.cabeceras(); track c) {
+          <th scope="col">{{ c }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      @for (item of this.datos(); track item) {
+        <tr (click)="this.seleccionarItem(item.id)" data-bs-toggle="modal" data-bs-target="#detalleModal">
+          @for (a of this.atributos(); track a) {
+            <!-- <td>{{ item[a] }}</td> -->
+             <td>
+            <!-- En caso de que la columna a mostrar sea Estado (Proyectos) comportamiento excepcional -->
+            @if (a === 'Estado') {
+
+              @if (item.status === 'active') {
+                <span class="text-success fw-semibold">
+                  <i class="bi bi-circle-fill text-success"></i> Activo
+                </span>
+              }
+
+              @else if (item.status === 'inactive') {
+                <span class="text-danger fw-semibold">
+                  <i class="bi bi-circle-fill text-danger"></i> Inactivo
+                </span>
+              }
+
+              @else if (item.status === 'archived') {
+                <span class="text-warning fw-semibold">
+                  <i class="bi bi-circle-fill text-warning"></i> Archivado
+                </span>
+              }
+
+            } @else {
+              {{ item[a] }}
+            }
+          
+          </td>
+
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
