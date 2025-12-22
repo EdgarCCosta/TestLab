@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UsuarioService {
-  private readonly baseUrl = '/api/users';
+  private readonly baseUrl = 'http://127.0.0.1:8000/api/users';
 
   constructor(private http: HttpClient) {}
 

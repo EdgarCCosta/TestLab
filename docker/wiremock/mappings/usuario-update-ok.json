@@ -1,4 +1,0 @@
-{
-  "request": {"method": "PUT", "urlPathPattern": "/usuario/2", "bodyPatterns": [{"contains": "qa_lead"}]},
-  "response": {"status": 200, "headers": {"Content-Type": "application/json"}, "jsonBody": {"id":2,"nombre":"Bruno Pérez","email":"bruno.perez@example.com","rol":"qa_lead","updated_at":"2025-04-02T09:10:00Z"}}
-}

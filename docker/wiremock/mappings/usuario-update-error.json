@@ -1,4 +1,0 @@
-{
-  "request": {"method": "PUT", "urlPathPattern": "/usuario/2", "bodyPatterns": [{"contains": "guestx"}]},
-  "response": {"status": 422, "headers": {"Content-Type": "application/json"}, "jsonBody": {"error_code":"USUARIO_VALIDATION","message":"Rol inválido: 'guestx'"}}
-}

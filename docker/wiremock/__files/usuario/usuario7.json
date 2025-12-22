@@ -1,7 +1,0 @@
-{
-  "id": 7,
-  "nombre": "Gloria Vidal",
-  "email": "gloria.vidal@example.com",
-  "password": "$2y$10$gloriavidalhash",
-  "rol": "product_owner"
-}

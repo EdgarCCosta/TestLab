@@ -14,7 +14,7 @@ export class AuthService {
       tap(response => {
         console.log(response);
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('usuario', JSON.stringify(response.data.user.name));
+        localStorage.setItem('usuario', JSON.stringify(response.data.user.email));
       })
     );
   }
