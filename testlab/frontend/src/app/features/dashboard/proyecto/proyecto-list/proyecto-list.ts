@@ -16,15 +16,23 @@ import { ProyectoNew } from '../proyecto-new/proyecto-new';
 export class ProyectoList implements OnInit {
 
   public proyectos: any[] = [];
-  public proyectoSelId: string | null = null;
+  proyectoSelId = signal<string | null>(null);
   public proyectosFiltrados: Proyecto[] = [];
   public nuevoProject: boolean = false;
   public _filtro: string = '';
+  abrirModal = false;
+
 
   constructor(
     private _proyectoService: ProyectoService,
     private router: Router
-  ) {}
+  ) {    // Cada vez que cambia proyectoSelId → navegar al detalle
+    effect(() => {
+      const id = this.proyectoSelId();
+      if (id) {
+        this.detalleProyecto(id);
+      }
+    });}
 
   ngOnInit(): void {
     this._proyectoService.getProyectos().subscribe({
@@ -39,6 +47,7 @@ export class ProyectoList implements OnInit {
           };
         });
 
+        this.proyectosFiltrados = this.proyectos;
         console.log("Tenemos los proyectos: ", this.proyectos);
       }
     });
@@ -50,8 +59,8 @@ export class ProyectoList implements OnInit {
     for (const u of this.proyectos) {
       if (
         u.name.toLowerCase().includes(valor.toLowerCase()) ||
-        u.email.toLowerCase().includes(valor.toLowerCase()) ||
-        u.rol.toLowerCase().includes(valor.toLowerCase())
+        u.description.toLowerCase().includes(valor.toLowerCase()) ||
+        u.status.toLowerCase().includes(valor.toLowerCase())
       ) {
         this.proyectosFiltrados.push(u);
       }
@@ -59,11 +68,15 @@ export class ProyectoList implements OnInit {
   }
 
   abrirNuevoProyecto() {
-    this.proyectoSelId = null;   // no hay id
+    this.abrirModal = true;
+    this.proyectoSelId.set(null);
     this.nuevoProject = true;      // activar modo creación
   }
 
   detalleProyecto(id: string) {
+    this.abrirModal = false;
+
+    this.nuevoProject = false;
     this.router.navigate(['/proyecto', id]);
   }
 

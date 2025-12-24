@@ -11,10 +11,13 @@
 </button></div>
 
 
+
 <app-listado [(itemSelId)]="this.proyectoSelId"
   [cabeceras]="['Proyecto', 'Descripción', 'Estado']" 
   [datos]="this.proyectosFiltrados"
-  [atributos]="['name', 'description', 'status']">
+  [atributos]="['name', 'description', 'status']"
+  [abrirModal]="false">
+  
 </app-listado>
 
 <app-modal [title]="'Nuevo proyecto'">

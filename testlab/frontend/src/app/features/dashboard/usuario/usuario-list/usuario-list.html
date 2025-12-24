@@ -14,7 +14,8 @@
 <app-listado [(itemSelId)]="this.usuarioSelId"
   [cabeceras]="['Nombre', 'Email', 'Rol']" 
   [datos]="this.usuariosFiltrados"
-  [atributos]="['name', 'email', 'rol']">
+  [atributos]="['name', 'email', 'rol']"
+  [abrirModal]="true">
 </app-listado>
 
 <app-modal [title]="(nuevoUser && usuarioSelId === null) ? 'Nuevo usuario' : 'Detalle usuario'">

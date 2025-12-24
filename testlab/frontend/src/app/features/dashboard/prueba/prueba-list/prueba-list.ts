@@ -6,7 +6,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-prueba-list',
   imports: [CommonModule],
-  templateUrl: './prueba-list.html',
+  // templateUrl: './prueba-list.html',
+  template: `
+    <h1>Pruebas</h1>
+  `,
   styleUrls: ['./prueba-list.css'],
 })
 export class PruebaList implements OnInit {

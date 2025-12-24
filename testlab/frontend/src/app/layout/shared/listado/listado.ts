@@ -14,6 +14,7 @@ export class Listado {
   datos = input<any[]>();
   atributos = input<string[]>();
   itemSelId = model<string | null>();
+abrirModal = model<boolean>(false);
 
   constructor() {
     effect(() => {
