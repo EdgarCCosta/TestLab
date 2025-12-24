@@ -6,6 +6,8 @@ export interface Version {
   project_id: number;
   created_at: string;
   updated_at: string;
+
+  project_name?: string;
 }
 
 export interface CreateVersionDto {

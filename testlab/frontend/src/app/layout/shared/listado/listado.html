@@ -9,10 +9,10 @@
     </thead>
     <tbody class="table-group-divider">
       @for (item of this.datos(); track item) {
-<tr (click)="this.seleccionarItem(item.id)"
-    [attr.data-bs-toggle]="this.abrirModal() ? 'modal' : null"
-    [attr.data-bs-target]="this.abrirModal() ? '#detalleModal' : null">
-      @for (a of this.atributos(); track a  ) {
+      <tr (click)="this.seleccionarItem(item.id)"
+          [attr.data-bs-toggle]="this.abrirModal() ? 'modal' : null"
+          [attr.data-bs-target]="this.abrirModal() ? '#detalleModal' : null">
+        @for (a of this.atributos(); track a  ) {
             <!-- <td>{{ item[a] }}</td> -->
              <td>
             <!-- En caso de que la columna a mostrar sea Estado (Proyectos) comportamiento excepcional -->
