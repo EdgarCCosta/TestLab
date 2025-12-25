@@ -5,8 +5,8 @@
     <input id="name" type="text" name="name" class="form-control" formControlName="name" required minlength="2">
     <div>
       @if (
-            this.form.get('nombre')?.invalid && 
-            (this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched)
+            this.form.get('name')?.invalid && 
+            (this.form.get('name')?.dirty || this.form.get('name')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">
@@ -34,7 +34,7 @@
 
   <div class="mb-4" [class.was-validated]="this.form.get('status')?.dirty || this.form.get('status')?.touched" required minlength="1">
     <label for="rol" class="form-label">Estado</label>
-    <select id="status" name="status" class="form-control" formControlName="status">
+    <select id="status" name="status" class="form-control" formControlName="status" required>
       <option value="active">Activo</option>
       <option value="inactive">Inactivo</option>
       <option value="archived">Archivado</option>
