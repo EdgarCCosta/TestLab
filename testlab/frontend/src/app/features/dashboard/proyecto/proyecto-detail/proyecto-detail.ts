@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 
 import { ProyectoService } from '../../../../services/proyecto-service';
 import { VersionService } from '../../../../services/version-service';
@@ -33,7 +33,8 @@ export class ProyectoDetail {
     private router: Router,
     private _proyectoService: ProyectoService,
     private _versionService: VersionService,
-    private _ejecucionService: EjecucionService
+    private _ejecucionService: EjecucionService,
+    private _location: Location
   ) {
     this.route.paramMap.subscribe(params => {
       this.proyectoId = Number(params.get('id'));
@@ -82,5 +83,9 @@ export class ProyectoDetail {
       next: () => this.router.navigate(['/proyectos']),
       error: (err) => console.error('Error eliminando proyecto:', err)
     });
+  }
+
+  atras() {
+    this._location.back();
   }
 }

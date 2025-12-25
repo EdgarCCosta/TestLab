@@ -87,16 +87,11 @@ export class UsuarioDetail {
     this._usuarioService.deleteUsuario(id).subscribe({
       next: data => {
         console.log("OK: ", data);
-        this.volver();
       },
       error: error => {
         console.log("Error: ", error);
       }
     });
-  }
-
-  volver(): void {
-    this._router.navigate(['usuario']);
   }
 
   onSubmit() {

@@ -1,0 +1,110 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <!-- TÍTULO -->
+  
+  <div class="mb-4" [class.was-validated]="this.form.get('title')?.dirty || this.form.get('title')?.touched">
+    <label for="title" class="form-label">Título</label>
+    <input id="title" type="text" name="title" class="form-control" formControlName="title" required minlength="2">
+    <div>
+      @if (
+            this.form.get('title')?.invalid && 
+            (this.form.get('title')?.dirty || this.form.get('title')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un título válido (mínimo 2 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- OBJETIVO -->
+
+  <div class="mb-4" [class.was-validated]="this.form.get('objective')?.dirty || this.form.get('objective')?.touched">
+    <label for="objective" class="form-label">Objetivo</label>
+    <input id="objective" type="text" name="objective" class="form-control" formControlName="objective" required minlength="5">
+    <div>
+      @if (
+            this.form.get('objective')?.invalid && 
+            (this.form.get('objective')?.dirty || this.form.get('objective')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un objetivo válido (mínimo 5 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- CONDICIONES PREVIAS -->
+
+  <div class="mb-4" [class.was-validated]="this.form.get('preconditions')?.dirty || this.form.get('preconditions')?.touched">
+    <label for="preconditions" class="form-label">Condiciones previas</label>
+    <textarea id="preconditions" name="preconditions" class="form-control" formControlName="preconditions" required minlength="5">
+    </textarea>
+    <div>
+      @if (
+            this.form.get('preconditions')?.invalid && 
+            (this.form.get('preconditions')?.dirty || this.form.get('preconditions')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar condiciones previas válidas (mínimo 5 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- PASOS -->
+
+  <div class="mb-4" [class.was-validated]="this.form.get('steps')?.dirty || this.form.get('steps')?.touched">
+    <label for="steps" class="form-label">Pasos</label>
+    <textarea id="steps" name="steps" class="form-control" formControlName="steps" required minlength="10">
+    </textarea>
+    <div>
+      @if (
+            this.form.get('steps')?.invalid && 
+            (this.form.get('steps')?.dirty || this.form.get('steps')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar unos pasos válidos (mínimo 10 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- RESULTADO ESPERADO -->
+
+  <div class="mb-4" [class.was-validated]="this.form.get('expected_result')?.dirty || this.form.get('expected_result')?.touched">
+    <label for="expected_result" class="form-label">Resultado esperado</label>
+    <textarea id="expected_result" name="expected_result" class="form-control" formControlName="expected_result" required minlength="10">
+    </textarea>
+    <div>
+      @if (
+            this.form.get('expected_result')?.invalid && 
+            (this.form.get('expected_result')?.dirty || this.form.get('expected_result')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un resultado esperado válido (mínimo 10 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (this.modo() === 'detalle'){
+    <div class="d-flex justify-content-evenly mt-5">
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(this.itemId())" data-bs-dismiss="modal">Eliminar prueba</button> 
+      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+    </div>
+  } @else {
+  <div class="d-flex justify-content-evenly mt-5">
+    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear prueba</button>
+  </div>
+}
+
+  
+</form>

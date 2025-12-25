@@ -20,11 +20,8 @@ export class Sidebar {
 
 
   constructor (public router: Router, public authService: AuthService) {
-    const usuarioStr = localStorage.getItem('usuario');
-    if (usuarioStr) {
-      const usuario = JSON.parse(usuarioStr);
-      this.usuarioNombre = usuario.nombre;
-
+    if (localStorage.getItem('nombre') != undefined) {
+      this.usuarioNombre = localStorage.getItem('nombre');
     }
   }
 
@@ -39,6 +36,7 @@ export class Sidebar {
             // borra token y usuario
             localStorage.removeItem('token');
             localStorage.removeItem('usuario');
+            localStorage.removeItem('nombre');
             this.router.navigate(['/login']); // redirige al login
           }
         });

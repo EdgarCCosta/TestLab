@@ -39,10 +39,6 @@ export class ProyectoNew {
     });
   }
 
-  volver(): void {
-    this._router.navigate(['usuario']);
-  }
-
   onSubmit() {
     if (this.form.valid) {
       console.log('Formulario enviado!!', this.form.value);

@@ -27,6 +27,13 @@ app-root {
   background-color: #F9F9FD;
 }
 
+.atras {
+  cursor: pointer;
+  margin-bottom: 4rem;
+  display: block;
+  font-size: 3rem;
+}
+
 
 /********************** LOGIN ******************************/
 
@@ -75,9 +82,16 @@ app-login {
 
 .sidebar {
   background-color: #F9F9FD;
+
+  & .dropdown-menu {
+    transform: translate(2rem, -3rem) !important;
+    cursor: pointer;
+    user-select: none;
+  }
 }
 
 @media only screen and (max-width: 939px) {
+
   app-sidebar, .sidebar {
     display: none;
   }
@@ -100,6 +114,10 @@ app-login {
   .nav-link i {
     font-size: 4rem !important;
   }
+
+  .hidden-1399 {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 940px) {
@@ -113,6 +131,10 @@ app-login {
     display: flex;
     width: 7.2rem;
     padding: 2rem 1.4rem;
+  }
+
+  .hidden-1399 {
+    display: none;
   }
 
   app-footer-menu {
@@ -131,6 +153,10 @@ app-login {
     display: flex;
     width: 30rem;
     padding: 2rem 1.6rem;
+  }
+
+  .hidden-1399 {
+    display: inline;
   }
 
   app-footer-menu {

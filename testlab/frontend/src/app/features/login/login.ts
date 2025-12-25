@@ -30,7 +30,8 @@ export class Login {
         next: (response) => {
           console.log(response);
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('usuario', JSON.stringify(response.data.user.email));
+          localStorage.setItem('usuario', response.data.user.email);
+          localStorage.setItem('nombre', response.data.user.name);
           this.router.navigate(['/'])
         },
         error: () => this.error = 'Credenciales inválidas'

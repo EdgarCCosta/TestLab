@@ -54,16 +54,24 @@
       </li>
     </ul>
     <hr>
-    <div>
-      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-person-circle me-2 fs-5 link-dark"></i>
+    <div class="dropdown d-flex align-items-center text-white">
+      <a href="#" class="text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle me-2 fs-3 link-dark"></i>
         @if (usuarioNombre) { <!-- Comprueba que está almacenado lo ha cargado de LocalStorage -->
-          <strong style="color: black;">
-            Bienvenido/a {{ usuarioNombre }}
+          <strong class="hidden-1399" style="color: black;">
+            {{ usuarioNombre }}
           </strong>
         }
-
       </a>
-      <a href="#" (click)="logout()">Sign out</a>
+      <ul class="dropdown-menu">
+        <li (click)="logout()" class="ps-1">
+          <a class="nombre-usuario dropdown-item fs-4">
+            <strong>
+              <i class="bi bi-box-arrow-left me-2 fs-3 link-dark"></i> 
+              <span>Salir</span>
+            </strong>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>

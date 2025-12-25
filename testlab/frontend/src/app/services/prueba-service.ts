@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prueba, CreatePruebaDto, UpdatePruebaDto } from '../models/prueba';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -14,10 +15,12 @@ export class PruebaService {
   constructor(private http: HttpClient) {}
 
   getPruebas(): Observable<any> {
-    return this.http.get(this.apiUrl + this.endpoint);
+    return this.http
+      .get<{ success: boolean; message: string; data: Prueba[] }>(this.apiUrl + this.endpoint)
+      .pipe(map(response => response.data));
   }
 
-  getPruebaById(id: number): Observable<any> {
+  getPruebaById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
@@ -25,11 +28,11 @@ export class PruebaService {
     return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updatePrueba(id: number, dto: UpdatePruebaDto): Observable<any> {
+  updatePrueba(id: string, dto: UpdatePruebaDto): Observable<any> {
     return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deletePrueba(id: number): Observable<any> {
+  deletePrueba(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

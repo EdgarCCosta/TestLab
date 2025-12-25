@@ -19,7 +19,6 @@ export class AppLayout {
   esLogin(): boolean {
     // Comprueba si estamos en el Login para no mostrar el menú
     return this.router.url === '/login';
-    console.log(this.router.url);
   }
 
 }

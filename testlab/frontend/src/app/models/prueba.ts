@@ -1,5 +1,5 @@
 export interface Prueba {
-  id: number;
+  id: string;
   title: string;
   objective: string;
   preconditions: string;
