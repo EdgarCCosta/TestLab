@@ -1,144 +1,175 @@
-<i class="atras bi bi-arrow-left" (click)="atras()"></i>
+<div class="atras" (click)="atras()">
+  <i class="bi bi-arrow-left"></i> Atrás
+</div>
 
 
-
-<h1>Detalle Proyecto</h1>
-
-<div class="card border rounded p-4 shadow-sm">
-  <div class="card-body">
-    <h5 class="card-title">
-      <i class="bi bi-kanban"></i> {{ proyecto?.name }}
-    </h5>
-
-    <p><strong>Descripción:</strong> {{ proyecto?.description }}</p>
-
-    <p>
-      <strong>Estado: </strong>
-      <span class="badge"
-            [ngClass]="{
-              'bg-success': proyecto?.status === 'active',
-              'bg-warning': proyecto?.status === 'archived',
-              'bg-danger': proyecto?.status === 'inactive'
-            }">
-        {{ proyecto?.status | uppercase }}
-      </span>
-    </p>
-
-    <hr>
-
-    <p><strong>Creado:</strong> {{ proyecto?.created_at | date:'short' }}</p>
-    <p><strong>Actualizado:</strong> {{ proyecto?.updated_at | date:'short' }}</p>
-  </div>
+<div class="item-detallado card border rounded p-3 shadow-sm">
 
   <!-- Acciones -->
-  <div class="d-flex justify-content-evenly mt-3">
-    <button class="btn btn-primary" (click)="editarProyecto()">
-      <i class="bi bi-pencil"></i> Editar
-    </button>
-    <button class="btn btn-danger" (click)="eliminarProyecto()">
-      <i class="bi bi-trash"></i> Eliminar
-    </button>
+  <div class="acciones">
+    <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
+    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
   </div>
+
+  <div class="card-body">
+    <div class="d-flex align-items-start">
+      <h1 class="card-title">
+        {{ proyecto?.name }}
+      </h1>
+      <span class="badge mt-2 ms-3 fs-5"
+        [ngClass]="{
+          'bg-success': proyecto?.status === 'active',
+          'bg-warning': proyecto?.status === 'archived',
+          'bg-danger': proyecto?.status === 'inactive'
+        }">
+        {{ proyecto?.status | uppercase }}
+      </span>
+    </div>
+
+    <p>{{ proyecto?.description }}</p>
+
+    <p class="fs-5 mb-0">
+      <span title="Creado"><i class="bi bi-rocket-takeoff"></i> {{ proyecto?.created_at | date:'short' }}</span>
+      <span title="Actualizado"><i class="bi bi-stopwatch ms-4"></i> {{ proyecto?.updated_at | date:'short' }}</span>
+    </p>
+  </div>
+
 </div>
 
-<!-- Sección resumen -->
-<div class="row mt-4">
-
-  <!-- VERSIONES -->
-  <div class="col-md-6">
-    <div class="card shadow-sm">
-      <div class="card-header bg-light">
+<!-- Sección tabs con listados -->
+<section>
+  <nav class="mt-5">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link fs-4 active" id="nav-versiones-tab" data-bs-toggle="tab" data-bs-target="#nav-versiones" type="button" role="tab" aria-controls="nav-versiones" aria-selected="true">
         <i class="bi bi-box-seam"></i> Versiones
-      </div>
-
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"
-            *ngFor="let v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3))">
-
-          <strong>{{ v.version_number }}</strong>
-          <span class="text-muted">
-            ({{ v.release_date | date:'shortDate' }})
-          </span>
-
-          <p class="mb-0">{{ v.description }}</p>
-        </li>
-      </ul>
-
-      @if(versiones.length > 3) {
-      <button class="btn btn-link"
-              (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
-        <i class="bi"
-           [ngClass]="mostrarTodasVersiones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-        {{ mostrarTodasVersiones ? 'Ver menos' : 'Ver más' }}
       </button>
-      }
-    </div>
-  </div>
-
-  <!-- EJECUCIONES -->
-  <div class="col-md-6">
-    <div class="card shadow-sm">
-      <div class="card-header bg-light">
+      <button class="nav-link fs-4" id="nav-pruebas-tab" data-bs-toggle="tab" data-bs-target="#nav-pruebas" type="button" role="tab" aria-controls="nav-pruebas" aria-selected="false">
+        Pruebas
+      </button>
+      <button class="nav-link fs-4" id="nav-ejecuciones-tab" data-bs-toggle="tab" data-bs-target="#nav-ejecuciones" type="button" role="tab" aria-controls="nav-ejecuciones" aria-selected="false">
         <i class="bi bi-check2-circle"></i> Ejecuciones
-      </div>
-
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"
-            *ngFor="let e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3))">
-
-          <!-- Título del caso de prueba -->
-          <strong>{{ e.test_case.title }}</strong>
-
-          <!-- Resultado -->
-          <span class="badge ms-2"
-                [ngClass]="{
-                  'bg-success': e.result === 'passed',
-                  'bg-danger': e.result === 'failed'
-                }">
-            {{ e.result | uppercase }}
-          </span>
-
-          <!-- Usuario -->
-          <p class="mb-0">
-            <small class="text-muted">
-              Ejecutado por: {{ e.user.name }}
-            </small>
-          </p>
-
-          <!-- Fecha -->
-          <small class="text-muted">
-            {{ e.executed_at | date:'short' }}
-          </small>
-
-          <!-- Comentario -->
-          <p class="mt-1 mb-0"><em>{{ e.comment }}</em></p>
-
-          <!-- Estado de error -->
-          <small 
-            class="fw-semibold"
-            [ngClass]="{
-              'text-danger': e.error_status === 'critical',
-              'text-warning': e.error_status === 'high',
-              'text-info': e.error_status === 'low',
-              'text-success': e.error_status === 'none'
-            }"
-          >
-            <i class="bi bi-exclamation-circle-fill"></i>
-            Error: {{ e.error_status }}
-          </small>
-
-        </li>
-      </ul>
-
-      @if(ejecuciones.length > 3) {
-      <button class="btn btn-link"
-              (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
-        <i class="bi"
-           [ngClass]="mostrarTodasEjecuciones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-        {{ mostrarTodasEjecuciones ? 'Ver menos' : 'Ver más' }}
       </button>
-      }
+    </div>
+  </nav>
+  <div class="tab-content pt-4" id="nav-tabContent">
+    <!-- VERSIONES -->
+    <div class="tab-pane fade show active" id="nav-versiones" role="tabpanel" aria-labelledby="nav-versiones-tab" tabindex="0">
+      <div class="card shadow-sm">
+
+        <ul class="list-group list-group-flush">
+          @for (v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3)); track v) {
+            <li class="list-group-item">
+              <div class="d-flex">
+                <div>
+                  <strong>{{ v.version_number }}</strong>
+                  <span class="text-muted">
+                    ({{ v.release_date | date:'shortDate' }})
+                  </span>
+
+                  <p class="mb-0">{{ v.description }}</p>
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones">
+                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+
+        @if (versiones.length > 3) {
+        <button class="btn btn-link"
+                (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
+          <i class="bi"
+            [ngClass]="mostrarTodasVersiones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+          {{ mostrarTodasVersiones ? 'Ver menos' : 'Ver más' }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- PRUEBAS -->
+    <div class="tab-pane fade" id="nav-pruebas" role="tabpanel" aria-labelledby="nav-pruebas-tab" tabindex="0">
+      Aquí los casos de prueba
+    </div>
+
+    <!-- EJECUCIONES -->
+    <div class="tab-pane fade" id="nav-ejecuciones" role="tabpanel" aria-labelledby="nav-ejecuciones-tab" tabindex="0">
+      <div class="card shadow-sm">
+
+        <ul class="list-group list-group-flush">
+
+          @for (e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3)); track e) {
+            <li class="list-group-item">
+
+              <div class="d-flex">
+                <div>
+
+                  <!-- Título del caso de prueba -->
+                  <strong>{{ e.test_case.title }}</strong>
+
+                  <!-- Resultado -->
+                  <span class="badge ms-2"
+                        [ngClass]="{
+                          'bg-success': e.result === 'passed',
+                          'bg-danger': e.result === 'failed'
+                        }">
+                    {{ e.result | uppercase }}
+                  </span>
+
+                  <!-- Usuario -->
+                  <p class="mb-0">
+                    <small class="text-muted">
+                      Ejecutado por: {{ e.user.name }}
+                    </small>
+                  </p>
+
+                  <!-- Fecha -->
+                  <small class="text-muted">
+                    {{ e.executed_at | date:'short' }}
+                  </small>
+
+                  <!-- Comentario -->
+                  <p class="mt-1 mb-0"><em>{{ e.comment }}</em></p>
+
+                  <!-- Estado de error -->
+                  <small 
+                    class="fw-semibold"
+                    [ngClass]="{
+                      'text-danger': e.error_status === 'critical',
+                      'text-warning': e.error_status === 'high',
+                      'text-info': e.error_status === 'low',
+                      'text-success': e.error_status === 'none'
+                    }"
+                  >
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    Error: {{ e.error_status }}
+                  </small>
+
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones">
+                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+       @if(ejecuciones.length > 3) {
+        <div>
+          <button class="btn btn-link mt-1 mb-5" (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
+            <i class="bi"
+              [ngClass]="mostrarTodasEjecuciones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+            {{ mostrarTodasEjecuciones ? 'Mostrar menos' : 'Mostrar todo' }}
+          </button>
+        </div>
+        
+        }
     </div>
   </div>
-
-</div>
+</section>
