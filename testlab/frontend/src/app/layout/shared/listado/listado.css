@@ -1,0 +1,8 @@
+::ng-deep .mat-mdc-header-row {
+  background-color: #2b2b2b !important;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  color: white !important;
+  font-weight: 600;
+}

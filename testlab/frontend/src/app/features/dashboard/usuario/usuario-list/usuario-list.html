@@ -1,5 +1,10 @@
-<input id="filtro" type="text" name="filtro" [(ngModel)]="filtro" placeholder="Buscar usuario" class="filtro rounded-3 ps-4 py-2">
-
+<input id="filtro"
+      type="text"
+      name="filtro"
+      [(ngModel)]="filtro"
+      [ngModelOptions]="{ standalone: true }"
+      placeholder="Buscar usuario"
+      class="filtro rounded-3 ps-4 py-2">
 
 <div class="d-flex justify-content-between mb-5">
   <h1>Usuarios</h1>

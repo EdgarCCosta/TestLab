@@ -14,7 +14,7 @@ export class PruebaService {
 
   constructor(private http: HttpClient) {}
 
-  getPruebas(): Observable<any> {
+  getPruebas(): Observable<Prueba[]> {
     return this.http
       .get<{ success: boolean; message: string; data: Prueba[] }>(this.apiUrl + this.endpoint)
       .pipe(map(response => response.data));

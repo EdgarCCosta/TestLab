@@ -233,3 +233,22 @@ form, .form-control, .btn {
 form input + div, form select + div {
   height: 3rem;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Columnas angular material */
+
+.mat-mdc-row:nth-child(odd) {
+  background-color: #fafafa;
+}
+.mat-mdc-row:nth-child(even) {
+  background-color: white;
+}
+.mat-mdc-header-cell {
+  background-color: #828282 !important;
+  color: white !important;
+  font-weight: 600;
+  svg {
+    color: white !important;
+  }
+}

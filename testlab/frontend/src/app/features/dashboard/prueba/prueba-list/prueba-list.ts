@@ -8,6 +8,7 @@ import { Modal } from '../../../../layout/shared/modal/modal';
 import { PruebaDetail } from '../prueba-detail/prueba-detail';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-prueba-list',
   imports: [CommonModule, FormsModule, Listado, Modal, PruebaDetail],
@@ -31,12 +32,23 @@ export class PruebaList {
     this._itemService.getPruebas().subscribe({
       next: (response) => {
         console.log('Response:', response);
-        let data = response;
-        for (let i of data) {
-          this.items.push(i);
-          this.itemsFiltrados.push(i);
-        }
+        // let data = response;
+        // for (let i of data) {
+        //   this.items.push(i);
+        //   this.itemsFiltrados.push(i);
+        // }
+      this.items = response.map(i => {
+            return {
+              ...i,
+              Título: i.title,
+              Objetivo: i.objective,
+              'Resultado esperado': i.expected_result
+            };
+          });
+      this.itemsFiltrados = this.items;
+      console.log("Tenemos los usuarios: ", this.items);
       },
+
     });
 
     // Enganchar evento de Bootstrap para resetear al cerrar modal

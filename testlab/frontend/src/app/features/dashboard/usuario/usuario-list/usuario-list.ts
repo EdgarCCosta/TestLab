@@ -32,13 +32,27 @@ export class UsuarioList {
     this._usuarioService.getUsuarios().subscribe({
       next: (response) => {
         console.log('Response:', response);
-        let data = response;
-        for (let u of data) {
-          this.usuarios.push(u);
-          this.usuariosFiltrados.push(u)
-        }
-      },
-    });
+
+          this.usuarios = response.map(u => {
+            return {
+              ...u,
+              Nombre: u.name,
+              Email: u.email,
+              Rol: u.rol
+            };
+          });
+
+          console.log('usuarios:', this.usuarios);
+          
+                            this.usuariosFiltrados = this.usuarios;
+        console.log("Tenemos los usuarios: ", this.usuarios);
+
+    // // reaplicar filtro si existía
+    // if (this._filtro !== '') {
+    //   this.filtro = this._filtro;
+    // }
+  }
+});
 
     // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
     const modalEl = document.getElementById('detalleModal');
