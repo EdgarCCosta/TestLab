@@ -7,6 +7,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { Version } from '../../../models/version';
 import { VersionService } from '../../../services/version-service';
 import { ProyectoService } from '../../../services/proyecto-service';
+import { LoadingInlineComponent } from '../../../layout/shared/loading-inline/loading-inline';
 
 interface DiaCalendario {
   date: Date | null;
@@ -17,7 +18,7 @@ interface DiaCalendario {
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingInlineComponent],
   templateUrl: './calendar.html',
   styleUrls: ['./calendar.css'],
   animations: [
@@ -95,12 +96,15 @@ export class Calendar implements OnInit {
             this.generarCalendario();
             this.computenextVersion();
             this.computeProjectCounts();
+            this.loading = false
           },
           error: (err) => console.error('Error cargando versiones', err),
-          complete: () => this.loading = false
+          // complete: () => this.loading = false
         });
+        
       },
-      error: (err) => console.error('Error cargando proyectos', err)
+      error: (err) => console.error('Error cargando proyectos', err),
+      // complete: () => this.loading = false
     });
   }
 

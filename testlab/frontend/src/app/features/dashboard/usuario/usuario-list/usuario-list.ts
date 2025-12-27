@@ -8,10 +8,12 @@ import { Listado } from '../../../../layout/shared/listado/listado';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../../layout/shared/toast/toast';
+import { LoadingComponent } from '../../../../layout/shared/loading/loading';
+
 
 @Component({
   selector: 'app-usuario-list',
-  imports: [CommonModule, UsuarioDetail, Modal, Listado, FormsModule],
+  imports: [CommonModule, UsuarioDetail, Modal, Listado, FormsModule, LoadingComponent],
   templateUrl: './usuario-list.html',
   standalone: true,
 })
@@ -22,6 +24,7 @@ export class UsuarioList {
   public usuariosFiltrados: Usuario[] = [];
   public nuevoUser: boolean = false;
   public _filtro: string = '';
+  public loading: boolean = false;
 
   constructor(
     private _usuarioService: UsuarioService, private _router: Router, private toastService: ToastService
@@ -30,6 +33,9 @@ export class UsuarioList {
   }
 
   obtenerUsuarios(): void {
+     this.loading = true; // 👈 ACTIVAR LOADING
+
+
     this._usuarioService.getUsuarios().subscribe({
       next: (response) => {
         console.log('Response:', response);
@@ -47,6 +53,7 @@ export class UsuarioList {
           
         this.usuariosFiltrados = this.usuarios;
         console.log("Tenemos los usuarios: ", this.usuarios);
+        this.loading = false; // 👇 DESACTIVAR LOADING
 
     // // reaplicar filtro si existía
     // if (this._filtro !== '') {

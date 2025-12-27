@@ -36,7 +36,7 @@ export class PruebaDetail {
 
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
-      objective: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
+      objective: ['', [Validators.required, Validators.minLength(5)]],
       preconditions: ['', [Validators.required, Validators.minLength(5)]],
       steps: ['', [Validators.required, Validators.minLength(10)]],
       expected_result: ['', [Validators.required, Validators.minLength(10)]],
@@ -54,10 +54,11 @@ export class PruebaDetail {
 
       if (this.modo() === 'nuevo') {
         this.form.reset({
-          name: '',
-          email: '',
-          password: '',
-          rol: ''
+          title: '',
+          objective: '',
+          preconditions: '',
+          steps: '',
+          expected_result: ''
         });
       }
     });
@@ -79,7 +80,7 @@ export class PruebaDetail {
         });
 
         this.form.updateValueAndValidity();
-        this._toastService.show('Prueba cargada correctamente', 'success');
+        // this._toastService.show('Prueba cargada correctamente', 'success');
       },
       error: (err) => {
         console.error('Error obteniendo el ítem:', err);
@@ -122,6 +123,7 @@ export class PruebaDetail {
           }
         });
       } else if (this.modo() === 'nuevo') {
+        console.log('Formulario válido para crear')
         this._itemService.createPrueba(this.form.value).subscribe({
           next: (datos) => {
             console.log('Ítem creado');
