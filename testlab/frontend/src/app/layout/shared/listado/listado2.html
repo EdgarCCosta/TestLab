@@ -1,16 +1,18 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 w-100">
 
   <!-- Columnas dinámicas -->
-  @for (col of cabeceras(); track col) {
+  @for (attr of atributos(); let i = $index; track attr) {
 
-    <ng-container [matColumnDef]="col">
+    <ng-container [matColumnDef]="attr">
+
+      <!-- Cabecera -->
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ col }}
-      </th>
+      {{ cabeceras()?.[i] ?? '' }}      </th>
 
+      <!-- Celda -->
       <td mat-cell *matCellDef="let item">
 
-        @if (col === 'Estado') {
+        @if (attr === 'status') {
 
           @if (item.status === 'active') {
             <span class="text-success fw-semibold">
@@ -31,20 +33,21 @@
           }
 
         } @else {
-          {{ item[col] }}
+          {{ item?.[attr] }}
         }
 
       </td>
+
     </ng-container>
 
   }
 
   <!-- Header -->
-  <tr mat-header-row *matHeaderRowDef="cabeceras()"></tr>
+  <tr mat-header-row *matHeaderRowDef="atributos()"></tr>
 
   <!-- Filas -->
   <tr mat-row
-      *matRowDef="let row; columns: cabeceras()"
+      *matRowDef="let row; columns: atributos()"
       (click)="seleccionarItem(row.id)"
       [attr.data-bs-toggle]="abrirModal() ? 'modal' : null"
       [attr.data-bs-target]="abrirModal() ? '#detalleModal' : null">

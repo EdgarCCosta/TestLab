@@ -7,6 +7,7 @@ import { Modal } from '../../../../layout/shared/modal/modal';
 import { Listado } from '../../../../layout/shared/listado/listado';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../../layout/shared/toast/toast';
 
 @Component({
   selector: 'app-usuario-list',
@@ -23,7 +24,7 @@ export class UsuarioList {
   public _filtro: string = '';
 
   constructor(
-    private _usuarioService: UsuarioService, private _router: Router
+    private _usuarioService: UsuarioService, private _router: Router, private toastService: ToastService
   ) {
     this.obtenerUsuarios();
   }
@@ -44,7 +45,7 @@ export class UsuarioList {
 
           console.log('usuarios:', this.usuarios);
           
-                            this.usuariosFiltrados = this.usuarios;
+        this.usuariosFiltrados = this.usuarios;
         console.log("Tenemos los usuarios: ", this.usuarios);
 
     // // reaplicar filtro si existía

@@ -1,0 +1,10 @@
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
+      @for (t of toastService.toasts(); track t) {
+        <div class="toast show mb-2"
+             [class.bg-success]="t.type === 'success'"
+             [class.bg-danger]="t.type === 'error'"
+             style="color: white; padding: 10px; border-radius: 5px;">
+          {{ t.text }}
+        </div>
+      }
+    </div>

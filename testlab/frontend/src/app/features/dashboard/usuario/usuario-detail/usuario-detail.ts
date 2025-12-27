@@ -4,6 +4,7 @@ import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
+import { ToastService } from '../../../../layout/shared/toast/toast';
 
 @Component({
   selector: 'app-usuario-detail',
@@ -26,7 +27,8 @@ export class UsuarioDetail {
     private _usuarioService: UsuarioService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _toastService: ToastService
   ) {
 
     this.form = this.fb.group({
@@ -109,6 +111,8 @@ export class UsuarioDetail {
             console.log('Usuario creado');
             // console.log('Listado antes de añadir:', this.listado());
             this.listado.update((listado) => ([...listado, datos.data]));
+            this._toastService.show('Usuario creado correctamente', 'success');
+
             // console.log('Listado tras añadir:', this.listado());
           },
           error: (err) => console.error('Error creando usuario:', err)
