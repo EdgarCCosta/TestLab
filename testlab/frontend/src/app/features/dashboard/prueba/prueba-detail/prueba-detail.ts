@@ -109,7 +109,20 @@ export class PruebaDetail {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Formulario enviado!!', this.form.value);
+
+        // Convertir steps (string) → array
+    const stepsArray = this.form.value.steps
+      .split(',')
+      .map((s: string) => s.trim())
+      .filter((s: string) => s.length > 0);
+
+    // Construir payload final
+    const payload = {
+      ...this.form.value,
+      steps: stepsArray
+    };
+
+    console.log('Payload final:', payload); // Datos a introducir ***MODIFICAR***
 
       if (this.modo() === 'detalle' && this.itemId()) {
         this._itemService.updatePrueba(this.itemId()!, this.form.value).subscribe({
@@ -123,7 +136,7 @@ export class PruebaDetail {
           }
         });
       } else if (this.modo() === 'nuevo') {
-        console.log('Formulario válido para crear')
+        console.log('Formulario válido para crear', this.form.value)
         this._itemService.createPrueba(this.form.value).subscribe({
           next: (datos) => {
             console.log('Ítem creado');
