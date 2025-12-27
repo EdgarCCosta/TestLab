@@ -18,7 +18,7 @@ export interface CreatePruebaDto {
   steps: string[];
   expected_result: string;
   user_profile: Prueba['user_profile'];
-  version_id: number;
+  version_id: string;
 }
 
 export interface UpdatePruebaDto {
@@ -28,5 +28,5 @@ export interface UpdatePruebaDto {
   steps?: string[];
   expected_result?: string;
   user_profile?: Prueba['user_profile'];
-  version_id?: number;
+  version_id?: string;
 }

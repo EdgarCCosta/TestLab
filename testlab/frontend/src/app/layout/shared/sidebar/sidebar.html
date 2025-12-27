@@ -1,77 +1,73 @@
 <!-- SIDEBAR -->
 
 <div class="sidebar flex-column position-fixed h-100 text-white">
-    <a [routerLink]="['/']" class="d-flex align-items-center mb-5 mx-auto text-white text-decoration-none">
-      <img src="img/testlab-logo.png" class="d-none d-xxl-block" width="250" height="52" alt="TestLab logo">
-      <img src="img/testlab-logo-min.png" class="d-block d-xxl-none" width="44" height="52" alt="TestLab logo">
-    </a>
+  <a [routerLink]="['/']" class="d-flex align-items-center mb-5 mx-auto text-white text-decoration-none">
+    <img src="img/testlab-logo.png" class="d-none d-xxl-block" width="250" height="52" alt="TestLab logo">
+    <img src="img/testlab-logo-min.png" class="d-block d-xxl-none" width="44" height="52" alt="TestLab logo">
+  </a>
 
-    <ul class="nav nav-pills flex-column mt-2 mb-auto">
-      <li class="nav-item my-2">
-        <a [routerLink]="['/']" class="nav-link link-dark"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          title="{{ 'SIDEBAR.DASHBOARD' | translate }}">
-          <i class="bi bi-speedometer2"></i>
-          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
-        </a>
-      </li>
-      <li class="nav-item my-2">
-        <a [routerLink]="['/usuario']" class="nav-link link-dark"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          title="{{ 'SIDEBAR.USERS' | translate }}">
-          <i class="bi bi-person-circle"></i>
-          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
-        </a>
-      </li>
-      <li class="nav-item my-2">
-        <a [routerLink]="['/proyecto']" class="nav-link link-dark"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          title="{{ 'SIDEBAR.PROJECTS' | translate }}">
-          <i class="bi bi-grid"></i>
-          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.PROJECTS' | translate }}</span>
-        </a>
-
-      <li class="nav-item my-2">
-        <a [routerLink]="['/prueba']" class="nav-link link-dark"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          title="{{ 'SIDEBAR.TESTS' | translate }}">
-          <i class="bi bi-flask"></i>
-          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.TESTS' | translate }}</span>
-        </a>
-      </li>
-      <li class="nav-item my-2">
-        <a [routerLink]="['/estadistica']" class="nav-link link-dark"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          title="{{ 'SIDEBAR.STATISTICS' | translate }}">
-          <i class="bi bi-graph-up"></i>
-          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.STATISTICS' | translate }}</span>
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <div class="dropdown d-flex align-items-center text-white">
-      <a href="#" class="text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-person-circle me-2 fs-3 link-dark"></i>
-        @if (usuarioNombre) { <!-- Comprueba que está almacenado lo ha cargado de LocalStorage -->
-          <strong class="hidden-1399" style="color: black;">
-            {{ usuarioNombre }}
-          </strong>
-        }
+  <ul class="nav nav-pills flex-column mt-2 mb-auto">
+    <li class="nav-item my-2">
+      <a [routerLink]="['/']" class="nav-link link-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        title="{{ 'SIDEBAR.DASHBOARD' | translate }}">
+        <i class="bi bi-speedometer2"></i>
+        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
       </a>
-      <ul class="dropdown-menu">
-        <li (click)="logout()" class="ps-1">
-          <a class="nombre-usuario dropdown-item fs-4">
-            <strong>
-              <i class="bi bi-box-arrow-left me-2 fs-3 link-dark"></i> 
-              <span>Salir</span>
-            </strong>
-          </a>
-        </li>
-      </ul>
-    </div>
+    </li>
+    <li class="nav-item my-2">
+      <a [routerLink]="['/usuario']" class="nav-link link-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        title="{{ 'SIDEBAR.USERS' | translate }}">
+        <i class="bi bi-person-circle"></i>
+        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
+      </a>
+    </li>
+    <li class="nav-item my-2">
+      <a [routerLink]="['/proyecto']" class="nav-link link-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        title="{{ 'SIDEBAR.PROJECTS' | translate }}">
+        <i class="bi bi-grid"></i>
+        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.PROJECTS' | translate }}</span>
+      </a>
+
+    <li class="nav-item my-2">
+      <a [routerLink]="['/prueba']" class="nav-link link-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        title="{{ 'SIDEBAR.TESTS' | translate }}">
+        <i class="bi bi-flask"></i>
+        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.TESTS' | translate }}</span>
+      </a>
+    </li>
+    <li class="nav-item my-2">
+      <a [routerLink]="['/estadistica']" class="nav-link link-dark"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        title="{{ 'SIDEBAR.STATISTICS' | translate }}">
+        <i class="bi bi-graph-up"></i>
+        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.STATISTICS' | translate }}</span>
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="acciones-sidebar d-flex flex-column align-items-start">
+    <span class="ps-1" title="{{this.usuarioNombre}}">
+      <i class="bi bi-person-circle me-2 fs-3 link-dark"></i>
+      @if (usuarioNombre) { <!-- Comprueba que está almacenado lo ha cargado de LocalStorage -->
+        <strong class="hidden-1399" style="color: black;">
+          {{ usuarioNombre }}
+        </strong>
+      }
+    </span>
+    <span (click)="logout()" class="pe-3 fs-3 link-danger" title="Salir de TestLab">
+      <i class="bi bi-box-arrow-left me-2 fs-3 link-danger"></i> 
+      <strong class="hidden-1399">
+        Salir
+      </strong>
+    </span>
   </div>
+</div>

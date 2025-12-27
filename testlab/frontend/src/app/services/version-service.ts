@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Version, CreateVersionDto, UpdateVersionDto } from '../models/version';
 import { environment } from '../../environments/environment';
 
@@ -14,8 +15,12 @@ export class VersionService {
 
   constructor(private http: HttpClient) {}
 
-  getVersiones(): Observable<any> {
-    return this.http.get(this.apiUrl + this.endpoint);
+  getVersiones(): Observable<Version[]> {
+    return this.http
+      .get<{ success: boolean; message: string; data: Version[] }>(
+        this.apiUrl + this.endpoint
+      )
+      .pipe(map(response => response.data));
   }
 
   getVersionById(id: number): Observable<Version> {

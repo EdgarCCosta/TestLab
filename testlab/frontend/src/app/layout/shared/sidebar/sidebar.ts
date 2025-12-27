@@ -5,6 +5,7 @@ import { importProvidersFrom } from '@angular/core';
 import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth-service';
+import { UsuarioService } from '../../../services/usuario-service';
 
 
 
@@ -19,7 +20,8 @@ export class Sidebar {
    usuarioNombre: string | null = null;
 
 
-  constructor (public router: Router, public authService: AuthService) {
+  constructor (public router: Router, public authService: AuthService, private _usuarioService: UsuarioService) {
+
     if (localStorage.getItem('nombre') != undefined) {
       this.usuarioNombre = localStorage.getItem('nombre');
     }
@@ -28,14 +30,14 @@ export class Sidebar {
   logout() {
     const confirmado = window.confirm('¿Seguro que quieres cerrar sesión?');
     if (confirmado) {
-      const email = localStorage.getItem('usuario');
-      if (email) {
-        this.authService.logout(email).subscribe({
+      const id = localStorage.getItem('id');
+      if (id) {
+        this.authService.logout(id).subscribe({
           next: (response) => {
             console.log("Respuesta:", response);
             // borra token y usuario
             localStorage.removeItem('token');
-            localStorage.removeItem('usuario');
+            localStorage.removeItem('id');
             localStorage.removeItem('nombre');
             this.router.navigate(['/login']); // redirige al login
           }

@@ -44,7 +44,7 @@ interface DiaCalendario {
 })
 export class Calendar implements OnInit {
 
-  private projectMap = new Map<number, string>();
+  private projectMap = new Map<string, string>();
 
   hoy = new Date();
   currentDate = new Date();
@@ -85,7 +85,7 @@ export class Calendar implements OnInit {
         this.versionService.getVersiones().subscribe({
           next: (vres) => {
             // 3. Enriquecer versiones con project_name
-            this.versiones = vres.data.map((v: Version) => ({
+            this.versiones = vres.map((v: Version) => ({
               ...v,
               project_name: this.projectMap.get(v.project_id) ?? 'Proyecto desconocido'
             }));

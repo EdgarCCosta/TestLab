@@ -1,5 +1,5 @@
 export interface Proyecto {
-  id: number;
+  id: string;
   name: string;
   description: string;
   status: 'active' | 'inactive' | 'archived';

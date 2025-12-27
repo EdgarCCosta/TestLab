@@ -81,6 +81,10 @@ app-login {
     cursor: pointer;
     user-select: none;
   }
+
+  & .acciones-sidebar {
+    cursor: pointer;
+  }
 }
 
 @media only screen and (max-width: 939px) {
@@ -104,8 +108,11 @@ app-login {
     }
   }
 
-  .nav-link i {
-    font-size: 4rem !important;
+  app-footer-menu i {
+    font-size: 4rem;
+    &:hover {
+      background-color: #C1CBFD;
+    }
   }
 
   .hidden-1399 {
@@ -198,9 +205,15 @@ h1 {
 
 .acciones {
   position: absolute;
-  top: 1rem;
   right: 1rem;
   cursor: pointer;
+}
+
+.mostrar-mas {
+  border-radius: 4rem;
+  corner-shape: squircle;
+  background-color: #737ADE;
+
 }
 
 th {
@@ -241,6 +254,7 @@ td {
     background-color: #5a62d8 !important;
   }
   padding: 1rem;
+  font-size: 1.6rem !important;
 }
 
 form, .form-control, .btn {

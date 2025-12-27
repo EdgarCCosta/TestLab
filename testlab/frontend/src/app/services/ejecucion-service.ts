@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Ejecucion, CreateEjecucionDto, UpdateEjecucionDto } from '../models/ejecucion';
 import { environment } from '../../environments/environment';
 
@@ -14,11 +15,15 @@ export class EjecucionService {
 
   constructor(private http: HttpClient) {}
 
-  getEjecuciones(): Observable<any> {
-    return this.http.get(this.apiUrl + this.endpoint);
+  getEjecuciones(): Observable<Ejecucion[]> {
+    return this.http
+      .get<{ success: boolean; message: string; data: Ejecucion[] }>(
+        this.apiUrl + this.endpoint
+      )
+      .pipe(map(response => response.data));
   }
 
-  getEjecucionById(id: number): Observable<any> {
+  getEjecucionById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
@@ -26,11 +31,11 @@ export class EjecucionService {
     return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updateEjecucion(id: number, dto: UpdateEjecucionDto): Observable<any> {
+  updateEjecucion(id: string, dto: UpdateEjecucionDto): Observable<any> {
     return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deleteEjecucion(id: number): Observable<any> {
+  deleteEjecucion(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 }

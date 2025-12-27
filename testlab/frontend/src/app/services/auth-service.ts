@@ -17,8 +17,8 @@ export class AuthService {
     return this.http.post<any>(this.apiUrl + this.endpoint, { email, password });
   }
 
-  logout(email: string) {
-    return this.http.post<any>(this.apiUrl + '/logout', { email });
+  logout(id: string) {
+    return this.http.post<any>(this.apiUrl + '/logout', { id });
   }
 
   getToken(): string | null {

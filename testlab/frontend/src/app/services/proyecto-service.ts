@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Proyecto, CreateProyectoDto, UpdateProyectoDto } from '../models/proyecto';
 import { environment } from '../../environments/environment';
+import { Usuario } from '../models/usuario';
+import { UsuarioService } from './usuario-service';
+import { PruebaService } from './prueba-service';
+import { Prueba } from '../models/prueba';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +17,8 @@ export class ProyectoService {
   private readonly apiUrl = environment.apiUrl;
   private readonly endpoint = '/projects';
 
-  constructor(private http: HttpClient) {}
+  // Servicios de usuarios y pruebas inyectados temporalmente para devolver valores hasta que haya estructura y método en backend
+  constructor(private http: HttpClient, private _usuarioService: UsuarioService, private _pruebaService: PruebaService) {}
 
   /** Obtener todos los proyectos */
   getProyectos(): Observable<Proyecto[]> {
@@ -46,5 +51,55 @@ export class ProyectoService {
   /** Eliminar proyecto */
   deleteProyecto(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
+  }
+
+  // TODO: Falta estructura en backend
+  /** Obtener usuarios asociados a un proyecto por ID */
+  getUsersFromProyectoById(id: string): Observable<Usuario[]> {
+
+    // *** Mientras no haya estructura necesaria en backend, devolvemos todos los usuarios ***
+    return this._usuarioService.getUsuarios();
+
+
+    // ESTE SERÍA EL RETURN REAL:
+
+    // return this.http
+    //   .get<{ success: boolean; message: string; data: Usuario[] }>(
+    //     `${this.apiUrl + this.endpoint}/${id}/users`
+    //   )
+    //   .pipe(map(response => response.data));
+  }
+
+    // TODO: Falta estructura en backend
+  /** Obtener usuarios asociados a un proyecto por ID */
+  getPruebasFromProyectoById(id: string): Observable<Prueba[]> {
+
+    // *** Mientras no haya estructura necesaria en backend, devolvemos todos los usuarios ***
+    return this._pruebaService.getPruebas();
+
+
+    // ESTE SERÍA EL RETURN REAL:
+
+    // return this.http
+    //   .get<{ success: boolean; message: string; data: Prueba[] }>(
+    //     `${this.apiUrl + this.endpoint}/${id}/pruebas`
+    //   )
+    //   .pipe(map(response => response.data));
+  }
+
+  unlinkUsuarioFromProyecto(idProyecto: string, idUsuario: string): Observable<any> {
+    // *** Mientras no haya estructura necesaria en backend, devolvemos el usuario a disociar ***
+    return this._usuarioService.getUsuarioById(idUsuario);
+
+    // ESTE SERÍA EL RETURN REAL:
+    // return this.http.delete(`${this.apiUrl + this.endpoint}/${idProyecto}/user/${idUsuario}`);
+  }
+
+  unlinkPruebaFromProyecto(idProyecto: string, idPrueba: string): Observable<any> {
+    // *** Mientras no haya estructura necesaria en backend, devolvemos la prueba a disociar ***
+    return this._usuarioService.getUsuarioById(idPrueba);
+
+    // ESTE SERÍA EL RETURN REAL:
+    // return this.http.delete(`${this.apiUrl + this.endpoint}/${idProyecto}/testcase/${idUsuario}`);
   }
 }

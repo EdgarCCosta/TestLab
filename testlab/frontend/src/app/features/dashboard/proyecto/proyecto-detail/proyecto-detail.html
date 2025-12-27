@@ -38,24 +38,91 @@
 
 <!-- Sección tabs con listados -->
 <section>
+
+  <!-- Pestañas -->
   <nav class="mt-5">
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link fs-4 active" id="nav-versiones-tab" data-bs-toggle="tab" data-bs-target="#nav-versiones" type="button" role="tab" aria-controls="nav-versiones" aria-selected="true">
+      <button class="nav-link fs-3 text-dark active" id="nav-usuarios-tab" data-bs-toggle="tab" data-bs-target="#nav-usuarios" type="button" role="tab" aria-controls="nav-usuarios" aria-selected="true">
+        <i class="bi bi-person-circle"></i> Usuarios
+      </button>
+      <button class="nav-link text-dark fs-3" id="nav-versiones-tab" data-bs-toggle="tab" data-bs-target="#nav-versiones" type="button" role="tab" aria-controls="nav-versiones" aria-selected="false">
         <i class="bi bi-box-seam"></i> Versiones
       </button>
-      <button class="nav-link fs-4" id="nav-pruebas-tab" data-bs-toggle="tab" data-bs-target="#nav-pruebas" type="button" role="tab" aria-controls="nav-pruebas" aria-selected="false">
-        Pruebas
+      <button class="nav-link text-dark fs-3" id="nav-pruebas-tab" data-bs-toggle="tab" data-bs-target="#nav-pruebas" type="button" role="tab" aria-controls="nav-pruebas" aria-selected="false">
+        <i class="bi bi-clipboard2-check"></i> Pruebas
       </button>
-      <button class="nav-link fs-4" id="nav-ejecuciones-tab" data-bs-toggle="tab" data-bs-target="#nav-ejecuciones" type="button" role="tab" aria-controls="nav-ejecuciones" aria-selected="false">
+      <button class="nav-link text-dark fs-3" id="nav-ejecuciones-tab" data-bs-toggle="tab" data-bs-target="#nav-ejecuciones" type="button" role="tab" aria-controls="nav-ejecuciones" aria-selected="false">
         <i class="bi bi-check2-circle"></i> Ejecuciones
       </button>
     </div>
   </nav>
-  <div class="tab-content pt-4" id="nav-tabContent">
-    <!-- VERSIONES -->
-    <div class="tab-pane fade show active" id="nav-versiones" role="tabpanel" aria-labelledby="nav-versiones-tab" tabindex="0">
-      <div class="card shadow-sm">
 
+  <!-- Contenidos de pestañas -->
+
+  <div class="tab-content pt-4" id="nav-tabContent">
+
+    <!-- USUARIOS -->
+    <div class="tab-pane fade show active" id="nav-usuarios" role="tabpanel" aria-labelledby="nav-usuarios-tab" tabindex="0">
+
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2>Usuarios asociados al proyecto</h2>
+        <button type="button"
+            class="btn btn-nuevo"
+            data-bs-toggle="modal"
+            data-bs-target="#asociarModal"
+            (click)="abrirAsociarUsuario(proyectoId)">
+          <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
+        </button>
+      </div>
+
+      <div class="card shadow-sm">
+        <ul class="list-group list-group-flush">
+          @for (u of (mostrarTodosUsuarios ? usuarios : usuarios.slice(0,3)); track u) {
+            <li class="list-group-item">
+              <div class="d-flex">
+                <div>
+                  <strong>{{ u.name }}</strong>
+                  <span class="text-muted">
+                    ({{ u.rol }})
+                  </span>
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones">
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarUsuario(u.id)" title="Eliminar usuario del proyecto"></i>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      @if (usuarios.length > 3) {
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodosUsuarios = !mostrarTodosUsuarios">
+            {{ mostrarTodosUsuarios ? 'Mostrar menos' : 'Mostrar todo' }}
+            <i class="align-self-end bi"
+              [ngClass]="mostrarTodosUsuarios ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- VERSIONES -->
+    <div class="tab-pane fade" id="nav-versiones" role="tabpanel" aria-labelledby="nav-versiones-tab" tabindex="1">
+
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2>Versiones del proyecto</h2>
+        <button type="button"
+          class="btn btn-nuevo"
+          data-bs-toggle="modal"
+          data-bs-target="#detalleModal"
+          (click)="abrirNuevaVersion(proyectoId)">
+          <i class="bi bi-plus-lg"></i> Añadir versión
+        </button>
+      </div>
+
+      <div class="card shadow-sm">
         <ul class="list-group list-group-flush">
           @for (v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3)); track v) {
             <li class="list-group-item">
@@ -71,36 +138,83 @@
 
                 <!-- Acciones -->
                 <div class="acciones">
-                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
                 </div>
               </div>
             </li>
           }
         </ul>
-
-        @if (versiones.length > 3) {
-        <button class="btn btn-link"
-                (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
-          <i class="bi"
-            [ngClass]="mostrarTodasVersiones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-          {{ mostrarTodasVersiones ? 'Ver menos' : 'Ver más' }}
-        </button>
-        }
       </div>
+
+      @if (versiones.length > 3) {
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
+            {{ mostrarTodasVersiones ? 'Mostrar menos' : 'Mostrar todo' }}
+            <i class="bi"
+              [ngClass]="mostrarTodasVersiones ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+          </button>
+        </div>
+      }
     </div>
 
     <!-- PRUEBAS -->
-    <div class="tab-pane fade" id="nav-pruebas" role="tabpanel" aria-labelledby="nav-pruebas-tab" tabindex="0">
-      Aquí los casos de prueba
+    <div class="tab-pane fade" id="nav-pruebas" role="tabpanel" aria-labelledby="nav-pruebas-tab" tabindex="2">
+
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2>Casos de prueba asociados al proyecto</h2>
+        <button type="button"
+          class="btn btn-nuevo"
+          data-bs-toggle="modal"
+          data-bs-target="#detalleModal"
+          (click)="abrirAsociarPrueba(proyectoId)">
+          <i class="bi bi-plus-lg"></i> Asociar nueva prueba
+        </button>
+      </div>
+
+      <div class="card shadow-sm">
+        <ul class="list-group list-group-flush">
+          @for (p of (mostrarTodasPruebas ? pruebas : pruebas.slice(0,3)); track p) {
+            <li class="list-group-item">
+              <div class="d-flex">
+                <div>
+                  <strong>{{ p.title }}</strong>
+                  <span class="text-muted">
+                    ({{ p.objective }})
+                  </span>
+                </div>
+
+                <!-- Acciones -->
+                <div class="acciones">
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPrueba(p.id)" title="Eliminar prueba del proyecto"></i>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      @if (pruebas.length > 3) {
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasPruebas = !mostrarTodasPruebas">
+            {{ mostrarTodasPruebas ? 'Mostrar menos' : 'Mostrar todo' }}
+            <i class="bi"
+              [ngClass]="mostrarTodasPruebas ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+          </button>
+        </div>
+      }
+
     </div>
 
     <!-- EJECUCIONES -->
-    <div class="tab-pane fade" id="nav-ejecuciones" role="tabpanel" aria-labelledby="nav-ejecuciones-tab" tabindex="0">
+    <div class="tab-pane fade" id="nav-ejecuciones" role="tabpanel" aria-labelledby="nav-ejecuciones-tab" tabindex="3">
+
+      <div class="d-flex justify-content-between align-items-end my-3">
+        <h2>Ejecuciones de pruebas del proyecto</h2>
+      </div>
+
       <div class="card shadow-sm">
-
         <ul class="list-group list-group-flush">
-
           @for (e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3)); track e) {
             <li class="list-group-item">
 
@@ -152,8 +266,8 @@
 
                 <!-- Acciones -->
                 <div class="acciones">
-                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarEjecucion(e.id)" title="Editar ejecución"></i>
+                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
                 </div>
               </div>
             </li>
@@ -161,11 +275,11 @@
         </ul>
       </div>
        @if(ejecuciones.length > 3) {
-        <div>
-          <button class="btn btn-link mt-1 mb-5" (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
-            <i class="bi"
-              [ngClass]="mostrarTodasEjecuciones ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
             {{ mostrarTodasEjecuciones ? 'Mostrar menos' : 'Mostrar todo' }}
+            <i class="bi"
+              [ngClass]="mostrarTodasEjecuciones ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
           </button>
         </div>
         

@@ -14,7 +14,7 @@ export class Login {
   form!: FormGroup;
   error!: string;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private _auth: AuthService, private router: Router) {
 
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]], // Email requerido
@@ -26,11 +26,11 @@ export class Login {
     if (this.form.valid) {
       const { email, password } = this.form.value;
       console.log(email, password);
-      this.auth.login(email, password).subscribe({
+      this._auth.login(email, password).subscribe({
         next: (response) => {
           console.log(response);
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('usuario', response.data.user.email);
+          localStorage.setItem('id', response.data.user.id);
           localStorage.setItem('nombre', response.data.user.name);
           this.router.navigate(['/'])
         },

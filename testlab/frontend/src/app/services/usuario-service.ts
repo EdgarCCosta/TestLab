@@ -26,6 +26,23 @@ export class UsuarioService {
     return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
+  // Obtiene el rol del usuario que está accediendo a la aplicación para permitir o restringir acceso a funciones
+  // No lo guardamos en localStorage para evitar manipulación a través de las herramientas del navegador
+  getUsuarioRolById(id: string): Usuario["rol"] | null {
+
+    this.getUsuarioById(id).subscribe({
+      next: (response) => {
+        console.log('Respuesta _usuarioService: ', response);
+        return response.data.user.rol;
+      },
+      error: () => {
+        return null;
+      }
+    });
+
+    return null;
+  }
+
   createUsuario(dto: CreateUsuarioDto): Observable<any> {
     console.log('DTO Usuario: ', dto);
     return this.http.post(this.apiUrl + this.endpoint, dto);

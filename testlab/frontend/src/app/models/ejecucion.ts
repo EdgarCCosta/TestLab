@@ -1,8 +1,8 @@
 export interface Ejecucion {
-  id: number;
-  test_case_id: number;
-  version_id: number;
-  user_id: number;
+  id: string;
+  test_case_id: string;
+  version_id: string;
+  user_id: string;
 
   result: 'passed' | 'failed';
   comment: string;
@@ -18,7 +18,7 @@ export interface Ejecucion {
 
   // Relaciones incluidas en la respuesta
   test_case: {
-    id: number;
+    id: string;
     title: string;
     objective: string;
     preconditions: string;
@@ -31,17 +31,17 @@ export interface Ejecucion {
   };
 
   version: {
-    id: number;
+    id: string;
     version_number: string;
     release_date: string;
     description: string;
-    project_id: number;
+    project_id: string;
     created_at: string;
     updated_at: string;
   };
 
   user: {
-    id: number;
+    id: string;
     name: string;
     email: string;
     rol: string;
@@ -51,9 +51,9 @@ export interface Ejecucion {
 }
 
 export interface CreateEjecucionDto {
-  test_case_id: number;
-  version_id: number;
-  user_id: number;
+  test_case_id: string;
+  version_id: string;
+  user_id: string;
 
   result: 'passed' | 'failed';
   comment: string;
