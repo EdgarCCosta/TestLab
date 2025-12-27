@@ -5,6 +5,8 @@ import { PruebaService } from '../../../../services/prueba-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { Location } from '@angular/common';
+import { ToastService } from '../../../../layout/shared/toast/toast';
+
 
 @Component({
   selector: 'app-prueba-detail',
@@ -28,7 +30,8 @@ export class PruebaDetail {
     private _route: ActivatedRoute,
     private _router: Router,
     private fb: FormBuilder,
-    private _location: Location
+    private _location: Location,
+    private _toastService: ToastService
   ) {
 
     this.form = this.fb.group({
@@ -76,9 +79,11 @@ export class PruebaDetail {
         });
 
         this.form.updateValueAndValidity();
+        this._toastService.show('Prueba cargada correctamente', 'success');
       },
       error: (err) => {
         console.error('Error obteniendo el ítem:', err);
+        this._toastService.show('Error obteniendo la prueba', 'error');
       }
     });
   }
@@ -92,9 +97,11 @@ export class PruebaDetail {
     this._itemService.deletePrueba(id).subscribe({
       next: data => {
         console.log("OK: ", data);
+        this._toastService.show('Prueba eliminada correctamente', 'success');
       },
       error: error => {
         console.log("Error: ", error);
+        this._toastService.show('Error eliminando la prueba', 'error');
       }
     });
   }
@@ -105,8 +112,14 @@ export class PruebaDetail {
 
       if (this.modo() === 'detalle' && this.itemId()) {
         this._itemService.updatePrueba(this.itemId()!, this.form.value).subscribe({
-          next: () => console.log('Ítem actualizado'),
-          error: (err) => console.error('Error actualizando ítem:', err)
+          next: () => {
+            console.log('Ítem actualizado');
+            this._toastService.show('Prueba actualizada correctamente', 'success');
+          },
+          error: (err) => {
+            console.error('Error actualizando ítem:', err);
+            this._toastService.show('Error actualizando la prueba', 'error');
+          }
         });
       } else if (this.modo() === 'nuevo') {
         this._itemService.createPrueba(this.form.value).subscribe({
@@ -114,9 +127,13 @@ export class PruebaDetail {
             console.log('Ítem creado');
             // console.log('Listado antes de añadir:', this.listado());
             this.listado.update((listado) => ([...listado, datos.data]));
+            this._toastService.show('Prueba creada correctamente', 'success');
             // console.log('Listado tras añadir:', this.listado());
           },
-          error: (err) => console.error('Error creando ítem:', err)
+          error: (err) => {
+            console.error('Error creando ítem:', err);
+            this._toastService.show('Error creando la prueba', 'error');
+          }
         });
       }
 

@@ -9,6 +9,8 @@ import { EjecucionService } from '../../../../services/ejecucion-service';
 import { Proyecto } from '../../../../models/proyecto';
 import { Version } from '../../../../models/version';
 import { Ejecucion } from '../../../../models/ejecucion';
+import { ToastService } from '../../../../layout/shared/toast/toast';
+
 
 @Component({
   selector: 'app-proyecto-detail',
@@ -34,7 +36,8 @@ export class ProyectoDetail {
     private _proyectoService: ProyectoService,
     private _versionService: VersionService,
     private _ejecucionService: EjecucionService,
-    private _location: Location
+    private _location: Location,
+    private _toastService: ToastService
   ) {
     this.route.paramMap.subscribe(params => {
       this.proyectoId = Number(params.get('id'));
@@ -80,8 +83,14 @@ export class ProyectoDetail {
 
   eliminarProyecto() {
     this._proyectoService.deleteProyecto(this.proyectoId.toString()).subscribe({
-      next: () => this.router.navigate(['/proyectos']),
-      error: (err) => console.error('Error eliminando proyecto:', err)
+      next: () => {
+        this._toastService.show('Proyecto eliminado correctamente', 'success');
+        this.router.navigate(['/proyectos']);
+      },
+      error: (err) => {
+        console.error('Error eliminando proyecto:', err);
+        this._toastService.show('Error eliminando proyecto', 'error');
+      }
     });
   }
 

@@ -102,8 +102,14 @@ export class UsuarioDetail {
 
       if (this.modo() === 'detalle' && this.usuarioId()) {
         this._usuarioService.updateUsuario(this.usuarioId()!, this.form.value).subscribe({
-          next: () => console.log('Usuario actualizado'),
-          error: (err) => console.error('Error actualizando usuario:', err)
+          next: () => {
+            console.log('Usuario actualizado');
+            this._toastService.show('Usuario actualizado correctamente', 'success');
+          },
+          error: (err) => {
+            console.error('Error actualizando usuario:', err);
+            this._toastService.show('Error actualizando usuario', 'error');
+          }
         });
       } else if (this.modo() === 'nuevo') {
         this._usuarioService.createUsuario(this.form.value).subscribe({
@@ -115,7 +121,10 @@ export class UsuarioDetail {
 
             // console.log('Listado tras añadir:', this.listado());
           },
-          error: (err) => console.error('Error creando usuario:', err)
+          error: (err) => {
+            console.error('Error creando usuario:', err);
+            this._toastService.show('Error creando usuario', 'error');
+          }
         });
       }
 

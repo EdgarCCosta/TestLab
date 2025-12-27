@@ -1,10 +1,12 @@
-    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
-      @for (t of toastService.toasts(); track t) {
-        <div class="toast show mb-2"
-             [class.bg-success]="t.type === 'success'"
-             [class.bg-danger]="t.type === 'error'"
-             style="color: white; padding: 10px; border-radius: 5px;">
-          {{ t.text }}
-        </div>
-      }
+<div class="toast-container position-fixed start-50 translate-middle-x"
+     style="bottom: 10%; z-index: 2000; width: 100%; display: flex; justify-content: center;">
+  
+  @for (t of toastService.toasts(); track t) {
+    <div class="mb-3 p-3 rounded shadow-lg"
+         [class.toast-success]="t.type === 'success'"
+         [class.toast-error]="t.type === 'error'">
+      {{ t.text }}
     </div>
+  }
+
+</div>

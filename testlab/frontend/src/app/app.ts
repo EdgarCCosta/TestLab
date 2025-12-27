@@ -2,12 +2,13 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { ToastsComponent } from "./layout/shared/toast/toast.component/toast.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ToastsComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
