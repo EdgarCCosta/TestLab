@@ -1,12 +1,21 @@
-<div class="toast-container position-fixed start-50 translate-middle-x"
-     style="bottom: 10%; z-index: 2000; width: 100%; display: flex; justify-content: center;">
-  
+<div class="toast-wrapper position-fixed start-50 translate-middle-x">
   @for (t of toastService.toasts(); track t) {
-    <div class="mb-3 p-3 rounded shadow-lg"
-         [class.toast-success]="t.type === 'success'"
-         [class.toast-error]="t.type === 'error'">
-      {{ t.text }}
+    <div class="toast-card"
+         [class.toast-success]="t.type === 'success'"         [class.toast-error]="t.type === 'error'">
+
+      <div class="toast-icon">
+        @if (t.type === 'success') {
+          <i class="bi bi-check-circle-fill text-success"></i>
+        }
+        @else if (t.type === 'error') {
+          <i class="bi bi-x-circle-fill text-danger"></i>
+        }
+      </div>
+
+      <div class="toast-text">
+        {{ t.text }}
+      </div>
+
     </div>
   }
-
 </div>

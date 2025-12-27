@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProyectoService } from '../../../../services/proyecto-service';
 import { CreateProyectoDto } from '../../../../models/proyecto';
 import { Modal } from 'bootstrap';
+import { ToastService } from '../../../../layout/shared/toast/toast';
+
 
 @Component({
   selector: 'app-proyecto-new',
@@ -23,7 +25,8 @@ export class ProyectoNew {
     private _proyectoService: ProyectoService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _toastService: ToastService
   ) {
 
     this.form = this.fb.group({
@@ -47,8 +50,12 @@ export class ProyectoNew {
         next: (datos) => {
           console.log('Proyecto creado');
           this.listado.update((listado) => ([...listado, datos.data]));
+          this._toastService.show('Proyecto creado correctamente', 'success');
         },
-        error: (err) => console.error('Error creando proyecto:', err)
+        error: (err) => {
+          console.error('Error creando proyecto:', err);
+          this._toastService.show('Error creando proyecto', 'error');
+        }
       });
 
       const modalEl = document.getElementById('detalleModal');
