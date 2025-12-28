@@ -165,4 +165,14 @@ class VersionController extends Controller
             return ApiResponse::error('Failed to generate report', 500, $e->getMessage());
         }
     }
+
+    public function getByProject($projectId)
+        {
+            try {
+                $versions = Version::where('project_id', $projectId)->get();
+                return ApiResponse::success($versions);
+            } catch (\Exception $e) {
+                return ApiResponse::error('Failed to load versions', 500, $e->getMessage());
+            }
+        }
 }

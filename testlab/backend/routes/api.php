@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/versions/{id}', [VersionController::class, 'show'])->middleware(['role:admin,manager,tester']);; // Ver una version
     Route::put('/versions/{id}', [VersionController::class, 'update'])->middleware(['role:admin,manager']);; // Actualizar version
     Route::delete('/versions/{id}', [VersionController::class, 'destroy'])->middleware(['role:admin,manager']);; // Eliminar version
+    Route::get('/projects/{project_id}/versions', [VersionController::class, 'getByProject'])->middleware(['role:admin,manager,tester']); // Listar versiones por proyecto
 
 
     //TESTCASE

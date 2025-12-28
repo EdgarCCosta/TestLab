@@ -25,6 +25,7 @@ import { PruebaService } from '../../../../services/prueba-service';
 })
 export class ProyectoDetail {
 
+  
   proyectoId!: string;
   proyecto: Proyecto | null = null;
   userRol: Usuario["rol"] | null = null;

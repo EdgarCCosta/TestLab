@@ -2,21 +2,28 @@ import { Component, input, model, effect } from '@angular/core';
 import { UpdatePruebaDto } from '../../../../models/prueba';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PruebaService } from '../../../../services/prueba-service';
+import { ProyectoService } from '../../../../services/proyecto-service';
+import { VersionService } from '../../../../services/version-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { Location } from '@angular/common';
 import { ToastService } from '../../../../layout/shared/toast/toast';
+import { Version } from '../../../../models/version';
+import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
 
 
 @Component({
   selector: 'app-prueba-detail',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoadingInlineComponent],
   templateUrl: './prueba-detail.html',
   styleUrl: './prueba-detail.css',
 })
+
+
 export class PruebaDetail {
 
+  loading: boolean = true;
 
   itemId = input<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
@@ -25,13 +32,19 @@ export class PruebaDetail {
   item!: UpdatePruebaDto;
   form!: FormGroup;
 
+  projects: any[] = [];
+  versions: Version[] = [];
+
+
   constructor(
     private _itemService: PruebaService,
     private _route: ActivatedRoute,
     private _router: Router,
     private fb: FormBuilder,
     private _location: Location,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _projectService: ProyectoService,
+    private _versionService: VersionService
   ) {
 
     this.form = this.fb.group({
@@ -40,6 +53,11 @@ export class PruebaDetail {
       preconditions: ['', [Validators.required, Validators.minLength(5)]],
       steps: ['', [Validators.required, Validators.minLength(10)]],
       expected_result: ['', [Validators.required, Validators.minLength(10)]],
+      rol: ['', [Validators.required, Validators.minLength(10)]],
+      project_id: ['', Validators.required],
+      version_id: ['', Validators.required]
+
+
     });
 
     effect(() => {
@@ -53,41 +71,100 @@ export class PruebaDetail {
       }
 
       if (this.modo() === 'nuevo') {
+        this.loading = false;
         this.form.reset({
           title: '',
           objective: '',
           preconditions: '',
           steps: '',
-          expected_result: ''
+          expected_result: '',
+          rol: '',
+          project_id: '',
+          version_id: ''
+
         });
       }
     });
   }
 
-  /*** Recuperación de Usuario ***/
-  getItemById(id: string): void {
-    console.log('En propiedad getItemById');
-    this._itemService.getPruebaById(id).subscribe({
-      next: (datos) => {
-        console.log(datos);
-        this.item = datos.data;
-        this.form.setValue({
-          title: this.item?.title,
-          objective: this.item?.objective,
-          preconditions: this.item?.preconditions,
-          steps: this.item?.steps,
-          expected_result: this.item?.expected_result,
-        });
+  ngOnInit() {
+    this.loadProjects();
+  }
 
-        this.form.updateValueAndValidity();
-        // this._toastService.show('Prueba cargada correctamente', 'success');
+  loadProjects() {
+    this._projectService.getProyectos().subscribe({
+      next: (res) => {
+        this.projects = res;
+        console.log("PROYECTOS CARGADOS: ", this.projects);
       },
-      error: (err) => {
-        console.error('Error obteniendo el ítem:', err);
-        this._toastService.show('Error obteniendo la prueba', 'error');
-      }
+      error: () => this._toastService.show('Error cargando proyectos', 'error')
     });
   }
+
+    onProjectChange(event: any) {
+    const projectId = event.target.value;
+
+    if (!projectId) {
+      this.versions = [];
+      this.form.patchValue({ version_id: '' });
+      return;
+    }
+
+    this._versionService.getByProject(projectId).subscribe({
+      next: (res) => {
+        this.versions = res.data;
+        console.log('VERSIONES CARGADAS: ', this.versions);
+        this.form.patchValue({ version_id: '' });
+      },
+      error: () => this._toastService.show('Error cargando versiones', 'error')
+    });
+  }
+
+
+  /*** Recuperación de Prueba ***/
+  getItemById(id: string): void {
+    this.loading = true;
+  this._itemService.getPruebaById(id).subscribe({
+    next: (datos) => {
+      this.item = datos.data;
+
+      // 1. Obtener el project_id desde la versión
+
+      const versionId = Number(this.item.version_id);
+
+      if (!versionId) {
+        console.error('version_id inválido');
+        return;
+      }
+
+      this._versionService.getVersionById(versionId).subscribe(version => {
+        const projectId = Number(version.project_id);
+
+        // 2. Cargar las versiones del proyecto
+        this._versionService.getByProject(projectId).subscribe(res => {
+          this.versions = res.data;
+
+          // 3. Rellenar el formulario
+          this.form.setValue({
+            title: this.item.title,
+            objective: this.item.objective,
+            preconditions: this.item.preconditions,
+            steps: this.item.steps,
+            expected_result: this.item.expected_result,
+            rol: this.item.user_profile,
+            project_id: projectId,               // ✔ obtenido desde la versión
+            version_id: this.item.version_id     // ✔ selecciona la versión correcta
+          });
+          this.loading = false; // ✔ Todo listo
+
+        });
+      });
+    },
+    error: () => {
+      this._toastService.show('Error obteniendo la prueba', 'error');
+    }
+  });
+}
 
   borrar(id: string | null | undefined): void {
     if (!id) {
