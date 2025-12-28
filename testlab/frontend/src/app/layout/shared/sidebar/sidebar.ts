@@ -20,11 +20,9 @@ export class Sidebar {
    usuarioNombre: string | null = null;
 
 
-  constructor (public router: Router, public authService: AuthService, private _usuarioService: UsuarioService) {
+  constructor (public router: Router, private _authService: AuthService, private _usuarioService: UsuarioService) {
 
-    if (localStorage.getItem('nombre') != undefined) {
-      this.usuarioNombre = localStorage.getItem('nombre');
-    }
+    this.usuarioNombre = this._authService.checklogin()
   }
 
   logout() {
@@ -32,7 +30,7 @@ export class Sidebar {
     if (confirmado) {
       const id = localStorage.getItem('id');
       if (id) {
-        this.authService.logout(id).subscribe({
+        this._authService.logout(id).subscribe({
           next: (response) => {
             console.log("Respuesta:", response);
             // borra token y usuario

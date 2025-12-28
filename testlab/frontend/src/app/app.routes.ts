@@ -32,5 +32,5 @@ export const routes: Routes = [
       { path: 'version', component: VersionList },
     ]
   },
-  { path: '**', redirectTo: '/login' },
+  { path: '**', redirectTo: 'login' },
 ];
