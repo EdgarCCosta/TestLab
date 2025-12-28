@@ -100,6 +100,7 @@
     <div class="mb-4" [class.was-validated]="this.form.get('rol')?.dirty || this.form.get('rol')?.touched" required minlength="1">
       <label for="rol" class="form-label">Rol</label>
       <select id="rol" name="rol" class="form-control" formControlName="rol" required>
+        <option value="">Selecciona un rol</option>
         <option value="admin">Admin</option>
         <option value="manager">Manager</option>
         <option value="tester">Tester</option>

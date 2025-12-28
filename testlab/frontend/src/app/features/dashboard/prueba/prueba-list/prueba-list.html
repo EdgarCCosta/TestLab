@@ -23,6 +23,6 @@
   @if (nuevoItem && itemSelId === null) {
     <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [itemId]="null" [modo]="'nuevo'"></app-prueba-detail>
   } @else if (itemSelId) {
-    <app-prueba-detail [itemId]="itemSelId" [modo]="'detalle'"></app-prueba-detail>
+    <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [itemId]="itemSelId" [modo]="'detalle'"></app-prueba-detail>
   }
 </app-modal>

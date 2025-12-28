@@ -53,7 +53,7 @@ export class PruebaDetail {
       preconditions: ['', [Validators.required, Validators.minLength(5)]],
       steps: ['', [Validators.required, Validators.minLength(10)]],
       expected_result: ['', [Validators.required, Validators.minLength(10)]],
-      rol: ['', [Validators.required, Validators.minLength(10)]],
+      rol: ['', [Validators.required]],
       project_id: ['', Validators.required],
       version_id: ['', Validators.required]
 
@@ -160,7 +160,9 @@ export class PruebaDetail {
         });
       });
     },
-    error: () => {
+    error: (err) => {
+  console.error('Error creando ítem:', err.error);
+
       this._toastService.show('Error obteniendo la prueba', 'error');
     }
   });
@@ -196,15 +198,22 @@ export class PruebaDetail {
     // Construir payload final
     const payload = {
       ...this.form.value,
+      user_profile: this.form.value.rol,
       steps: stepsArray
     };
 
     console.log('Payload final:', payload); // Datos a introducir ***MODIFICAR***
 
       if (this.modo() === 'detalle' && this.itemId()) {
-        this._itemService.updatePrueba(this.itemId()!, this.form.value).subscribe({
+        this._itemService.updatePrueba(this.itemId()!, payload).subscribe({
           next: () => {
             console.log('Ítem actualizado');
+              this.listado.update((listado) =>
+                listado.map(item =>
+                  item.id === this.itemId() ? { ...item, ...payload } : item
+                )
+              );
+
             this._toastService.show('Prueba actualizada correctamente', 'success');
           },
           error: (err) => {
@@ -214,7 +223,8 @@ export class PruebaDetail {
         });
       } else if (this.modo() === 'nuevo') {
         console.log('Formulario válido para crear', this.form.value)
-        this._itemService.createPrueba(this.form.value).subscribe({
+        console.log('Payload final:', payload);
+        this._itemService.createPrueba(payload).subscribe({
           next: (datos) => {
             console.log('Ítem creado');
             // console.log('Listado antes de añadir:', this.listado());
