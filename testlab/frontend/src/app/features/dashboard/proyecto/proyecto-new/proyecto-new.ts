@@ -21,6 +21,8 @@ export class ProyectoNew {
   proyecto!: CreateProyectoDto;
   form!: FormGroup;
 
+  modo = input<'nuevo' | 'editar'>('nuevo');
+
   constructor(
     private _proyectoService: ProyectoService,
     private _route: ActivatedRoute,
@@ -36,6 +38,17 @@ export class ProyectoNew {
     });
 
     effect(() => {
+      if (this.modo() === 'editar' && this.proyectoId()) {
+        console.log("modo editar")
+        this._proyectoService.getProyectoById(this.proyectoId()!).subscribe(proyecto => {
+          this.form.patchValue({
+            name: proyecto.name,
+            description: proyecto.description,
+            status: proyecto.status
+          });
+        });
+      }
+
       if (this.listado().length) {
         console.log('Nuevo proyecto añadido al listado:', this.listado);
       }

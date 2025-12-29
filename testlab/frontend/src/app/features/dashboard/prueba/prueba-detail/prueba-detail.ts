@@ -152,7 +152,7 @@ export class PruebaDetail {
             preconditions: this.item.preconditions,
             steps: Array.isArray(this.item.steps) // Si es array crea un string que separa cada paso con comas ", ". Sino 1 solo paso.
                 // ? this.item.steps.join(', ')
-                ? this.item.steps.join('\n')
+                ? this.item.steps.join('\n') //Separa los pasos por saltos de línea
                 : this.item.steps,
             expected_result: this.item.expected_result,
             rol: this.item.user_profile,

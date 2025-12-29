@@ -9,6 +9,11 @@
   <div class="acciones">
     <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
     <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+    <button id="btnAbrirModalProyecto"
+        class="d-none"
+        data-bs-toggle="modal"
+        data-bs-target="#detalleModal">
+    </button>
   </div>
 
   <div class="card-body">
@@ -286,4 +291,14 @@
         }
     </div>
   </div>
+  <app-modal [title]="'Editar proyecto'">
+
+    <app-proyecto-new
+      [(listado)]="this.proyectos"
+      [modo]="modo()"
+      [proyectoId]="proyectoSelId()">
+    </app-proyecto-new>
+
+  </app-modal>
 </section>
+

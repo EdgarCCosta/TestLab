@@ -8,6 +8,7 @@ import { Usuario } from '../models/usuario';
 import { UsuarioService } from './usuario-service';
 import { PruebaService } from './prueba-service';
 import { Prueba } from '../models/prueba';
+import { signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,8 @@ export class ProyectoService {
 
   private readonly apiUrl = environment.apiUrl;
   private readonly endpoint = '/projects';
+
+  proyectos = signal<Proyecto[]>([]);
 
   // Servicios de usuarios y pruebas inyectados temporalmente para devolver valores hasta que haya estructura y método en backend
   constructor(private http: HttpClient, private _usuarioService: UsuarioService, private _pruebaService: PruebaService) {}
@@ -26,7 +29,12 @@ export class ProyectoService {
       .get<{ success: boolean; message: string; data: Proyecto[] }>(
         this.apiUrl + this.endpoint
       )
-      .pipe(map(response => response.data));
+      .pipe(map(
+        response => {
+          this.proyectos.set(response.data);
+          return response.data;
+        }
+      ));
   }
 
   /** Obtener un proyecto por ID */
@@ -40,17 +48,41 @@ export class ProyectoService {
 
   /** Crear proyecto */
   createProyecto(dto: CreateProyectoDto): Observable<any> {
-    return this.http.post(this.apiUrl + this.endpoint, dto);
+    return this.http.post<{ data: Proyecto }>(this.apiUrl + this.endpoint, dto)
+      .pipe(
+        map(res => {
+          this.proyectos.update(list => [...list, res.data]);  // 👈 Añadir al signal
+          console.log('Proyecto creado:', res.data);
+          console.log('Proyectos:', this.proyectos());
+          return res;
+        })
+      );
   }
 
   /** Actualizar proyecto */
   updateProyecto(id: string, dto: UpdateProyectoDto): Observable<any> {
-    return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
+    return this.http.put<{ data: Proyecto }>(`${this.apiUrl + this.endpoint}/${id}`, dto)
+      .pipe(
+        map(res => {
+          this.proyectos.update(list =>
+            list.map(p => p.id === id ? res.data : p)   // Reemplaza en el signal
+          );
+          return res;
+        })
+      );
   }
 
   /** Eliminar proyecto */
   deleteProyecto(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
+    return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`)
+      .pipe(
+        map(res => {
+          this.proyectos.update(list =>
+            list.filter(p => p.id !== id)   // Elimina del signal
+          );
+          return res;
+        })
+      );
   }
 
   // TODO: Falta estructura en backend

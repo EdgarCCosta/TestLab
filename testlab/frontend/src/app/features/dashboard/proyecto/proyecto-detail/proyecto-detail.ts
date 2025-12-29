@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal, model, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 
@@ -16,10 +16,13 @@ import { ToastService } from '../../../../layout/shared/toast/toast';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { PruebaService } from '../../../../services/prueba-service';
 
+import { Modal } from '../../../../layout/shared/modal/modal';
+import { ProyectoNew } from '../proyecto-new/proyecto-new';
+
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Modal, ProyectoNew],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
@@ -39,6 +42,11 @@ export class ProyectoDetail {
   mostrarTodasVersiones = false;
   mostrarTodasPruebas = false;
   mostrarTodasEjecuciones = false;
+
+  proyectoSelId = model<string | null>(null);
+  modo = model<'nuevo' | 'editar'>('editar');
+  
+  proyectos = signal<Proyecto[]>([]);
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +69,19 @@ export class ProyectoDetail {
       this.getPruebasByProyecto(this.proyectoId);
       this.getVersionesByProyecto(this.proyectoId);
       this.getEjecucionesByProyecto(this.proyectoId);
+      this.proyectos = this._proyectoService.proyectos;
+      console.log("Proyectos:", this.proyectos());
     });
+  }
+
+  ngOnInit() {
+    // Si el signal está vacío, cargar proyectos
+    if (this._proyectoService.proyectos().length === 0) {
+      this._proyectoService.getProyectos().subscribe(() => {
+        console.log("Proyectos cargados en detalle:", this._proyectoService.proyectos());
+        console.log("Y el signal también los tendría: ", this.proyectos());
+      });
+    }
   }
 
   getProyectoById(id: string) {
@@ -117,15 +137,22 @@ export class ProyectoDetail {
     });
   }
 
-  editarProyecto() {
-    this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
-  }
+  // editarProyecto() {
+  //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
+  // }
+
+editarProyecto() {
+  this.modo.set('editar');
+  this.proyectoSelId.set(this.proyectoId); // el id actual
+  document.getElementById('btnAbrirModalProyecto')?.click();
+}
+
 
   eliminarProyecto() {
     this._proyectoService.deleteProyecto(this.proyectoId.toString()).subscribe({
       next: () => {
         this._toastService.show('Proyecto eliminado correctamente', 'success');
-        this.router.navigate(['/proyectos']);
+        this.router.navigate(['/proyecto']);
       },
       error: (err) => {
         console.error('Error eliminando proyecto:', err);
