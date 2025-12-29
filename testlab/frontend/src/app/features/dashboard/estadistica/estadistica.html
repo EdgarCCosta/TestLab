@@ -1,0 +1,94 @@
+
+<h1>Estadísticas</h1>
+<p>Métricas de Testlab</p>
+
+
+<!-- Sección tabs con listados -->
+<section>
+
+  <!-- Pestañas -->
+  <nav class="mt-5">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <button class="nav-link fs-3 text-dark active" id="nav-general-tab" data-bs-toggle="tab" data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="true">
+        <i class="bi bi-person-circle"></i> Generales
+      </button>
+      <button class="nav-link text-dark fs-3" id="nav-proyecto-tab" data-bs-toggle="tab" data-bs-target="#nav-proyecto" type="button" role="tab" aria-controls="nav-proyecto" aria-selected="false">
+        <i class="bi bi-box-seam"></i> Por proyecto
+      </button>
+      <button class="nav-link text-dark fs-3" id="nav-usuario-tab" data-bs-toggle="tab" data-bs-target="#nav-usuario" type="button" role="tab" aria-controls="nav-usuario" aria-selected="false">
+        <i class="bi bi-clipboard2-check"></i> Por usuario
+      </button>
+    </div>
+  </nav>
+
+  <!-- Contenidos de pestañas -->
+
+  <div class="tab-content pt-4" id="nav-tabContent">
+
+    <!-- ESTADISTICAS GENERALES -->
+    <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
+
+      <div class="row">
+        <div class="col">
+          <div class="card shadow-sm">
+            Tests totales
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            Tests pasados
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            Tests fallidos
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            Tests pendientes
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="card shadow-sm">
+            Evolución mensual
+          </div>
+        </div>
+        <div class="col">
+          <div class="card shadow-sm">
+            Distribución de estados
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+    <!-- ESTADISTICAS POR PROYECTO -->
+    <div class="tab-pane fade" id="nav-proyecto" role="tabpanel" aria-labelledby="nav-proyecto-tab" tabindex="1">
+
+
+      <div class="card shadow-sm">
+          Comparativa por proyecto
+      </div>
+
+
+    </div>
+
+    <!-- ESTADISTICAS POR USUARIO -->
+    <div class="tab-pane fade" id="nav-usuario" role="tabpanel" aria-labelledby="nav-usuario-tab" tabindex="2">
+
+      <div class="card shadow-sm">
+        Productividad por usuario
+      </div>
+
+    </div>
+
+  </div>
+  
+</section>
+
+

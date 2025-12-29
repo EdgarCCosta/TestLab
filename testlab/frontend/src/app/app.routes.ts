@@ -12,6 +12,7 @@ import { UsuarioDetail } from './features/dashboard/usuario/usuario-detail/usuar
 import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detail/proyecto-detail';
 import { Home } from './features/dashboard/home/home';
 import { authGuard } from './services/auth-guard';
+import { Estadistica } from './features/dashboard/estadistica/estadistica';
 
 export const routes: Routes = [
   { path: 'login', component: Login },   // 👈 libre de guard
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: 'prueba', component: PruebaList },
       { path: 'ejecucion', component: EjecucionList },
       { path: 'version', component: VersionList },
+      { path: 'estadistica', component: Estadistica },
     ]
   },
   { path: '**', redirectTo: 'login' },
