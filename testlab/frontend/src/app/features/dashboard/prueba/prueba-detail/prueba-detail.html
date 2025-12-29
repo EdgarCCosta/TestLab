@@ -55,14 +55,19 @@
           Debes rellenar condiciones previas válidas (mínimo 5 caracteres)
         </div>
       }
+
     </div>
   </div>
 
   <!-- PASOS -->
 
   <div class="mb-4" [class.was-validated]="this.form.get('steps')?.dirty || this.form.get('steps')?.touched">
-    <label for="steps" class="form-label">Pasos</label>
-    <textarea id="steps" name="steps" class="form-control" formControlName="steps" required minlength="10">
+  <label for="steps" class="form-label" z>
+    Pasos
+    <small class="text-muted d-block"><i class="bi bi-info-circle text-secondary" title="Separa los pasos por comas, puntos o dando al Enter"></i> Sepáralos por comas o puntos. Ej: paso 1, paso 2. paso 3 o pulsando Enter</small>
+
+  </label>
+    <textarea id="steps" name="steps" class="form-control" formControlName="steps" rows="4" required minlength="10" placeholder="Ej: Abrir app, Iniciar sesión. Crear pedido">
     </textarea>
     <div>
       @if (
@@ -72,6 +77,11 @@
       {
         <div class="invalid-feedback d-block m-0 pt-2">
           Debes rellenar unos pasos válidos (mínimo 10 caracteres)
+        </div>
+      }
+      @if (this.form.get('steps')?.errors?.['noSteps'] && (this.form.get('steps')?.dirty || this.form.get('steps')?.touched)) {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes introducir al menos un paso válido.
         </div>
       }
     </div>

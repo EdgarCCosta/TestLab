@@ -80,11 +80,11 @@ class TestCaseController extends Controller
         try {
             $testCase = TestCase::findOrFail($id);
 
-            if ($testCase->testExecutions()->exists()) {
-                return ApiResponse::conflict(
-                    'Cannot delete test case with existing test executions. Please delete executions first.'
-                );
-            }
+            // if ($testCase->testExecutions()->exists()) {
+            //     return ApiResponse::conflict(
+            //         'Cannot delete test case with existing test executions. Please delete executions first.'
+            //     );
+            // }
 
             $testCase->delete();
             return ApiResponse::deleted('Test case deleted successfully');

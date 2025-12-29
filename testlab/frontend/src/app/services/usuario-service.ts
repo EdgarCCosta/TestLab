@@ -33,7 +33,7 @@ export class UsuarioService {
     this.getUsuarioById(id).subscribe({
       next: (response) => {
         console.log('Respuesta _usuarioService: ', response);
-        return response.data.user.rol;
+        return response.data.rol;
       },
       error: () => {
         return null;

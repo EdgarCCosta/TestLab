@@ -10,6 +10,7 @@ import { Location } from '@angular/common';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { Version } from '../../../../models/version';
 import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
+import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-one-step.validator';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class PruebaDetail {
 
   loading: boolean = true;
 
-  itemId = input<string | null>();                 // puede ser string o null
+  itemId = model<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
   listado = model<any[]>([]);
 
@@ -51,7 +52,7 @@ export class PruebaDetail {
       title: ['', [Validators.required, Validators.minLength(2)]],
       objective: ['', [Validators.required, Validators.minLength(5)]],
       preconditions: ['', [Validators.required, Validators.minLength(5)]],
-      steps: ['', [Validators.required, Validators.minLength(10)]],
+      steps: ['', [Validators.required, Validators.minLength(10), atLeastOneStep]],
       expected_result: ['', [Validators.required, Validators.minLength(10)]],
       rol: ['', [Validators.required]],
       project_id: ['', Validators.required],
@@ -114,7 +115,7 @@ export class PruebaDetail {
       next: (res) => {
         this.versions = res.data;
         console.log('VERSIONES CARGADAS: ', this.versions);
-        this.form.patchValue({ version_id: '' });
+        this.form.patchValue({ version_id: '' }); // Actualiza solo este campo a vacío
       },
       error: () => this._toastService.show('Error cargando versiones', 'error')
     });
@@ -149,12 +150,22 @@ export class PruebaDetail {
             title: this.item.title,
             objective: this.item.objective,
             preconditions: this.item.preconditions,
-            steps: this.item.steps,
+            steps: Array.isArray(this.item.steps) // Si es array crea un string que separa cada paso con comas ", ". Sino 1 solo paso.
+                // ? this.item.steps.join(', ')
+                ? this.item.steps.join('\n')
+                : this.item.steps,
             expected_result: this.item.expected_result,
             rol: this.item.user_profile,
             project_id: projectId,               // ✔ obtenido desde la versión
             version_id: this.item.version_id     // ✔ selecciona la versión correcta
           });
+
+          // Campos del formulario marcados como touched y dirty para que muestre si son válidos al cargarlos
+          Object.values(this.form.controls).forEach(control => {
+            control.markAsTouched();
+            control.markAsDirty();
+          });
+
           this.loading = false; // ✔ Todo listo
 
         });
@@ -177,11 +188,14 @@ export class PruebaDetail {
     this._itemService.deletePrueba(id).subscribe({
       next: data => {
         console.log("OK: ", data);
+        this.listado.update(list => list.filter(item => item.id !== id));
+
         this._toastService.show('Prueba eliminada correctamente', 'success');
+        this.itemId.set(null);
       },
       error: error => {
-        console.log("Error: ", error);
         this._toastService.show('Error eliminando la prueba', 'error');
+        console.log("Error: ", error);
       }
     });
   }
@@ -191,7 +205,8 @@ export class PruebaDetail {
 
         // Convertir steps (string) → array
     const stepsArray = this.form.value.steps
-      .split(',')
+      // .split(',')   // Separar por comas exclusivamente
+      .split(/[\n,\.]+/)   // Separar por coma, punto o salto de línea
       .map((s: string) => s.trim())
       .filter((s: string) => s.length > 0);
 
@@ -222,7 +237,6 @@ export class PruebaDetail {
           }
         });
       } else if (this.modo() === 'nuevo') {
-        console.log('Formulario válido para crear', this.form.value)
         console.log('Payload final:', payload);
         this._itemService.createPrueba(payload).subscribe({
           next: (datos) => {
