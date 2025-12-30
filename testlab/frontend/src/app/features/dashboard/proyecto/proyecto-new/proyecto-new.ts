@@ -38,15 +38,20 @@ export class ProyectoNew {
     });
 
     effect(() => {
-      if (this.modo() === 'editar' && this.proyectoId()) {
-        console.log("modo editar")
+      if (this.modo() === 'editar' && this.proyectoId()) { // Obtiene los datos y los muestra en el modal con símbolo de validado
         this._proyectoService.getProyectoById(this.proyectoId()!).subscribe(proyecto => {
           this.form.patchValue({
             name: proyecto.name,
             description: proyecto.description,
             status: proyecto.status
           });
+          Object.values(this.form.controls).forEach(control => { // Recorre los campos dejándolos Touched y Dirty para que se muestre el estado
+            control.markAsTouched();
+            control.markAsDirty();
+          });
+
         });
+        
       }
 
       if (this.listado().length) {
@@ -56,12 +61,57 @@ export class ProyectoNew {
   }
 
   onSubmit() {
+
+
     if (this.form.valid) {
-      console.log('Formulario enviado!!', this.form.value);
+
+      
+      // -----------------------------
+      // MODO EDITAR
+      // -----------------------------
+      if (this.modo() === 'editar' && this.proyectoId()) {
+        this._proyectoService.updateProyecto(this.proyectoId()!, this.form.value)
+          .subscribe({
+            next: (res) => {
+              // Actualizar listado padre
+              this.listado.update(list =>
+                list.map(p =>
+                  p.id.toString() === this.proyectoId()
+
+                    ? { ...res.data }   // Clonar para que effect detecte cambios
+                    : p
+                )
+              );
+
+              // Actualiza signal global
+              this._proyectoService.proyectos.update(list =>
+                list.map(p =>
+                  p.id.toString() === this.proyectoId()
+                    ? { ...res.data }   // Clonar
+                    : p
+                )
+              );
+
+
+              this._toastService.show('Proyecto actualizado correctamente', 'success');
+              // this.cerrarModal();
+            },
+            error: (err) => {
+              console.error('Error actualizando proyecto:', err);
+              this._toastService.show('Error actualizando proyecto', 'error');
+            }
+          });
+
+        return;
+      }
+
+      // -----------------------------
+      // MODO CREAR
+      // -----------------------------
+
 
       this._proyectoService.createProyecto(this.form.value).subscribe({
         next: (datos) => {
-          console.log('Proyecto creado');
           this.listado.update((listado) => ([...listado, datos.data]));
           this._toastService.show('Proyecto creado correctamente', 'success');
         },

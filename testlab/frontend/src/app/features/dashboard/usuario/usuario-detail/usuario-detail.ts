@@ -45,7 +45,7 @@ export class UsuarioDetail {
       }
 
       if (this.listado().length) {
-        console.log('Nuevo usuario añadido al listado:', this.listado);
+        console.log('Nuevo usuario añadido al listado:', this.listado());
       }
 
       if (this.modo() === 'nuevo') {
@@ -73,6 +73,14 @@ export class UsuarioDetail {
           rol: this.usuario?.rol
         });
         this.form.updateValueAndValidity();
+        Object.entries(this.form.controls).forEach(([key, control]) => {
+          if (this.modo() === 'detalle' && key === 'password') {
+            return; // No tocar password en modo edición
+          }
+
+          control.markAsTouched();
+          control.markAsDirty();
+        });
       },
       error: (err) => {
         console.error('Error obteniendo el usuario:', err);
@@ -82,6 +90,7 @@ export class UsuarioDetail {
 
   borrar(id: string | null | undefined): void {
     if (!id) {
+      this._toastService.show('No hay usuarioId válido para borrar', 'error');
       console.warn('No hay usuarioId válido para borrar');
       return;
     }
@@ -89,21 +98,31 @@ export class UsuarioDetail {
     this._usuarioService.deleteUsuario(id).subscribe({
       next: data => {
         console.log("OK: ", data);
+        this.listado.update(list =>
+          list.filter(u => u.id !== id)
+        );
+        this._toastService.show('Usuario eliminado correctamente', 'success');
       },
       error: error => {
         console.log("Error: ", error);
+        this._toastService.show('Error eliminando usuario', 'error');
       }
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Formulario enviado!!', this.form.value);
 
       if (this.modo() === 'detalle' && this.usuarioId()) {
         this._usuarioService.updateUsuario(this.usuarioId()!, this.form.value).subscribe({
           next: () => {
-            console.log('Usuario actualizado');
+            this.listado.update(list =>
+              list.map(u =>
+                u.id === this.usuarioId()
+                  ? { ...this.form.value, id: this.usuarioId() }
+                  : u
+              )
+            );
             this._toastService.show('Usuario actualizado correctamente', 'success');
           },
           error: (err) => {
@@ -114,7 +133,6 @@ export class UsuarioDetail {
       } else if (this.modo() === 'nuevo') {
         this._usuarioService.createUsuario(this.form.value).subscribe({
           next: (datos) => {
-            console.log('Usuario creado');
             // console.log('Listado antes de añadir:', this.listado());
             this.listado.update((listado) => ([...listado, datos.data]));
             this._toastService.show('Usuario creado correctamente', 'success');

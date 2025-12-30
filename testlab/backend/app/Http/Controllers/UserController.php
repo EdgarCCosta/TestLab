@@ -106,12 +106,13 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            if ($user->testExecutions()->exists()) {
-                return ApiResponse::error(
-                    'Cannot delete user with associated test executions',
-                    409
-                );
-            }
+
+            // if ($user->testExecutions()->exists()) {
+            //     return ApiResponse::error(
+            //         'Cannot delete user with associated test executions',
+            //         409
+            //     );
+            // }
 
             $user->delete();
             return ApiResponse::deleted('User deleted successfully');

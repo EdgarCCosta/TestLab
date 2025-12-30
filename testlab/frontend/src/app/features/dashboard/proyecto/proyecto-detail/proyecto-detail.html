@@ -19,23 +19,23 @@
   <div class="card-body">
     <div class="d-flex align-items-start">
       <h1 class="card-title">
-        {{ proyecto?.name }}
+        {{ proyecto()?.name }}
       </h1>
       <span class="badge mt-2 ms-3 fs-5"
         [ngClass]="{
-          'bg-success': proyecto?.status === 'active',
-          'bg-warning': proyecto?.status === 'archived',
-          'bg-danger': proyecto?.status === 'inactive'
+          'bg-success': proyecto()?.status === 'active',
+          'bg-warning': proyecto()?.status === 'archived',
+          'bg-danger': proyecto()?.status === 'inactive'
         }">
-        {{ proyecto?.status | uppercase }}
+        {{ proyecto()?.status | uppercase }}
       </span>
     </div>
 
-    <p>{{ proyecto?.description }}</p>
+    <p>{{ proyecto()?.description }}</p>
 
     <p class="fs-5 mb-0">
-      <span title="Creado"><i class="bi bi-rocket-takeoff"></i> {{ proyecto?.created_at | date:'short' }}</span>
-      <span title="Actualizado"><i class="bi bi-stopwatch ms-4"></i> {{ proyecto?.updated_at | date:'short' }}</span>
+      <span title="Creado"><i class="bi bi-rocket-takeoff"></i> {{ proyecto()?.created_at | date:'short' }}</span>
+      <span title="Actualizado"><i class="bi bi-stopwatch ms-4"></i> {{ proyecto()?.updated_at | date:'short' }}</span>
     </p>
   </div>
 
@@ -75,7 +75,7 @@
             class="btn btn-nuevo"
             data-bs-toggle="modal"
             data-bs-target="#asociarModal"
-            (click)="abrirAsociarUsuario(proyectoId)">
+            (click)="abrirAsociarUsuario(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
         </button>
       </div>
@@ -122,7 +122,7 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirNuevaVersion(proyectoId)">
+        (click)="abrirNuevaVersion(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Añadir versión
         </button>
       </div>
@@ -172,7 +172,7 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirAsociarPrueba(proyectoId)">
+          (click)="abrirAsociarPrueba(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Asociar nueva prueba
         </button>
       </div>

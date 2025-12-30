@@ -1,4 +1,4 @@
-import { Component, input, signal, model, effect } from '@angular/core';
+import { Component, input, signal, model, effect, untracked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 
@@ -19,6 +19,10 @@ import { PruebaService } from '../../../../services/prueba-service';
 import { Modal } from '../../../../layout/shared/modal/modal';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
 
+import { inject } from '@angular/core';
+
+
+
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
@@ -29,8 +33,8 @@ import { ProyectoNew } from '../proyecto-new/proyecto-new';
 export class ProyectoDetail {
 
   
-  proyectoId!: string;
-  proyecto: Proyecto | null = null;
+  proyectoId = signal<string | null>(null);
+  proyecto = signal<Proyecto | null>(null);
   userRol: Usuario["rol"] | null = null;
 
   usuarios: Usuario[] = [];
@@ -46,12 +50,30 @@ export class ProyectoDetail {
   proyectoSelId = model<string | null>(null);
   modo = model<'nuevo' | 'editar'>('editar');
   
-  proyectos = signal<Proyecto[]>([]);
+  private _proyectoService = inject(ProyectoService); // Se puede hacer inject en lugar de añadirlo al constructor
+
+  proyectos = this._proyectoService.proyectos;        // Permite inicializar el signal
+
+  actualizarProyectoEffect = effect(() => { // Actualiza nuestro elemento cada vez que se ha actualizado la lista de proyectos (signal global)
+    const id = this.proyectoId();
+    if (!id) return;
+
+    const lista = this.proyectos();
+    // p.id es number, id es string → comparamos como string
+    const actualizado = lista.find(p => p.id.toString() === id);
+
+    if (actualizado) {
+      this.proyecto.set(actualizado);
+    }
+  });
+
+
+
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _proyectoService: ProyectoService,
     private _usuarioService: UsuarioService,
     private _versionService: VersionService,
     private _pruebaService: PruebaService,
@@ -60,34 +82,35 @@ export class ProyectoDetail {
     private _toastService: ToastService
   ) {
     this.route.paramMap.subscribe(params => {
-      this.proyectoId = String(params.get('id'));
+      this.proyectoId.set(String(params.get('id')));
+      const id = this.proyectoId();
+  
       if (localStorage.getItem('id') != null) {
         this.userRol = this._usuarioService.getUsuarioRolById(String(localStorage.getItem('id')));
       }
-      this.getProyectoById(this.proyectoId);
-      this.getUsuariosByProyecto(this.proyectoId);
-      this.getPruebasByProyecto(this.proyectoId);
-      this.getVersionesByProyecto(this.proyectoId);
-      this.getEjecucionesByProyecto(this.proyectoId);
-      this.proyectos = this._proyectoService.proyectos;
+      this.getProyectoById(id!);
+      this.getUsuariosByProyecto(id!);
+      this.getPruebasByProyecto(id!);
+      this.getVersionesByProyecto(id!);
+      this.getEjecucionesByProyecto(id!);
+
       console.log("Proyectos:", this.proyectos());
     });
   }
 
   ngOnInit() {
-    // Si el signal está vacío, cargar proyectos
-    if (this._proyectoService.proyectos().length === 0) {
-      this._proyectoService.getProyectos().subscribe(() => {
-        console.log("Proyectos cargados en detalle:", this._proyectoService.proyectos());
-        console.log("Y el signal también los tendría: ", this.proyectos());
-      });
-    }
+
+    // Proyectos siempre disponibles
+    this._proyectoService.getProyectos().subscribe(() => {
+        console.log("Proyectos cargados en detalle:", this.proyectos());
+    });
+
   }
 
   getProyectoById(id: string) {
     this._proyectoService.getProyectoById(id.toString()).subscribe({
       next: (proyecto) => {
-        this.proyecto = proyecto;
+        // this.proyecto.set(proyecto);
         console.log("Proyecto recibido:", proyecto);
       },
       error: (err) => console.error('Error cargando proyecto:', err)
@@ -143,13 +166,22 @@ export class ProyectoDetail {
 
 editarProyecto() {
   this.modo.set('editar');
-  this.proyectoSelId.set(this.proyectoId); // el id actual
+
+  this.proyectoSelId.set(this.proyectoId()); // el id actual
   document.getElementById('btnAbrirModalProyecto')?.click();
 }
 
 
   eliminarProyecto() {
-    this._proyectoService.deleteProyecto(this.proyectoId.toString()).subscribe({
+    const id = this.proyectoId();
+    if (!id) return;
+
+
+    const ok = confirm("¿Seguro que quieres eliminar este proyecto? Esta acción no se puede deshacer.");
+
+    if (!ok) return; // El usuario canceló
+
+    this._proyectoService.deleteProyecto(id.toString()).subscribe({
       next: () => {
         this._toastService.show('Proyecto eliminado correctamente', 'success');
         this.router.navigate(['/proyecto']);
@@ -166,7 +198,11 @@ editarProyecto() {
   }
 
   disociarUsuario(idUsuario: string) {
-    this._proyectoService.unlinkUsuarioFromProyecto(this.proyectoId, idUsuario).subscribe({
+     const id = this.proyectoId();   // leer el signal
+
+  if (!id) return;                // seguridad: evitar null
+
+    this._proyectoService.unlinkUsuarioFromProyecto(id, idUsuario).subscribe({
       next: () => {
         // TODO: Modal o toast informativos
       },
@@ -192,7 +228,11 @@ editarProyecto() {
   }
 
   disociarPrueba(idPrueba: string) {
-    this._proyectoService.unlinkPruebaFromProyecto(this.proyectoId, idPrueba).subscribe({
+    const id = this.proyectoId();   // leer el signal
+
+    if (!id) return;                // seguridad: evitar null
+
+    this._proyectoService.unlinkPruebaFromProyecto(id, idPrueba).subscribe({
       next: () => {
         // TODO: Modal o toast informativos
       },

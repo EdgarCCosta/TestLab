@@ -52,8 +52,6 @@ export class ProyectoService {
       .pipe(
         map(res => {
           this.proyectos.update(list => [...list, res.data]);  // 👈 Añadir al signal
-          console.log('Proyecto creado:', res.data);
-          console.log('Proyectos:', this.proyectos());
           return res;
         })
       );
@@ -65,7 +63,11 @@ export class ProyectoService {
       .pipe(
         map(res => {
           this.proyectos.update(list =>
-            list.map(p => p.id === id ? res.data : p)   // Reemplaza en el signal
+            list.map(p =>
+              p.id.toString() === id
+                ? { ...res.data }   // 👈 nuevo objeto
+                : p
+            )
           );
           return res;
         })

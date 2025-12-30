@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   
-  <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
+  <div class="mb-4" [class.was-validated]="this.form.get('name')?.dirty || this.form.get('name')?.touched">
     <label for="name" class="form-label">Nombre</label>
     <input id="name" type="text" name="name" class="form-control" formControlName="name" required minlength="2">
     <div>
@@ -55,7 +55,9 @@
 
   <div class="d-flex justify-content-evenly mt-5">
     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear proyecto</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">
+      {{ modo() === 'editar' ? 'Guardar cambios' : 'Crear proyecto' }}
+    </button>
   </div>
 
   

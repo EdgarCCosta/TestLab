@@ -27,7 +27,7 @@
   @if (nuevoUser && usuarioSelId === null) {
     <app-usuario-detail [(listado)]="this.usuarios" (listadoChange)="listadoChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
   } @else if (usuarioSelId) {
-    <app-usuario-detail [usuarioId]="usuarioSelId" [modo]="'detalle'"></app-usuario-detail>
+    <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="usuarioSelId" (listadoChange)="listadoChange($event)" [modo]="'detalle'"></app-usuario-detail>
   }
 </app-modal>
 <app-loading [show]="loading"></app-loading>

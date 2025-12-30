@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   
-  <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
+  <div class="mb-4" [class.was-validated]="this.form.get('name')?.dirty || this.form.get('name')?.touched">
     <label for="name" class="form-label">Nombre</label>
     <input id="name" type="text" name="name" class="form-control" formControlName="name" required minlength="2">
     <div>
