@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
 :root {
   font-size: 62.5%;
   box-sizing: border-box;
+  --light-bg-color: oklch(98.325% 0.0054 285.997);
+  --border-light-color: #c9c7d1;
+  --accent-bg-color: #c1cbfd;
+  --logo-color: #737ade;
+  --success-color: #75d193;
+  --fail-color: #ff0000;
 }
 
 body {
@@ -24,16 +30,15 @@ app-root {
 }
 
 .fondoTestlab {
-  background-color: #F9F9FD;
+  background-color: var(--light-bg-color);
 }
-
 
 /********************** LOGIN ******************************/
 
 app-login {
   display: flex;
   height: 100vh;
-  background-color: #F9F9FD;
+  background-color: var(--light-bg-color);
 }
 
 #formWrapper {
@@ -44,17 +49,17 @@ app-login {
 
 #formLogin {
   width: 30rem;
-  padding: .4rem;
+  padding: 0.4rem;
 
   & button {
-    background-color: #737ADE;
+    background-color: var(--logo-color);
     color: white;
     border-radius: 1.2rem;
   }
 
   & span {
     position: absolute;
-    margin: .5rem 1rem;
+    margin: 0.5rem 1rem;
   }
 
   & input {
@@ -74,7 +79,7 @@ app-login {
 /**************************** SIDEBAR ************************/
 
 .sidebar {
-  background-color: #F9F9FD;
+  background-color: var(--light-bg-color);
 
   & .dropdown-menu {
     transform: translate(2rem, -3rem) !important;
@@ -88,8 +93,8 @@ app-login {
 }
 
 @media only screen and (max-width: 939px) {
-
-  app-sidebar, .sidebar {
+  app-sidebar,
+  .sidebar {
     display: none;
   }
 
@@ -111,7 +116,7 @@ app-login {
   app-footer-menu i {
     font-size: 4rem;
     &:hover {
-      background-color: #C1CBFD;
+      background-color: var(--accent-bg-color);
     }
   }
 
@@ -121,7 +126,7 @@ app-login {
 }
 
 @media only screen and (min-width: 940px) {
-  app-sidebar{
+  app-sidebar {
     overflow: hidden;
     display: flex;
     min-width: 7.2rem;
@@ -143,7 +148,7 @@ app-login {
 }
 
 @media only screen and (min-width: 1400px) {
-  app-sidebar{
+  app-sidebar {
     overflow: hidden;
     display: flex;
     min-width: 30rem;
@@ -165,13 +170,13 @@ app-login {
 }
 
 .nav-pills {
-  --bs-nav-pills-link-active-bg: #C1CBFD;
+  --bs-nav-pills-link-active-bg: var(--accent-bg-color);
 }
 
 .nav-link {
   font-size: 2.4rem;
   &:hover {
-    background-color: #C1CBFD;
+    background-color: var(--accent-bg-color);
   }
 }
 
@@ -187,20 +192,50 @@ app-login {
     font-size: 2.5rem;
     margin-right: 1rem;
   }
-  
 }
 
 h1 {
   font-size: 3rem;
 }
 
+.menu-pildoras {
+  border: 1px solid var(--border-light-color);
+  background-color: var(--light-bg-color);
+  border-radius: 2.4rem;
+
+  box-shadow: inset 1px 1px 2px var(--border-light-color);
+
+  /* box-shadow: -1px -2px 3px #ccc; */
+
+  & button {
+    border: 1px solid var(--border-light-color);
+    border-radius: 2rem !important;
+    box-shadow: 1px 1px 2px var(--border-light-color);
+  }
+
+  & .active {
+    box-shadow: none;
+  }
+}
+
 .item-detallado {
-  background-color: #F9F9FD;
+  background-color: var(--light-bg-color);
 }
 
 .card h1 {
   font-size: 2.4rem;
   font-weight: bolder;
+}
+
+.card-body {
+  padding: 1rem 0 !important;
+  line-height: 1.2;
+}
+
+.icono-proyecto {
+  font-size: 7rem;
+  margin-right: 1rem;
+  color: var(--border-light-color);
 }
 
 .acciones {
@@ -212,13 +247,12 @@ h1 {
 .mostrar-mas {
   border-radius: 4rem;
   corner-shape: squircle;
-  background-color: #737ADE;
-
+  background-color: var(--logo-color);
 }
 
 th {
-  background-color: rgba(var(--bs-light-rgb), 1) !important;
-  border-top: 1px solid #D6D5DC;
+  background-color: var(--bs-light-rgb) !important;
+  border-top: 1px solid var(--border-light-color);
   font-weight: 500;
   font-size: 2rem;
   padding: 2rem !important;
@@ -231,41 +265,51 @@ td {
 }
 
 .ok {
-  color:#75D193;
+  color: var(--success-color);
 }
 
 .ko {
-  color:#FF0000;
+  color: var(--fail-color);
 }
 
 /********************* FORMS ********************************/
 
 .filtro {
-  border: 1px solid #D6D5DC;
-  background-color: #F9F9FD;
+  border: 1px solid var(--border-light-color);
+  background-color: var(--light-bg-color);
   margin-bottom: 6rem;
 }
 
 .btn-nuevo {
-  background-color: #737ADE;
+  background-color: var(--logo-color);
   color: white;
-  &:hover, &:active {
+  &:hover,
+  &:active {
     color: white !important;
-    background-color: #5a62d8 !important;
+    background-color: var(--logo-color) !important;
   }
   padding: 1rem;
   font-size: 1.6rem !important;
 }
 
-form, .form-control, .btn {
+form,
+.form-control,
+.btn {
   font-size: 2rem;
 }
 
-form input + div, form select + div {
+form input + div,
+form select + div {
   height: 3rem;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
 /* Columnas angular material */
 
@@ -275,6 +319,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-row:nth-child(even) {
   background-color: white;
 }
+
 .mat-mdc-header-cell {
   background-color: #828282 !important;
   color: white !important;
@@ -282,9 +327,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   svg {
     color: white !important;
   }
-
-  
 }
+
 .toast-wrapper {
   bottom: 20%;
   z-index: 2000;
@@ -311,7 +355,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
 
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   border-left: 4px solid transparent;
 
   animation: toastFly 0.3s ease-out;
@@ -325,12 +369,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* Texto */
 .toast-text {
   font-size: 2rem;
-  color: #000;
+  color: black;
 }
 
 /* Bordes laterales según tipo */
-.toast-success { border-left-color: #18B100; }
-.toast-error   { border-left-color: #FF0000; }
+.toast-success {
+  border-left-color: var(--success-color);
+}
+.toast-error {
+  border-left-color: var(--fail-color);
+}
 
 /* Animación tipo Svelte fly */
 @keyframes toastFly {

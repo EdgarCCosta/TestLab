@@ -17,26 +17,35 @@
   </div>
 
   <div class="card-body">
-    <div class="d-flex align-items-start">
-      <h1 class="card-title">
-        {{ proyecto()?.name }}
-      </h1>
-      <span class="badge mt-2 ms-3 fs-5"
-        [ngClass]="{
-          'bg-success': proyecto()?.status === 'active',
-          'bg-warning': proyecto()?.status === 'archived',
-          'bg-danger': proyecto()?.status === 'inactive'
-        }">
-        {{ proyecto()?.status | uppercase }}
-      </span>
+    <div class="d-flex">
+      <div>
+        <i class="icono-proyecto bi bi-file-earmark-code"></i>
+      </div>
+
+      <div>
+        <div class="d-flex align-items-start">
+          <h1 class="card-title">
+            {{ proyecto()?.name }}
+          </h1>
+          <span class="badge mt-2 ms-3 fs-5"
+            [ngClass]="{
+              'bg-success': proyecto()?.status === 'active',
+              'bg-warning': proyecto()?.status === 'archived',
+              'bg-danger': proyecto()?.status === 'inactive'
+            }">
+            {{ proyecto()?.status | uppercase }}
+          </span>
+        </div>
+
+        <p>{{ proyecto()?.description }}</p>
+
+        <p class="fs-5 mb-0">
+          <span title="Creado"><i class="bi bi-rocket-takeoff"></i> {{ proyecto()?.created_at | date:'short' }}</span>
+          <span title="Actualizado"><i class="bi bi-stopwatch ms-4"></i> {{ proyecto()?.updated_at | date:'short' }}</span>
+        </p>
+      </div>
     </div>
-
-    <p>{{ proyecto()?.description }}</p>
-
-    <p class="fs-5 mb-0">
-      <span title="Creado"><i class="bi bi-rocket-takeoff"></i> {{ proyecto()?.created_at | date:'short' }}</span>
-      <span title="Actualizado"><i class="bi bi-stopwatch ms-4"></i> {{ proyecto()?.updated_at | date:'short' }}</span>
-    </p>
+    
   </div>
 
 </div>
@@ -46,19 +55,26 @@
 
   <!-- Pestañas -->
   <nav class="mt-5">
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <button class="nav-link fs-3 text-dark active" id="nav-usuarios-tab" data-bs-toggle="tab" data-bs-target="#nav-usuarios" type="button" role="tab" aria-controls="nav-usuarios" aria-selected="true">
-        <i class="bi bi-person-circle"></i> Usuarios
-      </button>
-      <button class="nav-link text-dark fs-3" id="nav-versiones-tab" data-bs-toggle="tab" data-bs-target="#nav-versiones" type="button" role="tab" aria-controls="nav-versiones" aria-selected="false">
-        <i class="bi bi-box-seam"></i> Versiones
-      </button>
-      <button class="nav-link text-dark fs-3" id="nav-pruebas-tab" data-bs-toggle="tab" data-bs-target="#nav-pruebas" type="button" role="tab" aria-controls="nav-pruebas" aria-selected="false">
-        <i class="bi bi-clipboard2-check"></i> Pruebas
-      </button>
-      <button class="nav-link text-dark fs-3" id="nav-ejecuciones-tab" data-bs-toggle="tab" data-bs-target="#nav-ejecuciones" type="button" role="tab" aria-controls="nav-ejecuciones" aria-selected="false">
-        <i class="bi bi-check2-circle"></i> Ejecuciones
-      </button>
+    <div class="nav nav-pills" id="nav-tab" role="tablist">
+      <div class="menu-pildoras d-flex p-2">
+
+        <button class="nav-link fs-4  mx-1 text-dark active" id="nav-usuarios-tab" data-bs-toggle="tab" data-bs-target="#nav-usuarios" type="button" role="tab" aria-controls="nav-usuarios" aria-selected="true">
+          <i class="bi bi-person-circle"></i> Usuarios
+        </button>
+
+        <button class="nav-link text-dark mx-1 fs-4" id="nav-versiones-tab" data-bs-toggle="tab" data-bs-target="#nav-versiones" type="button" role="tab" aria-controls="nav-versiones" aria-selected="false">
+          <i class="bi bi-box-seam"></i> Versiones
+        </button>
+
+        <button class="nav-link text-dark mx-1 fs-4" id="nav-pruebas-tab" data-bs-toggle="tab" data-bs-target="#nav-pruebas" type="button" role="tab" aria-controls="nav-pruebas" aria-selected="false">
+          <i class="bi bi-clipboard2-check"></i> Pruebas
+        </button>
+
+        <button class="nav-link text-dark mx-1 fs-4" id="nav-ejecuciones-tab" data-bs-toggle="tab" data-bs-target="#nav-ejecuciones" type="button" role="tab" aria-controls="nav-ejecuciones" aria-selected="false">
+          <i class="bi bi-check2-circle"></i> Ejecuciones
+        </button>
+
+      </div>
     </div>
   </nav>
 
