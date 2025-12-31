@@ -1,4 +1,4 @@
-import { Component, input, signal, model, effect, untracked } from '@angular/core';
+import { Component, signal, model, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 
@@ -19,47 +19,70 @@ import { PruebaService } from '../../../../services/prueba-service';
 import { Modal } from '../../../../layout/shared/modal/modal';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
 
-import { inject } from '@angular/core';
+// import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
+import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 
+import { SpinnerService } from '../../../../services/spinner-service';
 
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, Modal, ProyectoNew],
+  imports: [CommonModule, Modal, ProyectoNew, LoadingComponent],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
 export class ProyectoDetail {
 
-  
+  // Signals principales
   proyectoId = signal<string | null>(null);
   proyecto = signal<Proyecto | null>(null);
-  userRol: Usuario["rol"] | null = null;
 
   usuarios: Usuario[] = [];
   versiones: Version[] = [];
   pruebas: Prueba[] = [];
   ejecuciones: Ejecucion[] = [];
 
+  // Mostrar más/menos
   mostrarTodosUsuarios = false;
   mostrarTodasVersiones = false;
   mostrarTodasPruebas = false;
   mostrarTodasEjecuciones = false;
 
+  // Spinner local
+  loadingDetalle = signal(false);
+  logingUsuario = signal(false);
+  loadingVersiones = signal(false);
+  loadingPruebas = signal(false);
+  loadingEjecuciones = signal(false);
+
+
+  // Estado modal
   proyectoSelId = model<string | null>(null);
   modo = model<'nuevo' | 'editar'>('editar');
-  
-  private _proyectoService = inject(ProyectoService); // Se puede hacer inject en lugar de añadirlo al constructor
 
-  proyectos = this._proyectoService.proyectos;        // Permite inicializar el signal
+  // Servicios
+  private _proyectoService = inject(ProyectoService);
+  private _usuarioService = inject(UsuarioService);
+  private _versionService = inject(VersionService);
+  private _pruebaService = inject(PruebaService);
+  private _ejecucionService = inject(EjecucionService);
+  private _toastService = inject(ToastService);
+  private _location = inject(Location);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  actualizarProyectoEffect = effect(() => { // Actualiza nuestro elemento cada vez que se ha actualizado la lista de proyectos (signal global)
+  // Signal global de proyectos
+  proyectos = this._proyectoService.proyectos;
+
+  // Efecto para sincronizar el detalle cuando cambia la lista global
+  actualizarProyectoEffect = effect(() => {
     const id = this.proyectoId();
     if (!id) return;
 
     const lista = this.proyectos();
-    // p.id es number, id es string → comparamos como string
     const actualizado = lista.find(p => p.id.toString() === id);
 
     if (actualizado) {
@@ -67,98 +90,47 @@ export class ProyectoDetail {
     }
   });
 
-
-
-
-
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private _usuarioService: UsuarioService,
-    private _versionService: VersionService,
-    private _pruebaService: PruebaService,
-    private _ejecucionService: EjecucionService,
-    private _location: Location,
-    private _toastService: ToastService
+    public _spinnerService : SpinnerService
   ) {
     this.route.paramMap.subscribe(params => {
-      this.proyectoId.set(String(params.get('id')));
-      const id = this.proyectoId();
-  
-      if (localStorage.getItem('id') != null) {
-        this.userRol = this._usuarioService.getUsuarioRolById(String(localStorage.getItem('id')));
-      }
-      this.getProyectoById(id!);
-      this.getUsuariosByProyecto(id!);
-      this.getPruebasByProyecto(id!);
-      this.getVersionesByProyecto(id!);
-      this.getEjecucionesByProyecto(id!);
+      const id = params.get('id');
+      this.proyectoId.set(id);
 
-      console.log("Proyectos:", this.proyectos());
+      if (id) {
+        this.cargarDetalle(id);
+      }
     });
   }
 
   ngOnInit() {
-
-    // Proyectos siempre disponibles
-    this._proyectoService.getProyectos().subscribe(() => {
-        console.log("Proyectos cargados en detalle:", this.proyectos());
-    });
-
+    // Cargar lista global si no está cargada
+    this._proyectoService.getProyectos().subscribe();
   }
 
-  getProyectoById(id: string) {
-    this._proyectoService.getProyectoById(id.toString()).subscribe({
-      next: (proyecto) => {
-        // this.proyecto.set(proyecto);
-        console.log("Proyecto recibido:", proyecto);
-      },
-      error: (err) => console.error('Error cargando proyecto:', err)
-    });
-  }
+  // 🔵 CARGA COMPLETA DEL DETALLE CON forkJoin
+  cargarDetalle(id: string) {
+    this.loadingDetalle.set(true);
 
-  getUsuariosByProyecto(proyectoId: string) {
-    // TODO: Falta estructura en backend para asociar usuarios a proyectos, de momento nos llegan todos desde el servicio
-    this._proyectoService.getUsersFromProyectoById(proyectoId).subscribe({
-      next: (lista) => {
-        console.log("Usuarios recibidos:", lista);
-        this.usuarios = lista;
-      },
-      error: (err) => console.error('Error cargando usuarios de proyecto:', err)
+    forkJoin({
+      proyecto: this._proyectoService.getProyectoById(id),
+      usuarios: this._proyectoService.getUsersFromProyectoById(id),
+      pruebas: this._proyectoService.getPruebasFromProyectoById(id),
+      versiones: this._versionService.getVersiones(),
+      ejecuciones: this._ejecucionService.getEjecuciones()
+    })
+    .pipe(finalize(() => this.loadingDetalle.set(false)))
+    .subscribe(({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
+
+      // Actualizar signals y arrays
+      this.proyecto.set(proyecto);
+      this.usuarios = usuarios;
+      this.pruebas = pruebas;
+      this.versiones = versiones.filter(v => v.project_id.toString() === id);
+      this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
     });
   }
 
-  getPruebasByProyecto(proyectoId: string) {
-    // TODO: Falta estructura en backend para asociar pruebas a proyectos, de momento nos llegan todas desde el servicio
-    this._proyectoService.getPruebasFromProyectoById(proyectoId).subscribe({
-      next: (lista) => {
-        console.log("Pruebas recibidas:", lista);
-        this.pruebas = lista;
-      },
-      error: (err) => console.error('Error cargando pruebas de proyecto:', err)
-    });
-  }
-
-  getVersionesByProyecto(proyectoId: string) {
-    this._versionService.getVersiones().subscribe({
-      next: (lista) => {
-        console.log("Versiones:", lista);
-        this.versiones = lista.filter((v: Version) => v.project_id.toString() === proyectoId);
-        console.log("Versiones filtradas:", this.versiones);
-      },
-      error: (err) => console.error('Error cargando versiones:', err)
-    });
-  }
-
-  getEjecucionesByProyecto(proyectoId: string) {
-    this._ejecucionService.getEjecuciones().subscribe({
-      next: (lista) => {
-        console.log("Ejecuciones:", lista);
-        this.ejecuciones = lista.filter((e: Ejecucion) => e.version.project_id.toString() === proyectoId);
-      },
-      error: (err) => console.error('Error cargando test-executions:', err)
-    });
-  }
 
   // editarProyecto() {
   //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);

@@ -31,9 +31,33 @@ export class AuthService {
     return ''
   }
 
-  logout(id: string) {
-    return this.http.post<any>(this.apiUrl + '/logout', { id });
+ /* Logout */
+  logout(): void {
+    const id = localStorage.getItem('id');
+
+    // 1. Intentar cerrar sesión en backend (si hay id)
+    if (id) {
+      this.http.post<any>(this.apiUrl + '/logout', { id }).subscribe({
+        next: () => console.log('Logout backend OK'),
+        error: () => console.warn('Logout backend falló (token caducado o inválido)')
+      });
+    }
+
+    // 2. Limpiar sesión
+    this.clearSession();
+
+    // 3. Redirigir
+    this._router.navigate(['/login']);
   }
+
+  /* Limpiar localStorage */
+  private clearSession(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('usuario');
+  }
+
 
   getToken(): string | null {
     return localStorage.getItem('token');

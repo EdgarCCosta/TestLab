@@ -7,9 +7,12 @@ import { Router } from '@angular/router';
 import { Listado } from '../../../../layout/shared/listado/listado';
 import { Modal } from '../../../../layout/shared/modal/modal';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
+import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
+import { SpinnerService } from '../../../../services/spinner-service';
+
 @Component({
   selector: 'app-proyecto-list',
-  imports: [CommonModule, FormsModule, Listado, Modal, ProyectoNew],
+  imports: [CommonModule, FormsModule, Listado, Modal, ProyectoNew, LoadingInlineComponent],
   templateUrl: './proyecto-list.html',
   styleUrl: './proyecto-list.css',
 })
@@ -25,14 +28,15 @@ export class ProyectoList implements OnInit {
 
   constructor(
     private _proyectoService: ProyectoService,
-    private router: Router
-  ) {    // Cada vez que cambia proyectoSelId → navegar al detalle
-    effect(() => {
-      const id = this.proyectoSelId();
-      if (id) {
-        this.detalleProyecto(id);
-      }
-    });}
+    private router: Router,
+    public spinner: SpinnerService) {    // Cada vez que cambia proyectoSelId → navegar al detalle
+      effect(() => {
+        const id = this.proyectoSelId();
+        if (id) {
+          this.detalleProyecto(id);
+        }
+      });
+    }
 
   ngOnInit(): void {
     this._proyectoService.getProyectos().subscribe({

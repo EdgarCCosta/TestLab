@@ -28,20 +28,17 @@ export class Sidebar {
   logout() {
     const confirmado = window.confirm('¿Seguro que quieres cerrar sesión?');
     if (confirmado) {
-      const id = localStorage.getItem('id');
-      if (id) {
-        this._authService.logout(id).subscribe({
-          next: (response) => {
-            console.log("Respuesta:", response);
-            // borra token y usuario
-            localStorage.removeItem('token');
-            localStorage.removeItem('id');
-            localStorage.removeItem('nombre');
-            this.router.navigate(['/login']); // redirige al login
+      this._authService.logout(); // El servicio de autenticación se encarga de cerrar sesión y de borrar el token
+      // const id = localStorage.getItem('id');
+      // if (id) {
+      //   this._authService.logout(id).subscribe({
+      //     next: (response) => {
+      //       console.log("Respuesta:", response);
+      //       // borra token y usuario
+      //       localStorage.removeItem('token');
+      //       localStorage.removeItem('id');
+      //       localStorage.removeItem('nombre');
+      //       this.router.navigate(['/login']); // redirige al login
           }
-        });
-      }
-    }
-  }
-
+      };
 }

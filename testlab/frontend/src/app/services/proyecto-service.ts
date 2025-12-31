@@ -9,6 +9,7 @@ import { UsuarioService } from './usuario-service';
 import { PruebaService } from './prueba-service';
 import { Prueba } from '../models/prueba';
 import { signal } from '@angular/core';
+import { SpinnerService } from './spinner-service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class ProyectoService {
   proyectos = signal<Proyecto[]>([]);
 
   // Servicios de usuarios y pruebas inyectados temporalmente para devolver valores hasta que haya estructura y método en backend
-  constructor(private http: HttpClient, private _usuarioService: UsuarioService, private _pruebaService: PruebaService) {}
+  constructor(private http: HttpClient, private _usuarioService: UsuarioService, private _pruebaService: PruebaService, private spinner: SpinnerService) {}
 
   /** Obtener todos los proyectos */
   getProyectos(): Observable<Proyecto[]> {
