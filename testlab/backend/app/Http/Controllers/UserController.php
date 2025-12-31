@@ -53,7 +53,6 @@ class UserController extends Controller
         ]);
 
         try {
-            // ✅ Hash MANUAL (ya no tienes mutator)
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
