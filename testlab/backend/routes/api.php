@@ -7,10 +7,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TestExecutionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 //LOGIN
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/users2', [UserController::class, 'index']);
+
+Route::get('statistics/project/{project}', [StatisticsController::class, 'byProject']);
+Route::get('statistics/global', [StatisticsController::class, 'global']);
+Route::get('dashboard/main', [DashboardController::class, 'mainDashboard']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -23,7 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/projects/{id}', [ProjectController::class, 'show'])->middleware(['role:admin,manager,tester']); // Ver una proyecto
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->middleware(['role:admin,manager']); // Actualizar proyecto
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar proyecto
-
+    Route::post('projects/{project}/users', [ProjectController::class, 'addUsers'])->middleware(['role:admin,manager']); // Anadir usuarios a un proyecto
+    Route::delete('projects/{project}/users', [ProjectController::class, 'removeUsers'])->middleware(['role:admin,manager']); // Removoe usuarios a un proyecto
 
     //VERSIONS
     Route::get('/versions', [VersionController::class, 'index'])->middleware(['role:admin,manager,tester']); // Listar versiones
@@ -56,17 +63,45 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     //USUARIOS
-    Route::get('/users', [UserController::class, 'index'])->middleware('role:admin,manager');
-    Route::post('/users', [UserController::class, 'store'])->middleware('role:admin');
-    Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:admin,manager');
-    Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:admin');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:admin');
+    Route::get('/users', [UserController::class, 'index'])->middleware('role:admin,manager'); // Listar usuarios
+    Route::post('/users', [UserController::class, 'store'])->middleware('role:admin'); // Crear usuario
+    Route::get('/users/{id}', [UserController::class, 'show'])->middleware('role:admin,manager'); // Ver un usuario
+    Route::put('/users/{id}', [UserController::class, 'update'])->middleware('role:admin'); // Actualizar usuarios
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->middleware('role:admin'); // Eliminar usuario
 
 
     // ========== DASHBOARD ==========
+
+    // Devuelve datos principales del dashboard: total de proyectos, test cases activos, tests ejecutados, aprobados, fallidos y pendientes, junto con tasas de éxito y fallo.
     Route::get('dashboard/main', [DashboardController::class, 'mainDashboard'])->middleware('role:admin,manager,tester');
+    // Devuelve solo el total de proyectos existentes en el sistema.
     Route::get('dashboard/projects-total', [DashboardController::class, 'totalProjects'])->middleware('role:admin,manager,tester');
+    // Devuelve la cantidad de test cases activos asociados a proyectos activos.
     Route::get('dashboard/active-test-cases', [DashboardController::class, 'activeTestCases'])->middleware('role:admin,manager,tester');
+    // Devuelve la cantidad total de test executions que ya se han ejecutado.
     Route::get('dashboard/tests-executed', [DashboardController::class, 'testsExecuted'])->middleware('role:admin,manager,tester');
+    // Devuelve las tasas de éxito y fallo de los tests ejecutados, junto con totales de tests aprobados, fallidos y ejecutados.
     Route::get('dashboard/success-rates', [DashboardController::class, 'successRates'])->middleware('role:admin,manager,tester');
+
+
+    // ========== STATISTICS ==========
+
+    // Devuelve estadísticas globales de todos los proyectos, incluyendo media de tests aprobados, fallidos y tests por proyecto.
+    Route::get('statistics/global', [StatisticsController::class, 'global'])->middleware('role:admin,manager,tester');
+
+    // Devuelve estadísticas de un proyecto específico: total de tests ejecutados, aprobados, fallidos y pendientes.
+    Route::get('statistics/project/{project}', [StatisticsController::class, 'byProject'])->middleware('role:admin,manager,tester');
+    // Devuelve información del proyecto: total de versiones y la última versión disponible.
+    Route::get('statistics/project/{project}/versions', [StatisticsController::class, 'projectVersionInfo'])->middleware('role:admin,manager,tester');
+
+    // Devuelve estadísticas de una versión específica: total de tests ejecutados, aprobados, fallidos y p
+    Route::get('statistics/version/{version}', [StatisticsController::class, 'byVersion'])->middleware('role:admin,manager,tester');
+    // Devuelve estadísticas de todas las versiones de un proyecto: total de ejecuciones, aprobadas, fallidas y porcentaje de éxito.
+    Route::get('statistics/project/{project}/version-executions', [StatisticsController::class, 'versionExecutionStats'])->middleware('role:admin,manager,tester');
+
+    // Devuelve estadísticas de un usuario específico: total de tests ejecutados, aprobados, fallidos, pendientes y porcentaje de éxito.
+    Route::get('statistics/user/{user}', [StatisticsController::class, 'byUser'])->middleware('role:admin,manager,tester');
+
+    // Devuelve estadísticas de tests por proyecto: total de test cases por versión, ejecutados y no ejecutados.
+    Route::get('statistics/project/{project}/test-cases', [StatisticsController::class, 'byTestCase'])->middleware('role:admin,manager,tester');
 });

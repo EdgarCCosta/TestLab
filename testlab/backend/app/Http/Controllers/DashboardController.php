@@ -103,4 +103,8 @@ class DashboardController extends Controller
             return ApiResponse::error('Failed to load success rates', 500, $e->getMessage());
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/backend-av

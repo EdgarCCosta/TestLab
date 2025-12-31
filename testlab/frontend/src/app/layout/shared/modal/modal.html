@@ -1,0 +1,19 @@
+<!-- Modal -->
+  <div class="modal fade modal-lg" id="detalleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content p-5">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">{{ this.title() }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Dentro de ng-content se «inyecta» el contenido pasado por el componente que está renderizando -->
+          <ng-content></ng-content>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Guardar cambios</button>
+        </div> -->
+      </div>
+    </div>
+  </div>

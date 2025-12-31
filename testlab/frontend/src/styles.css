@@ -1,0 +1,209 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  --bs-body-font-family: Inter, var(--bs-font-sans-serif);
+  --bs-body-font-size: 1.6rem;
+}
+
+app-root {
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.layout {
+  height: 100vh;
+  width: 100%;
+}
+
+.fondoTestlab {
+  background-color: #F9F9FD;
+}
+
+
+/********************** LOGIN ******************************/
+
+app-login {
+  display: flex;
+  height: 100vh;
+  background-color: #F9F9FD;
+}
+
+#formWrapper {
+  border-radius: 4rem;
+  corner-shape: squircle;
+  background-color: white;
+}
+
+#formLogin {
+  width: 30rem;
+  padding: .4rem;
+
+  & button {
+    background-color: #737ADE;
+    color: white;
+    border-radius: 1.2rem;
+  }
+
+  & span {
+    position: absolute;
+    margin: .5rem 1rem;
+  }
+
+  & input {
+    padding-left: 4rem;
+  }
+}
+
+/******************** CONTENEDOR PRINCIPAL ********************/
+
+.contenedor-principal {
+  display: flex;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/**************************** SIDEBAR ************************/
+
+.sidebar {
+  background-color: #F9F9FD;
+}
+
+@media only screen and (max-width: 939px) {
+  app-sidebar, .sidebar {
+    display: none;
+  }
+
+  app-footer-menu {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+
+    & ul {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+
+  .nav-link i {
+    font-size: 4rem !important;
+  }
+}
+
+@media only screen and (min-width: 940px) {
+  app-sidebar{
+    overflow: hidden;
+    display: flex;
+    min-width: 7.2rem;
+  }
+
+  .sidebar {
+    display: flex;
+    width: 7.2rem;
+    padding: 2rem 1.4rem;
+  }
+
+  app-footer-menu {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  app-sidebar{
+    overflow: hidden;
+    display: flex;
+    min-width: 30rem;
+  }
+
+  .sidebar {
+    display: flex;
+    width: 30rem;
+    padding: 2rem 1.6rem;
+  }
+
+  app-footer-menu {
+    display: none;
+  }
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-bg: #C1CBFD;
+}
+
+.nav-link {
+  font-size: 2.4rem;
+  &:hover {
+    background-color: #C1CBFD;
+  }
+}
+
+/**************************** MAIN ************************/
+
+article {
+  font-size: 3rem;
+}
+
+
+h1 {
+  font-size: 3rem;
+}
+
+th {
+  background-color: rgba(var(--bs-light-rgb), 1) !important;
+  border-top: 1px solid #D6D5DC;
+  font-weight: 500;
+  font-size: 2rem;
+  padding: 2rem !important;
+}
+
+td {
+  padding: 2rem !important;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.ok {
+  color:#75D193;
+}
+
+.ko {
+  color:#FF0000;
+}
+
+/********************* FORMS ********************************/
+
+.filtro {
+  border: 1px solid #D6D5DC;
+  background-color: #F9F9FD;
+  margin-bottom: 6rem;
+}
+
+.btn-nuevo {
+  background-color: #737ADE;
+  color: white;
+  &:hover, &:active {
+    color: white !important;
+    background-color: #5a62d8 !important;
+  }
+  padding: 1rem;
+}
+
+form, .form-control, .btn {
+  font-size: 2rem;
+}
+
+form input + div, form select + div {
+  height: 3rem;
+}

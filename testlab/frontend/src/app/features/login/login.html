@@ -1,0 +1,48 @@
+<div id="formWrapper" class="d-flex m-auto p-5 border">
+
+  <form id="formLogin" [formGroup]="form" (ngSubmit)="onSubmit()" class="d-flex flex-column p-3">
+    <div class="d-flex justify-content-center mb-5">
+      <img src="img/testlab-logo.png" class="mb-4">
+    </div>
+    
+    <div class="mb-4" [class.was-validated]="this.form.get('email')?.dirty || this.form.get('email')?.touched">
+      <span>
+        <i class="bi bi-person-fill"></i>
+      </span>
+      <input id="email" name="email" type="email" class="form-control" formControlName="email" [class.invalid]="this.form.get('email')?.invalid" required>
+      <div>
+        @if (
+              this.form.get('email')?.invalid && 
+              (this.form.get('email')?.dirty || this.form.get('email')?.touched)
+            ) 
+        {
+          <div class="invalid-feedback d-block m-0 fs-4 py-2">
+            Inserte un correo no válido
+          </div>
+        }
+      </div>
+    </div>
+    <div class="mb-4" [class.was-validated]="this.form.get('password')?.dirty || this.form.get('password')?.touched">
+      <span>
+        <i class="bi bi-lock-fill"></i>
+      </span>
+      <input type="password" name="password" class="form-control" formControlName="password" required>
+      <div>
+        @if (
+              this.form.get('password')?.invalid && 
+              (this.form.get('password')?.dirty || this.form.get('password')?.touched)
+            ) 
+        {
+          <div class="invalid-feedback d-block m-0 fs-4 py-2">
+            Inserte una contraseña
+          </div>
+        }
+      </div>
+    </div>
+    <button type="submit" class="btn w-100 p-3 mt-3" [disabled]="form.invalid">Iniciar sesión</button>
+    @if (error) {
+      <div class="text-danger mt-2">{{ error }}</div>
+    }
+    
+  </form>
+</div>

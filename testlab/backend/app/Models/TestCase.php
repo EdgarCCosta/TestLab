@@ -20,23 +20,32 @@ class TestCase extends Model
         'preconditions',
         'steps',
         'expected_result',
-        'user_profile',
-        'version_id'
+        'user_profile'
     ];
 
     protected $casts = [
         'steps' => 'array',
-    ];  
+    ];
 
     // --- Relaciones ---
 
+
     /**
-     * Un test case pertenece a una versión
+     * Un test case pertenece a más de una versión
      */
-    public function version(): BelongsTo
+    public function versions(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Version::class,
+            'version_test_cases'
+        );
+    }
+
+
+    /*public function version(): BelongsTo
     {
         return $this->belongsTo(Version::class, 'version_id');
-    }
+    }*/
 
     /**
      * Un test case puede tener muchas ejecuciones
@@ -60,8 +69,8 @@ class TestCase extends Model
     /**
      * Filtrar por proyecto
      */
-    public function scopeByVersion($query, int $versionId)
+    /*public function scopeByVersion($query, int $versionId)
     {
         return $query->where('version_id', $versionId);
-    }
+    }*/
 }

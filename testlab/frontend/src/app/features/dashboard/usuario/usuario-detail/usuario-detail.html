@@ -1,0 +1,86 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <div class="mb-4" [class.was-validated]="this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched">
+    <label for="name" class="form-label">Nombre</label>
+    <input id="name" type="text" name="name" class="form-control" formControlName="name" required minlength="2">
+    <div>
+      @if (
+            this.form.get('nombre')?.invalid && 
+            (this.form.get('nombre')?.dirty || this.form.get('nombre')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un nombre válido (mínimo 2 caracteres)
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('email')?.dirty || this.form.get('email')?.touched">
+    <label for="email" class="form-label">Correo</label>
+    <input id="email" type="email" name="email" class="form-control" formControlName="email" required>
+    <div>
+      @if (
+            this.form.get('email')?.invalid && 
+            (this.form.get('email')?.dirty || this.form.get('email')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir un correo válido.
+        </div>
+      }
+    </div>
+    
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('password')?.dirty || this.form.get('password')?.touched">
+    <label for="password" class="form-label">Contraseña</label>
+    <input id="password" type="password" name="password" class="form-control" formControlName="password" required minlength="6" autocomplete="new-password">
+    <div>
+      @if (
+            this.form.get('password')?.invalid && 
+            (this.form.get('password')?.dirty || this.form.get('password')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una contraseña válida (al menos 6 caracteres).
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('rol')?.dirty || this.form.get('rol')?.touched" required minlength="1">
+    <label for="rol" class="form-label">Rol</label>
+    <select id="rol" name="rol" class="form-control" formControlName="rol">
+      <option value="admin">Admin</option>
+      <option value="manager">Manager</option>
+      <option value="tester">Tester</option>
+    </select>
+    <div>
+      @if (
+            this.form.get('rol')?.invalid && 
+            (this.form.get('rol')?.dirty || this.form.get('rol')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes elegir un rol.
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (this.modo() === 'detalle'){
+    <div class="d-flex justify-content-evenly mt-5">
+      <button type="submit" class="btn btn-secondary" (click)="volver()"  data-bs-dismiss="modal" >Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())" data-bs-dismiss="modal">Eliminar usuario</button> 
+      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+    </div>
+  } @else {
+  <div class="d-flex justify-content-evenly mt-5">
+    <button type="submit" class="btn btn-secondary" (click)="volver()" data-bs-dismiss="modal">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear usuario</button>
+  </div>
+}
+
+  
+</form>

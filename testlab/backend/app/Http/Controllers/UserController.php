@@ -15,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        // return response()->json(['message' => 'Hello World']);
         try {
             $users = User::all();
             $userDTOs = UserDTO::fromCollection($users);
@@ -53,6 +54,7 @@ class UserController extends Controller
         ]);
 
         try {
+            // ✅ Hash MANUAL (ya no tienes mutator)
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
