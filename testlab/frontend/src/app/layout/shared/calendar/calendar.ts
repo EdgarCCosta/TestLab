@@ -8,6 +8,9 @@ import { Version } from '../../../models/version';
 import { VersionService } from '../../../services/version-service';
 import { ProyectoService } from '../../../services/proyecto-service';
 import { LoadingInlineComponent } from '../../../layout/shared/loading-inline/loading-inline';
+import { SpinnerService } from '../../../services/spinner-service';
+import { ToastService } from '../../../layout/shared/toast/toast';
+
 
 interface DiaCalendario {
   date: Date | null;
@@ -66,7 +69,9 @@ export class Calendar implements OnInit {
 
   constructor(
     private versionService: VersionService,
-    private proyectoService: ProyectoService
+    private proyectoService: ProyectoService,
+    public _spinnerService: SpinnerService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -98,13 +103,22 @@ export class Calendar implements OnInit {
             this.computeProjectCounts();
             this.loading = false
           },
-          error: (err) => console.error('Error cargando versiones', err),
-          // complete: () => this.loading = false
+          error: (err) =>{
+            this.loading = false;
+            this.toastService.show('No se pudieron cargar las versiones', 'error');
+          },
+          complete: () => {
+            this.loading = false
+          }
         });
         
       },
-      error: (err) => console.error('Error cargando proyectos', err),
-      // complete: () => this.loading = false
+      error: (err) => {
+        this.loading = false;
+        console.error('Error cargando proyectos', err),
+        this.toastService.show('No se pudieron cargar los proyectos', 'error');
+      },
+      complete: () => this.loading = false
     });
   }
 

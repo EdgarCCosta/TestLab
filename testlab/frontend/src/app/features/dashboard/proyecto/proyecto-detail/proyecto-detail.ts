@@ -78,17 +78,17 @@ export class ProyectoDetail {
   proyectos = this._proyectoService.proyectos;
 
   // Efecto para sincronizar el detalle cuando cambia la lista global
-  actualizarProyectoEffect = effect(() => {
-    const id = this.proyectoId();
-    if (!id) return;
+  // actualizarProyectoEffect = effect(() => {
+  //   const id = this.proyectoId();
+  //   if (!id) return;
 
-    const lista = this.proyectos();
-    const actualizado = lista.find(p => p.id.toString() === id);
+  //   const lista = this.proyectos();
+  //   const actualizado = lista.find(p => p.id.toString() === id);
 
-    if (actualizado) {
-      this.proyecto.set(actualizado);
-    }
-  });
+  //   if (actualizado) {
+  //     this.proyecto.set(actualizado);
+  //   }
+  // });
 
   constructor(
     public _spinnerService : SpinnerService
@@ -119,15 +119,21 @@ export class ProyectoDetail {
       versiones: this._versionService.getVersiones(),
       ejecuciones: this._ejecucionService.getEjecuciones()
     })
-    .pipe(finalize(() => this.loadingDetalle.set(false)))
-    .subscribe(({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-
-      // Actualizar signals y arrays
-      this.proyecto.set(proyecto);
-      this.usuarios = usuarios;
-      this.pruebas = pruebas;
-      this.versiones = versiones.filter(v => v.project_id.toString() === id);
-      this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
+    .pipe(
+      finalize(() => this.loadingDetalle.set(false))
+    )
+    .subscribe({
+      next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
+        this.proyecto.set(proyecto);
+        this.usuarios = usuarios;
+        this.pruebas = pruebas;
+        this.versiones = versiones.filter(v => v.project_id.toString() === id);
+        this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
+      },
+      error: () => {
+        this._toastService.show('No se pudo cargar el proyecto', 'error');
+        this.router.navigate(['/proyecto']);
+      }
     });
   }
 

@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-      <app-loading-inline [show]="loading"></app-loading-inline>
+      <app-loading-inline *ngIf="_spinnerService.loading() || loading" [show]="true"></app-loading-inline>
 
     </div>
 

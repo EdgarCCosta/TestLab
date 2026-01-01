@@ -7,12 +7,11 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize, timeout } from 'rxjs/operators';
 import { AuthService } from './auth-service';
 import { Router } from '@angular/router';
 import { ToastService } from '../layout/shared/toast/toast';
 import { SpinnerService } from './spinner-service';
-import { finalize } from 'rxjs/operators';
 
 
 @Injectable()
@@ -42,8 +41,28 @@ export class TokenInterceptor implements HttpInterceptor {
       });
     }
 
+
     return next.handle(cloned).pipe(
-      catchError((error: HttpErrorResponse) => {
+
+      // ⏳ Timeout global para cualquier petición
+      timeout(10000), // 10 segundos, ajustable
+
+      catchError((error: HttpErrorResponse | any) => {
+
+          // 🔴 Backend caído / sin conexión
+          if (error.status === 0) {
+            console.log('ERROR INTERCEPTOR:', error);
+            this.toast.show('No se puede conectar con el servidor', 'error');
+            return throwError(() => error);
+          }
+
+
+
+        // ⏱ Timeout
+        if (error.name === 'TimeoutError') {
+          this.toast.show('El servidor tardó demasiado en responder', 'error');
+          return throwError(() => error);
+        }
 
         // 401 → No autenticado (token inválido o caducado)
         // 403 → No autorizado
@@ -59,11 +78,20 @@ export class TokenInterceptor implements HttpInterceptor {
           // this.auth.logout();
           this.router.navigate(['/login']);
         }
+        if (error.status === 404) { // Probar cambiando url service. Ej.: `${this.apiUrl + this.endpoint}/'dummy'${id}`
+          // Se decide en el componente el mensaje. Evita duplicidad de toasts.
+          // this.toast.show('Recurso no encontrado', 'error');
+          return throwError(() => error);
+        }
 
         return throwError(() => error);
       }),
+
+      
       // Se ejecuta SIEMPRE: éxito o error
       finalize(() => {
+        console.log('Finalize');
+        // setTimeout(() => this.spinner.hide(), 150); // Tiempo para renderizar
         this.spinner.hide();
       })
 

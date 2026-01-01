@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
+import { SpinnerService } from '../../../../services/spinner-service';
 
 
 @Component({
@@ -24,17 +25,22 @@ export class UsuarioList {
   public usuariosFiltrados: Usuario[] = [];
   public nuevoUser: boolean = false;
   public _filtro: string = '';
-  public loading: boolean = false;
+  public loading: boolean = true;
+  // public loading: boolean = false;
 
   constructor(
-    private _usuarioService: UsuarioService, private _router: Router, private toastService: ToastService
+    private _usuarioService: UsuarioService, private _router: Router, private toastService: ToastService,
+    public _spinnerService: SpinnerService
   ) {
-    this.obtenerUsuarios();
+  }
+  ngOnInit() {
+    this.obtenerUsuarios();   // En el constructor no se activan los interceptors
   }
 
-  obtenerUsuarios(): void {
-     this.loading = true; // 👈 ACTIVAR LOADING
 
+  obtenerUsuarios(): void {
+       this.loading = true; // 👈 ACTIVAR LOADING
+    // this._spinnerService.show();
 
     this._usuarioService.getUsuarios().subscribe({
       next: (response) => {
@@ -53,13 +59,22 @@ export class UsuarioList {
           
         this.usuariosFiltrados = this.usuarios;
         console.log("Tenemos los usuarios: ", this.usuarios);
-        this.loading = false; // 👇 DESACTIVAR LOADING
+        this.loading = false;
+
+        // this.loading = false; // 👇 DESACTIVAR LOADING
 
     // // reaplicar filtro si existía
     // if (this._filtro !== '') {
     //   this.filtro = this._filtro;
     // }
-  }
+  },
+    error: () => {
+      this.loading = false;
+      this.toastService.show('No se pudieron cargar los usuarios', 'error');
+      // ❌ No desactivas spinner aquí, lo hace el interceptor
+    }
+
+
 });
 
     // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
