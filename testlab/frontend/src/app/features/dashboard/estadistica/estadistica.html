@@ -27,45 +27,85 @@
     </div>
   </nav>
 
-  <!-- Contenidos de pestañas -->
+  <!-- Contenidos de pestañas en Grid -->
 
   <div class="tab-content pt-4" id="nav-tabContent">
 
     <!-- ESTADISTICAS GENERALES -->
-    <div class="tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
+    <div class="stats tab-pane fade show active" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab" tabindex="0">
 
+      <!-- Fila superior -->
       <div class="row">
         <div class="col">
           <div class="card shadow-sm">
-            Tests totales
+            <div class="stat-title">
+              Tests totales
+            </div>
+            <div class="stat-number">
+              128
+            </div>
+            <div class="stat-comment stat-success">
+              <i class="bi bi-caret-up-fill"></i>12% frente al mes anterior
+            </div>
           </div>
         </div>
         <div class="col">
           <div class="card shadow-sm">
-            Tests pasados
+            <div class="stat-title">
+              Tests pasados
+            </div>
+            <div class="stat-number stat-success">
+              240
+            </div>
+            <div class="stat-comment">
+              75% de éxito
+            </div>
           </div>
         </div>
         <div class="col">
           <div class="card shadow-sm">
-            Tests fallidos
+            <div class="stat-title">
+              Tests fallidos
+            </div>
+            <div class="stat-number stat-fail">
+              42
+            </div>
+            <div class="stat-comment">
+              25% de fallos
+            </div>
           </div>
         </div>
         <div class="col">
           <div class="card shadow-sm">
-            Tests pendientes
+            <div class="stat-title">
+              Tests pendientes
+            </div>
+            <div class="stat-number">
+              33
+            </div>
+            <div class="stat-comment">
+              15% pendientes
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Fila inferior -->
       <div class="row">
-        <div class="col">
-          <div class="card shadow-sm">
+        <div class="col chart">
+          <div class="card shadow-sm p-3">
             Evolución mensual
+            <div>
+              <canvas id="GraficoEvolucion"></canvas>
+            </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card shadow-sm">
+        <div class="col chart">
+          <div class="card shadow-sm p-3">
             Distribución de estados
+            <div>
+              <canvas id="GraficoEstados"></canvas>
+            </div>
           </div>
         </div>
       </div>

@@ -5,12 +5,12 @@
       <app-sidebar></app-sidebar>
     }
 
-    <div class="content w-100 p-5">
+    <div class="content">
       <!-- Paths hijos de App-Layout -->
       <router-outlet></router-outlet>
 
       @if (!esLogin()) {
-        <app-footer-menu class="text-white bg-light"></app-footer-menu>
+        <app-footer-menu></app-footer-menu>
       }
     </div>
   </div>
