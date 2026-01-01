@@ -102,8 +102,25 @@ app-login {
 }
 
 app-footer-menu {
-  background-color: transparent;
+  background-color: var(--light-bg-color);
+  /* background-color: transparent; */
   border-top: .1rem solid var(--border-light-color);
+}
+
+/***** ESPACIO PARA FOOTER MENU ****/
+
+@media only screen and (max-width: 939px) {
+
+  app-estadistica section {
+    /* height: calc(100% + 8rem); */
+    flex-grow: 1;
+    padding-bottom: 9rem;
+  }
+
+  mat-paginator {
+    margin-bottom: 9rem;
+  }
+
 }
 
 @media only screen and (max-width: 939px) {
@@ -235,18 +252,6 @@ h1 {
 }
 
 /* ESTADISTICAS */
-
-@media only screen and (max-width: 939px) {
-
-  app-estadistica section {
-    min-height: calc(100vh + 8rem);
-    padding-bottom: 8rem;
-  }
-
-  /* app-estadistica .nav-tabContent {
-    margin-bottom: 8rem;
-  } */
-}
 
 app-estadistica {
   width: 100%;
@@ -383,16 +388,12 @@ form input + div,
 form select + div {
   height: 3rem;
 }
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
 
 /* Columnas angular material */
+
+.mat-mdc-row:hover {
+  background-color: var(--accent-bg-color) !important;
+}
 
 .mat-mdc-row:nth-child(odd) {
   background-color: #fafafa;
@@ -408,6 +409,10 @@ body {
   svg {
     color: white !important;
   }
+}
+
+mat-paginator, mat-select, mat-option, .mat-mdc-select-value-text {
+  font-size: 1.6rem !important;
 }
 
 .toast-wrapper {
