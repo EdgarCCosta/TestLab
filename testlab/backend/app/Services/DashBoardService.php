@@ -67,4 +67,64 @@ class DashboardService
 
         return $total > 0 ? round(($failed / $total) * 100, 2) : 0;
     }
+
+    // public function getTestsExecutedByMonth(int $month, int $year): int
+    // {
+    //     return TestExecution::whereMonth('executed_at', $month)
+    //         ->whereYear('executed_at', $year)
+    //         ->count();
+    // }
+
+    // public function getTestsPassedByMonth(int $month, int $year): int
+    // {
+    //     return TestExecution::where('result', 'passed')
+    //         ->whereMonth('executed_at', $month)
+    //         ->whereYear('executed_at', $year)
+    //         ->count();
+    // }
+
+    // public function getTestsFailedByMonth(int $month, int $year): int
+    // {
+    //     return TestExecution::where('result', 'failed')
+    //         ->whereMonth('executed_at', $month)
+    //         ->whereYear('executed_at', $year)
+    //         ->count();
+    // }
+    public function getLastSixMonthsEvolution(): array
+    {
+        $data = [];
+
+        // Mes actual
+        $currentMonth = date('n'); // 1–12
+        $currentYear  = date('Y');
+
+        for ($i = 5; $i >= 0; $i--) {
+
+            // Restamos $i meses desde hoy. En nuestro caso desde hace 5 meses hasta hace 0 meses (enero). 6 en total.
+            $timestamp = strtotime("-$i month");
+
+            $month = date('n', $timestamp);
+            $year  = date('Y', $timestamp);
+
+            $data[] = [
+                'month'    => $month,
+                'year'     => $year,
+                'executed' => TestExecution::whereMonth('executed_at', $month)
+                                        ->whereYear('executed_at', $year)
+                                        ->count(),
+
+                'passed'   => TestExecution::where('result', 'passed')
+                                        ->whereMonth('executed_at', $month)
+                                        ->whereYear('executed_at', $year)
+                                        ->count(),
+
+                'failed'   => TestExecution::where('result', 'failed')
+                                        ->whereMonth('executed_at', $month)
+                                        ->whereYear('executed_at', $year)
+                                        ->count(),
+            ];
+        }
+
+        return $data;
+    }
 }

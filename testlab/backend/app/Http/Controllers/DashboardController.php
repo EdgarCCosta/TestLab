@@ -103,4 +103,18 @@ class DashboardController extends Controller
             return ApiResponse::error('Failed to load success rates', 500, $e->getMessage());
         }
     }
+
+    public function lastSixMonths()
+    {
+        try {
+            $evolution = $this->dashboardService->getLastSixMonthsEvolution();
+
+            return ApiResponse::success([
+                'evolution' => $evolution
+            ]);
+
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to load last six months evolution', 500, $e->getMessage());
+        }
+    }
 }

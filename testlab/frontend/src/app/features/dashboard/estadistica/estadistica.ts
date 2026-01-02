@@ -13,11 +13,23 @@ export class Estadistica implements OnInit {
 
   public graficoEvolucion: any;
   public graficoEstados: any;
+  public dashboard: any = null;
+  public summary: any = null;
+  public loading = true;
 
   constructor(private _estadisticaService: EstadisticaService) {}
 
   ngOnInit(): void {
-    this.createGraphics();
+    this._estadisticaService.getMainDashboard().subscribe(resp => {
+      this.dashboard = resp.data.dashboard;
+      this.summary = resp.data.summary;
+      console.log(this.summary);
+      this.createGraphics();
+    });
+
+    this._estadisticaService.getLastSixMonths().subscribe(resp => {
+      console.log(resp);
+    });
   }
 
   createGraphics() {
@@ -76,10 +88,14 @@ export class Estadistica implements OnInit {
     //     hoverOffset: 4
     //   }]
     // };
+    const passed = this.summary.success_rate;
+    const failed = this.summary.failure_rate;
+    const pending = 100 - passed - failed;
+
 
     this.graficoEstados = new Chart("GraficoEstados", {
       type: 'doughnut',
-      data: {labels: ['pasados', 'fallidos', 'pendientes'], datasets: [{label: "", data: [25, 25, 50], hoverOffset: 4}]},
+      data: {labels: ['pasados', 'fallidos', 'pendientes'], datasets: [{label: "", data: [passed, failed, pending], hoverOffset: 4}]},
       options: {
         responsive: true,
         aspectRatio: 1,

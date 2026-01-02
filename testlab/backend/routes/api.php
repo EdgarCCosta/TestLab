@@ -71,4 +71,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('dashboard/active-test-cases', [DashboardController::class, 'activeTestCases'])->middleware('role:admin,manager,tester');
     Route::get('dashboard/tests-executed', [DashboardController::class, 'testsExecuted'])->middleware('role:admin,manager,tester');
     Route::get('dashboard/success-rates', [DashboardController::class, 'successRates'])->middleware('role:admin,manager,tester');
+    // Añadido
+    Route::get('/dashboard/last-months', [DashboardController::class, 'lastSixMonths']);
 });
