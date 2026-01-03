@@ -3,18 +3,20 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../../layout/shared/loading/loading';
+import { SpinnerService } from '../../services/spinner-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, LoadingComponent],
   templateUrl: './login.html'
 })
 export class Login {
   form!: FormGroup;
   error!: string;
 
-  constructor(private fb: FormBuilder, private _auth: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private _auth: AuthService, private router: Router, public _spinnerService: SpinnerService) {
 
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]], // Email requerido

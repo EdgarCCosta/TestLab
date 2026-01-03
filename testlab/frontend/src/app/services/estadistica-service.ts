@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { EvolutionResponse, SuccessRatesResponse } from '../models/dashboardData';
 
 @Injectable({
   providedIn: 'root',
@@ -38,12 +39,12 @@ export class EstadisticaService {
   }
 
   /** Tasas de éxito y fallo */
-  getSuccessRates(): Observable<any> {
-    return this.http.get(`${this.apiUrl + this.dash}/success-rates`);
+  getSuccessRates(): Observable<SuccessRatesResponse> {
+    return this.http.get<SuccessRatesResponse>(`${this.apiUrl + this.dash}/success-rates`);
   }
 
-  getLastSixMonths() {
-    return this.http.get(`${this.apiUrl + this.dash}/last-months`);
+  getLastSixMonths(): Observable<EvolutionResponse> {
+    return this.http.get<EvolutionResponse>(`${this.apiUrl + this.dash}/last-months`);
   }
 
   /** ============================

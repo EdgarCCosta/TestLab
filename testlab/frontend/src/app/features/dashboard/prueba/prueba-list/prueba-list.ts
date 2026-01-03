@@ -7,11 +7,13 @@ import { Listado } from '../../../../layout/shared/listado/listado';
 import { Modal } from '../../../../layout/shared/modal/modal';
 import { PruebaDetail } from '../prueba-detail/prueba-detail';
 import { FormsModule } from '@angular/forms';
+import { SpinnerService } from '../../../../services/spinner-service';
+import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 
 
 @Component({
   selector: 'app-prueba-list',
-  imports: [CommonModule, FormsModule, Listado, Modal, PruebaDetail],
+  imports: [CommonModule, FormsModule, Listado, Modal, PruebaDetail, LoadingComponent],
   templateUrl: './prueba-list.html',
   standalone: true,
 })
@@ -21,9 +23,10 @@ export class PruebaList {
   public itemsFiltrados: Prueba[] = [];
   public nuevoItem: boolean = false;
   public _filtro: string = '';
+  public loading: boolean = true;
 
   constructor(
-    private _itemService: PruebaService, private _router: Router
+    private _itemService: PruebaService, private _router: Router, public _spinnerService: SpinnerService
   ) {
     this.obtenerPruebas();
   }
@@ -46,9 +49,10 @@ export class PruebaList {
             };
           });
       this.itemsFiltrados = this.items;
-      console.log("Tenemos los usuarios: ", this.items);
-      },
+      this.loading = false;
 
+      },
+      
     });
 
     // Enganchar evento de Bootstrap para resetear al cerrar modal
@@ -63,6 +67,7 @@ export class PruebaList {
   }
 
   seleccionarPrueba(id: string): void {
+    this.loading = false;
     this.itemSelId = id;
   }
 

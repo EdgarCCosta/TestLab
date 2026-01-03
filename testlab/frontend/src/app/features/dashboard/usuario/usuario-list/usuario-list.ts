@@ -39,7 +39,7 @@ export class UsuarioList {
 
 
   obtenerUsuarios(): void {
-       this.loading = true; // 👈 ACTIVAR LOADING
+       this.loading = true; // ACTIVAR LOADING
     // this._spinnerService.show();
 
     this._usuarioService.getUsuarios().subscribe({
@@ -89,6 +89,7 @@ export class UsuarioList {
   }
 
   seleccionarUsuario(id: string): void {
+    this.loading = false;
     this.usuarioSelId = id;
   }
 
@@ -107,6 +108,7 @@ export class UsuarioList {
   }
 
   abrirNuevoUsuario() {
+    this.loading = false;
     this.usuarioSelId = null;   // no hay id
     this.nuevoUser = true;      // activar modo creación
   }

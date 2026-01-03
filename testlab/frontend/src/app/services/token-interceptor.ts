@@ -45,7 +45,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(cloned).pipe(
 
       // ⏳ Timeout global para cualquier petición
-      timeout(10000), // 10 segundos, ajustable
+      // timeout(10000), // 10 segundos, ajustable
 
       catchError((error: HttpErrorResponse | any) => {
 

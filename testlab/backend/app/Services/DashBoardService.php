@@ -68,28 +68,7 @@ class DashboardService
         return $total > 0 ? round(($failed / $total) * 100, 2) : 0;
     }
 
-    // public function getTestsExecutedByMonth(int $month, int $year): int
-    // {
-    //     return TestExecution::whereMonth('executed_at', $month)
-    //         ->whereYear('executed_at', $year)
-    //         ->count();
-    // }
 
-    // public function getTestsPassedByMonth(int $month, int $year): int
-    // {
-    //     return TestExecution::where('result', 'passed')
-    //         ->whereMonth('executed_at', $month)
-    //         ->whereYear('executed_at', $year)
-    //         ->count();
-    // }
-
-    // public function getTestsFailedByMonth(int $month, int $year): int
-    // {
-    //     return TestExecution::where('result', 'failed')
-    //         ->whereMonth('executed_at', $month)
-    //         ->whereYear('executed_at', $year)
-    //         ->count();
-    // }
     public function getLastSixMonthsEvolution(): array
     {
         $data = [];

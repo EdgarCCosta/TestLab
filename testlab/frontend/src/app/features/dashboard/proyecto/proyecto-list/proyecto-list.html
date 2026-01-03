@@ -26,3 +26,4 @@
     <app-proyecto-new [(listado)]="this.proyectos" (listadoChange)="listadoChange($event)"></app-proyecto-new>
   }
 </app-modal>
+<app-loading [show]="_spinnerService.loading()"></app-loading>

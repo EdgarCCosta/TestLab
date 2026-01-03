@@ -1,6 +1,10 @@
 
+  <app-loading [show]="_spinnerService.loading() || loading"></app-loading>
+
+
 <h1>Estadísticas</h1>
 <p>Métricas de Testlab</p>
+
 
 
 <!-- Sección tabs con listados -->
@@ -42,7 +46,7 @@
               Tests totales
             </div>
             <div class="stat-number">
-              128
+              {{successRates?.total_executed}}
             </div>
             <div class="stat-comment stat-success">
               <i class="bi bi-caret-up-fill"></i>12% frente al mes anterior
@@ -55,10 +59,10 @@
               Tests pasados
             </div>
             <div class="stat-number stat-success">
-              240
+              {{successRates?.total_passed}}
             </div>
             <div class="stat-comment">
-              75% de éxito
+              {{successRates?.success_rate}}% de éxito
             </div>
           </div>
         </div>
@@ -68,10 +72,10 @@
               Tests fallidos
             </div>
             <div class="stat-number stat-fail">
-              42
+              {{successRates?.total_failed}}
             </div>
             <div class="stat-comment">
-              25% de fallos
+              {{successRates?.failure_rate}}% de fallos
             </div>
           </div>
         </div>
@@ -81,10 +85,10 @@
               Tests pendientes
             </div>
             <div class="stat-number">
-              33
+              {{pending_total}}
             </div>
             <div class="stat-comment">
-              15% pendientes
+              {{pending_rate}}% pendientes
             </div>
           </div>
         </div>
@@ -134,6 +138,7 @@
     </div>
 
   </div>
+
   
 </section>
 

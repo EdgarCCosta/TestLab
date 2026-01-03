@@ -30,4 +30,4 @@
     <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="usuarioSelId" (listadoChange)="listadoChange($event)" [modo]="'detalle'"></app-usuario-detail>
   }
 </app-modal>
-<app-loading *ngIf="_spinnerService.loading() || loading" [show]="true"></app-loading>
+<app-loading [show]="_spinnerService.loading() && loading"></app-loading>

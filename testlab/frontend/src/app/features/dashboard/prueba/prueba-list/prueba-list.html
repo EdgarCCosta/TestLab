@@ -26,3 +26,4 @@
     <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [(itemId)]="itemSelId" [modo]="'detalle'"></app-prueba-detail>
   }
 </app-modal>
+<app-loading [show]="_spinnerService.loading() && loading"></app-loading>

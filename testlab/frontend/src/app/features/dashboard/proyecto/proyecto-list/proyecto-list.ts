@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
 import { Listado } from '../../../../layout/shared/listado/listado';
 import { Modal } from '../../../../layout/shared/modal/modal';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
-import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
 import { SpinnerService } from '../../../../services/spinner-service';
+import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 
 @Component({
   selector: 'app-proyecto-list',
-  imports: [CommonModule, FormsModule, Listado, Modal, ProyectoNew, LoadingInlineComponent],
+  imports: [CommonModule, FormsModule, Listado, Modal, ProyectoNew, LoadingComponent],
   templateUrl: './proyecto-list.html',
   styleUrl: './proyecto-list.css',
 })
@@ -24,21 +24,24 @@ export class ProyectoList implements OnInit {
   public nuevoProject: boolean = false;
   public _filtro: string = '';
   abrirModal = false;
+  loading = true;
 
 
   constructor(
     private _proyectoService: ProyectoService,
     private router: Router,
-    public spinner: SpinnerService) {    // Cada vez que cambia proyectoSelId → navegar al detalle
+    public _spinnerService: SpinnerService) {    // Cada vez que cambia proyectoSelId → navegar al detalle
       effect(() => {
         const id = this.proyectoSelId();
         if (id) {
           this.detalleProyecto(id);
         }
+        this.loading = false;
       });
     }
 
   ngOnInit(): void {
+    this.loading = true;
     this._proyectoService.getProyectos().subscribe({
       next: (lista) => {
         // lista es directamente Proyecto[] gracias al map() del servicio
