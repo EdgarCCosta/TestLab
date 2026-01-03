@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { EstadisticaService } from '../../../services/estadistica-service';
 import { EvolutionResponse, SuccessRatesResponse } from '../../../models/dashboardData';
 import { forkJoin } from 'rxjs';
@@ -17,6 +17,8 @@ export class Estadistica implements OnInit {
 
   public graficoEvolucion: any;
   public graficoEstados: any;
+  public graficoComparativaProyectos: any;
+
   public dashboard: any = null;
   public summary: any = null;
   public loading = true;
@@ -69,6 +71,8 @@ export class Estadistica implements OnInit {
   createGraphics() {
     this.createGraficoEvolucion();
     this.createGraficoEstados();
+    this.createGraficoComparativaProyectos();
+    this.createGraficoComparativaUsuarios();
   }
 
     private getMonthName(month: number): string {
@@ -120,17 +124,17 @@ export class Estadistica implements OnInit {
         },
         scales: {
           x: {
-            stacked: true
+            stacked: false
           },
           y: {
-            stacked: true
+            stacked: false
           }
-        }
+        },
       }
     });
   }
 
-  createGraficoEstados() {
+  createGraficoEstados(): void {
 
     // const datos = {
     //   labels: this.totales.map(mix => mix.tipo),
@@ -171,6 +175,85 @@ export class Estadistica implements OnInit {
         }
       }
     });
+  }
+
+  createGraficoComparativaProyectos(): void {
+
+    let dataPasados = {
+      label: 'Pasados',
+      data: [85, 85, 85],
+      // backgroundColor: 'green'
+    }
+
+    let dataFallidos = {
+      label: 'Fallidos',
+      data: [15, 15, 15],
+      // backgroundColor: 'red'
+    }
+
+    this.graficoComparativaProyectos = new Chart("GraficoComparativaProyectos", {
+      type: 'bar',
+      data: {
+        labels: ['Proyecto A', 'Proyecto B', 'Proyecto C'],
+        datasets: [dataPasados, dataFallidos],
+      },
+      options: {
+        responsive: true,
+        aspectRatio: 1,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 14
+              }
+            }
+          },
+        }
+      }
+    });
+
+  }
+
+
+  createGraficoComparativaUsuarios(): void {
+
+    let dataEjecutados = {
+      label: 'Ejecutados',
+      data: [150, 120, 85, 75],
+      // backgroundColor: 'green'
+    }
+
+    let dataPasados = {
+      label: 'Pasados',
+      data: [140, 100, 60, 70],
+      // backgroundColor: 'red'
+    }
+
+    this.graficoComparativaProyectos = new Chart("GraficoComparativaUsuarios", {
+      type: 'bar',
+      data: {
+        labels: ['Usuario A', 'Usuario B', 'Usuario C', 'Usuario D'],
+        datasets: [dataEjecutados, dataPasados],
+      },
+      options: {
+        responsive: true,
+        aspectRatio: 1,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: {
+                size: 14
+              }
+            }
+          },
+        }
+      }
+    });
+
   }
   
 

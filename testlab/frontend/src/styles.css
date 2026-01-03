@@ -38,6 +38,10 @@ app-root {
   padding: 3rem;
 }
 
+.col {
+  margin-bottom: 2rem;
+}
+
 /********************** LOGIN ******************************/
 
 .fondoTestlab {
@@ -255,14 +259,7 @@ h1 {
 
 app-estadistica {
   width: 100%;
-}
-
-app-estadistica {
   height: 100%;
-}
-
-.col {
-  margin-bottom: 2rem;
 }
 
 canvas {
@@ -275,7 +272,6 @@ canvas {
   background-color: var(--light-bg-color);
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .stat-title {
@@ -290,6 +286,16 @@ canvas {
   font-size: 1.4rem;
 }
 
+.stat-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.4rem;
+}
+
+.stat-result {
+  font-size: 2.4rem;
+}
+
 .stat-success {
   color: var(--success-color);
 }
@@ -298,9 +304,65 @@ canvas {
   color: var(--fail-color);
 }
 
+.chart-title {
+  font-size: 1.8rem;
+  padding: .5rem;
+  font-weight: 500;
+}
+
 .chart {
   flex-grow: 1;
   margin-bottom: 2rem;
+}
+
+.leaderboard > :not(caption) > * > * {
+  background-color: transparent;
+}
+
+.leaderboard > thead > tr, .leaderboard > thead > th {
+  border: 0 !important;
+  border-bottom-width: none !important;
+}
+
+.leaderboard > tr {
+  border-top: 1px solid var(--border-light-color);
+}
+
+.leaderboard-1, .leaderboard-2, .leaderboard-3, .leaderboard-4 {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leaderboard-1 {
+  border: 1px solid #a65f00;
+  background-color: #fef9c2;
+  color: #a65f00;
+}
+
+.leaderboard-2 {
+  border: 1px solid #364153;
+  background-color: #f3f4f6;
+  color: #364153;
+}
+
+.leaderboard-3 {
+  border: 1px solid #ca3500;
+  background-color: #ffedd4;
+  color: #ca3500;
+}
+
+.leaderboard-4 {
+  border: 1px solid var(--logo-color);
+  background-color: var(--light-bg-color);
+  color: var(--logo-color);
+}
+
+#GraficoComparativaProyectos, #GraficoComparativaUsuarios {
+  max-height: 30rem;
 }
 
 .item-detallado {
@@ -344,7 +406,7 @@ th {
   padding: 2rem !important;
 }
 
-td {
+tbody td {
   padding: 2rem !important;
   font-size: 2rem;
   cursor: pointer;
