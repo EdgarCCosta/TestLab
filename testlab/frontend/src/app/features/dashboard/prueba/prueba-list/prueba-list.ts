@@ -9,6 +9,7 @@ import { PruebaDetail } from '../prueba-detail/prueba-detail';
 import { FormsModule } from '@angular/forms';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
+import { AuthService } from '../../../../services/auth-service';
 
 
 @Component({
@@ -24,11 +25,15 @@ export class PruebaList {
   public nuevoItem: boolean = false;
   public _filtro: string = '';
   public loading: boolean = true;
-
+  public role = localStorage.getItem('rol');
+  public puedeCrearProyecto: boolean = false;
+  
   constructor(
-    private _itemService: PruebaService, private _router: Router, public _spinnerService: SpinnerService
+    private _itemService: PruebaService, private _router: Router, public _spinnerService: SpinnerService,
+    private _authService: AuthService
   ) {
     this.obtenerPruebas();
+    this.puedeCrearProyecto = this._authService.hasPermission('crear_proyecto');
   }
 
   obtenerPruebas(): void {

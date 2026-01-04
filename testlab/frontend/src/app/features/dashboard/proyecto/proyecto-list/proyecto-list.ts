@@ -9,6 +9,7 @@ import { Modal } from '../../../../layout/shared/modal/modal';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
+import { AuthService } from '../../../../services/auth-service';
 
 @Component({
   selector: 'app-proyecto-list',
@@ -25,12 +26,16 @@ export class ProyectoList implements OnInit {
   public _filtro: string = '';
   abrirModal = false;
   loading = true;
-
+  puedeCrearProyecto: boolean = false;
 
   constructor(
     private _proyectoService: ProyectoService,
     private router: Router,
-    public _spinnerService: SpinnerService) {    // Cada vez que cambia proyectoSelId → navegar al detalle
+    public _spinnerService: SpinnerService,
+    private _authService: AuthService) {
+      
+      this.puedeCrearProyecto = this._authService.hasPermission('crear_proyecto');
+      // Cada vez que cambia proyectoSelId → navegar al detalle
       effect(() => {
         const id = this.proyectoSelId();
         if (id) {

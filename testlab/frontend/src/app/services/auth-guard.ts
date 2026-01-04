@@ -11,11 +11,33 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
+  // Si no está logueado → fuera
+  if (!auth.isLoggedIn()) {
+    router.navigate(['/login']);
+    return false;
+  }
 
-  if (auth.isLoggedIn()) {
+  // Si la ruta no define roles → permitir
+  const allowedRoles = route.data?.['roles'] as string[] | undefined;
+  if (!allowedRoles) {
     return true;
   }
-  
-  router.navigate(['/login']);
+
+  // Obtener rol del usuario desde el AuthService
+  const userRole = auth.getRole(); // ej: "admin", "manager", "tester"
+
+  // Si el rol está permitido → permitir
+  if (allowedRoles.includes(userRole)) {
+    return true;
+  }
+
+  // Si el rol no está permitido → redirige a la pantalla de "unauthorized"
+  if (!allowedRoles.includes(userRole)) {
+    router.navigate(['/unauthorized']);
+    return false;
+  }
+
+  // Si no tiene permiso → redirigir
+  router.navigate(['/unauthorized']);
   return false;
 };

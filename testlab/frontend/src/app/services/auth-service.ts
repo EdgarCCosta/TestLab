@@ -25,6 +25,7 @@ export class AuthService {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
       localStorage.removeItem('nombre');
+      localStorage.removeItem('rol');
       this._router.navigate(['/login']); // redirige al login
     }
 
@@ -56,6 +57,7 @@ export class AuthService {
     localStorage.removeItem('id');
     localStorage.removeItem('nombre');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('rol');
   }
 
 
@@ -66,4 +68,21 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  getRole(): string {
+    return localStorage.getItem('rol') ?? 'tester';
+  }
+
+  hasPermission(permiso: string): boolean {
+    const rol = this.getRole();
+
+    const permisosPorRol: Record<string, string[]> = {
+      admin: ['crear_cliente', 'crear_proyecto', 'editar_proyecto', 'borrar_proyecto'],
+      manager: ['crear_proyecto', 'editar_proyecto'],
+      tester: []
+    };
+
+    return permisosPorRol[rol]?.includes(permiso) ?? false;
+  }
+
 }

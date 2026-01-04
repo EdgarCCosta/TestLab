@@ -23,7 +23,19 @@
   @if (nuevoItem && itemSelId === null) {
     <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [itemId]="null" [modo]="'nuevo'"></app-prueba-detail>
   } @else if (itemSelId) {
-    <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [(itemId)]="itemSelId" [modo]="'detalle'"></app-prueba-detail>
+      @if (itemSelId && role !== 'tester') {
+        <app-prueba-detail 
+          [(listado)]="this.items" 
+          (listadoChange)="listadoChange($event)" 
+          [(itemId)]="itemSelId" 
+          [modo]="'detalle'">
+        </app-prueba-detail>
+      }
+      @if (itemSelId && role === 'tester') {
+        <div class="p-4 text-center">
+          <h4>No tienes permisos para editar este caso de prueba</h4>
+        </div>
+      }
   }
 </app-modal>
 <app-loading [show]="_spinnerService.loading() && loading"></app-loading>

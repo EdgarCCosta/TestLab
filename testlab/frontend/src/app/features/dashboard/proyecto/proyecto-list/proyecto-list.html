@@ -2,6 +2,7 @@
 
 <div class="d-flex justify-content-between mb-5">
   <h1>Proyectos</h1>
+  @if (puedeCrearProyecto) {
   <button type="button"
           class="btn btn-nuevo"
           data-bs-toggle="modal"
@@ -9,6 +10,7 @@
           (click)="abrirNuevoProyecto()">
     <i class="bi bi-plus-lg"></i> Nuevo proyecto
   </button>
+  }
 </div>
 
 

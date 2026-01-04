@@ -8,6 +8,7 @@ use App\Models\Version;
 use App\Models\TestCase;
 use App\Models\TestExecution;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,14 +18,14 @@ class DatabaseSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-            'password' => 'password123',
+            'password' => Hash::make('password123'),
             'rol' => 'admin'
         ]);
 
         $tester = User::create([
             'name' => 'Tester User',
             'email' => 'tester@test.com',
-            'password' => 'password123',
+            'password' => Hash::make('password123'),
             'rol' => 'tester'
         ]);
 

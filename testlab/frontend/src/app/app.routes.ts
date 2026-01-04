@@ -13,6 +13,7 @@ import { ProyectoDetail } from './features/dashboard/proyecto/proyecto-detail/pr
 import { Home } from './features/dashboard/home/home';
 import { authGuard } from './services/auth-guard';
 import { Estadistica } from './features/dashboard/estadistica/estadistica';
+import { Unauthorized } from './layout/shared/unauthorized/unauthorized';
 
 export const routes: Routes = [
   { path: 'login', component: Login },   // 👈 libre de guard
@@ -22,9 +23,9 @@ export const routes: Routes = [
     component: AppLayout,
     children: [
       { path: '', component: Home },
-      // { path: 'usuario', component: UsuarioList, canActivate: [authGuard] },
+      { path: 'usuario', component: UsuarioList, canActivate: [authGuard], data: { roles: ['admin', 'manager'] } },
       // { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
-      { path: 'usuario', component: UsuarioList},
+      // { path: 'usuario', component: UsuarioList},
       { path: 'usuario/:id', component: UsuarioDetail },
       { path: 'proyecto', component: ProyectoList },
       { path: 'proyecto/:id', component: ProyectoDetail },
@@ -32,7 +33,9 @@ export const routes: Routes = [
       { path: 'ejecucion', component: EjecucionList },
       { path: 'version', component: VersionList },
       { path: 'estadistica', component: Estadistica },
+      { path: 'unauthorized', component: Unauthorized },
+      // { path: '404', component: NotFound },
     ]
   },
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 ];

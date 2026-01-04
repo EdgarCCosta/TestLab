@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //PROJECTS
     Route::get('/projects', [ProjectController::class, 'index'])->middleware(['role:admin,manager,tester']); // Listar proyectos
     Route::post('/projects', [ProjectController::class, 'store'])->middleware(['role:admin,manager']); // Crear proyecto
-    Route::get('/projects/{id}', [ProjectController::class, 'show'])->middleware(['role:admin,manager,tester']); // Ver una proyecto
+    Route::get('/projects/{id}', [ProjectController::class, 'show'])->middleware(['role:admin,manager,tester']); // Ver un proyecto
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->middleware(['role:admin,manager']); // Actualizar proyecto
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar proyecto
 
