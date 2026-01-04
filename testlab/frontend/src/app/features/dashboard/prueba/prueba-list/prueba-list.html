@@ -19,19 +19,23 @@
   [abrirModal]="true">
 </app-listado>
 
-<app-modal [title]="(nuevoItem && itemSelId === null) ? 'Nuevo caso de prueba' : 'Detalle caso de prueba'">
-  @if (nuevoItem && itemSelId === null) {
-    <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [itemId]="null" [modo]="'nuevo'"></app-prueba-detail>
-  } @else if (itemSelId) {
-      @if (itemSelId && role !== 'tester') {
+<app-modal-detail [title]="(nuevaPrueba && pruebaSelId === null) ? 'Nuevo caso de prueba' : 'Detalle caso de prueba'">
+  @if (nuevaPrueba && pruebaSelId === null) {
+    <app-prueba-detail [(listado)]="this.pruebas" 
+      (listadoChange)="listadoChange($event)" 
+      [(pruebaId)]="pruebaSelId" 
+      [modo]="'nuevo'">
+    </app-prueba-detail>
+  } @else if (pruebaSelId) {
+      @if (pruebaSelId && role !== 'tester') {
         <app-prueba-detail 
-          [(listado)]="this.items" 
+          [(listado)]="this.pruebas" 
           (listadoChange)="listadoChange($event)" 
-          [(itemId)]="itemSelId" 
+          [(pruebaId)]="pruebaSelId" 
           [modo]="'detalle'">
         </app-prueba-detail>
       }
-      @if (itemSelId && role === 'tester') {
+      @if (pruebaSelId && role === 'tester') {
         <div class="p-4 text-center">
           <h4>No tienes permisos para editar este caso de prueba</h4>
         </div>

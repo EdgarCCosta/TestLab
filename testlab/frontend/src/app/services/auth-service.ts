@@ -77,7 +77,7 @@ export class AuthService {
     const rol = this.getRole();
 
     const permisosPorRol: Record<string, string[]> = {
-      admin: ['crear_cliente', 'crear_proyecto', 'editar_proyecto', 'borrar_proyecto'],
+      admin: ['crear_usuario', 'crear_proyecto', 'editar_proyecto', 'borrar_proyecto'],
       manager: ['crear_proyecto', 'editar_proyecto'],
       tester: []
     };
