@@ -7,14 +7,14 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirNuevoItem()">
+          (click)="abrirNuevaPrueba()">
     <i class="bi bi-plus-lg"></i> Nueva prueba
   </button>
 </div>
 
-<app-listado [(itemSelId)]="this.itemSelId"
+<app-listado [(itemSelId)]="this.pruebaSelId"
   [cabeceras]="['Título', 'Objetivo', 'Resultado esperado']" 
-  [datos]="this.itemsFiltrados"
+  [datos]="this.pruebasFiltradas"
   [atributos]="['title', 'objective', 'expected_result']"
   [abrirModal]="true">
 </app-listado>
@@ -37,5 +37,5 @@
         </div>
       }
   }
-</app-modal>
+</app-modal-detail>
 <app-loading [show]="_spinnerService.loading() && loading"></app-loading>

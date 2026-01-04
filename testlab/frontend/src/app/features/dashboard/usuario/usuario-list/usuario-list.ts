@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { UsuarioDetail } from '../usuario-detail/usuario-detail';
-import { Modal } from '../../../../layout/shared/modal/modal';
+import { ModalDetail } from '../../../../layout/shared/modal/modal-detail/modal-detail';
 import { Listado } from '../../../../layout/shared/listado/listado';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { SpinnerService } from '../../../../services/spinner-service';
 
 @Component({
   selector: 'app-usuario-list',
-  imports: [CommonModule, UsuarioDetail, Modal, Listado, FormsModule, LoadingComponent],
+  imports: [CommonModule, UsuarioDetail, Listado, FormsModule, LoadingComponent, ModalDetail],
   templateUrl: './usuario-list.html',
   standalone: true,
 })
@@ -39,7 +39,7 @@ export class UsuarioList {
 
 
   obtenerUsuarios(): void {
-       this.loading = true; // ACTIVAR LOADING
+    this.loading = true; // ACTIVAR LOADING
     // this._spinnerService.show();
 
     this._usuarioService.getUsuarios().subscribe({
@@ -63,19 +63,17 @@ export class UsuarioList {
 
         // this.loading = false; // 👇 DESACTIVAR LOADING
 
-    // // reaplicar filtro si existía
-    // if (this._filtro !== '') {
-    //   this.filtro = this._filtro;
-    // }
-  },
-    error: () => {
-      this.loading = false;
-      this.toastService.show('No se pudieron cargar los usuarios', 'error');
-      // ❌ No desactivas spinner aquí, lo hace el interceptor
-    }
-
-
-});
+        // // reaplicar filtro si existía
+        // if (this._filtro !== '') {
+        //   this.filtro = this._filtro;
+        // }
+      },
+      error: () => {
+        this.loading = false;
+        this.toastService.show('No se pudieron cargar los usuarios', 'error');
+        // ❌ No desactivas spinner aquí, lo hace el interceptor
+      }
+    });
 
     // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
     const modalEl = document.getElementById('detalleModal');

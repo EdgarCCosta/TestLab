@@ -23,11 +23,11 @@
   [abrirModal]="true">
 </app-listado>
 
-<app-modal [title]="(nuevoUser && usuarioSelId === null) ? 'Nuevo usuario' : 'Detalle usuario'">
+<app-modal-detail [title]="(nuevoUser && usuarioSelId === null) ? 'Nuevo usuario' : 'Detalle usuario'">
   @if (nuevoUser && usuarioSelId === null) {
     <app-usuario-detail [(listado)]="this.usuarios" (listadoChange)="listadoChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
   } @else if (usuarioSelId) {
     <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="usuarioSelId" (listadoChange)="listadoChange($event)" [modo]="'detalle'"></app-usuario-detail>
   }
-</app-modal>
+</app-modal-detail>
 <app-loading [show]="_spinnerService.loading() && loading"></app-loading>

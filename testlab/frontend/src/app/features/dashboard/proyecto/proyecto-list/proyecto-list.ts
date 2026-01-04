@@ -5,7 +5,7 @@ import { ProyectoService } from '../../../../services/proyecto-service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Listado } from '../../../../layout/shared/listado/listado';
-import { Modal } from '../../../../layout/shared/modal/modal';
+import { ModalDetail } from '../../../../layout/shared/modal/modal-detail/modal-detail';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
@@ -13,7 +13,7 @@ import { AuthService } from '../../../../services/auth-service';
 
 @Component({
   selector: 'app-proyecto-list',
-  imports: [CommonModule, FormsModule, Listado, Modal, ProyectoNew, LoadingComponent],
+  imports: [CommonModule, FormsModule, Listado, ModalDetail, ProyectoNew, LoadingComponent],
   templateUrl: './proyecto-list.html',
   styleUrl: './proyecto-list.css',
 })
@@ -24,7 +24,7 @@ export class ProyectoList implements OnInit {
   public proyectosFiltrados: Proyecto[] = [];
   public nuevoProject: boolean = false;
   public _filtro: string = '';
-  abrirModal = false;
+  abrirModalDetail = false;
   loading = true;
   puedeCrearProyecto: boolean = false;
 
@@ -80,13 +80,13 @@ export class ProyectoList implements OnInit {
   }
 
   abrirNuevoProyecto() {
-    this.abrirModal = true;
+    this.abrirModalDetail = true;
     this.proyectoSelId.set(null);
     this.nuevoProject = true;      // activar modo creación
   }
 
   detalleProyecto(id: string) {
-    this.abrirModal = false;
+    this.abrirModalDetail = false;
 
     this.nuevoProject = false;
     this.router.navigate(['/proyecto', id]);
