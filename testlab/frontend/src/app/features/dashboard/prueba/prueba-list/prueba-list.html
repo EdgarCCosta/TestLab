@@ -7,23 +7,23 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirNuevoItem()">
+          (click)="abrirNuevaPrueba()">
     <i class="bi bi-plus-lg"></i> Nueva prueba
   </button>
 </div>
 
-<app-listado [(itemSelId)]="this.itemSelId"
+<app-listado [(itemSelId)]="this.pruebaSelId"
   [cabeceras]="['Título', 'Objetivo', 'Resultado esperado']" 
-  [datos]="this.itemsFiltrados"
+  [datos]="this.pruebasFiltradas"
   [atributos]="['title', 'objective', 'expected_result']"
   [abrirModal]="true">
 </app-listado>
 
-<app-modal [title]="(nuevoItem && itemSelId === null) ? 'Nuevo caso de prueba' : 'Detalle caso de prueba'">
-  @if (nuevoItem && itemSelId === null) {
-    <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [itemId]="null" [modo]="'nuevo'"></app-prueba-detail>
-  } @else if (itemSelId) {
-    <app-prueba-detail [(listado)]="this.items" (listadoChange)="listadoChange($event)" [(itemId)]="itemSelId" [modo]="'detalle'"></app-prueba-detail>
+<app-modal-detail [title]="(nuevaPrueba && pruebaSelId === null) ? 'Nuevo caso de prueba' : 'Detalle caso de prueba'">
+  @if (nuevaPrueba && pruebaSelId === null) {
+    <app-prueba-detail [(listado)]="this.pruebas" (listadoChange)="listadoChange($event)" [pruebaId]="null" [modo]="'nuevo'"></app-prueba-detail>
+  } @else if (pruebaSelId) {
+    <app-prueba-detail [(listado)]="this.pruebas" (listadoChange)="listadoChange($event)" [(pruebaId)]="pruebaSelId" [modo]="'detalle'"></app-prueba-detail>
   }
-</app-modal>
+</app-modal-detail>
 <app-loading [show]="_spinnerService.loading() && loading"></app-loading>

@@ -139,7 +139,7 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-        (click)="abrirNuevaVersion(this.proyectoId()!)">
+          (click)="abrirNuevaVersion(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Añadir versión
         </button>
       </div>
@@ -308,14 +308,34 @@
         }
     </div>
   </div>
-  <app-modal [title]="'Editar proyecto'">
+  <app-modal-detail [title]="this.tituloModalDetail">
+    <!-- @if (this.nuevoUser && userSelId() === null) {
+      <app-usuario-detail [(listado)]="this.usuarios" (listadoUsuariosChange)="listadoUsuariosChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
+    } @else if (userSelId()) {
+      <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" (listadoUsuariosChange)="listadoUsuariosChange($event)" [modo]="'detalle'"></app-usuario-detail>
+    } -->
 
-    <app-proyecto-new
-      [(listado)]="this.proyectos"
-      [modo]="modo()"
-      [proyectoId]="proyectoSelId()">
-    </app-proyecto-new>
+    @if (this.nuevaVersion && versionSelId() === null) {
+      <app-version-detail [(listado)]="this.versiones" (listadoVersionesChange)="listadoVersionesChange($event)" [versionId]="null" [modo]="'nuevo'"></app-version-detail>
+    } @else if (userSelId()) {
+      <app-version-detail [(listado)]="this.versiones" [versionId]="versionSelId()" (listadoUsuariosChange)="listadoVersionesChange($event)" [modo]="'detalle'"></app-version-detail>
+    }
 
-  </app-modal>
+    @if (this.nuevaPrueba && pruebaSelId() === null) {
+      <app-prueba-detail [(listado)]="this.pruebas" (listadoPruebasChange)="listadoPruebasChange($event)" [pruebaId]="null" [modo]="'nuevo'"></app-prueba-detail>
+    } @else if (userSelId()) {
+      <app-prueba-detail [(listado)]="this.pruebas" [pruebaId]="pruebaSelId()" (listadoUsuariosChange)="listadoPruebasChange($event)" [modo]="'detalle'"></app-prueba-detail>
+    }
+
+    <!-- @if (this.nuevaEjecucion && ejecucionSelId() === null) {
+      <app-ejecucion-detail [(listado)]="this.ejecuciones" (listadoUsuariosChange)="listadoEjecucionesChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-ejecucion-detail>
+    } @else if (userSelId()) {
+      <app-ejecucion-detail [(listado)]="this.ejecuciones" [ejecucionId]="ejecucionSelId()" (listadoUsuariosChange)="listadoEjecucionesChange($event)" [modo]="'detalle'"></app-ejecucion-detail>
+    } -->
+
+  </app-modal-detail>
+
+
+
 </section>
 

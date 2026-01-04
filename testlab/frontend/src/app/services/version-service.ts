@@ -24,7 +24,7 @@ export class VersionService {
       .pipe(map(response => response.data));
   }
 
-getVersionById(id: number): Observable<Version> {
+getVersionById(id: string): Observable<Version> {
   return this.http
     .get<ApiResponse<Version>>(`${this.apiUrl + this.endpoint}/${id}`)
     .pipe(map(res => res.data));
@@ -34,15 +34,15 @@ getVersionById(id: number): Observable<Version> {
     return this.http.post(this.apiUrl + this.endpoint, dto);
   }
 
-  updateVersion(id: number, dto: UpdateVersionDto): Observable<any> {
+  updateVersion(id: string, dto: UpdateVersionDto): Observable<any> {
     return this.http.put(`${this.apiUrl + this.endpoint}/${id}`, dto);
   }
 
-  deleteVersion(id: number): Observable<any> {
+  deleteVersion(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
-  getByProject(projectId: number): Observable<ApiResponse<Version[]>> {
+  getByProject(projectId: string): Observable<ApiResponse<Version[]>> {
     console.log('projectId', projectId);
     return this.http.get<ApiResponse<Version[]>>(`${this.apiUrl}/projects/${projectId}/versions`);
   }

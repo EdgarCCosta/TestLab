@@ -26,7 +26,7 @@ export class PruebaDetail {
 
   loading: boolean = true;
 
-  itemId = model<string | null>();                 // puede ser string o null
+  pruebaId = model<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
   listado = model<any[]>([]);
 
@@ -62,9 +62,9 @@ export class PruebaDetail {
     });
 
     effect(() => {
-      if (this.itemId() != null) {
+      if (this.pruebaId() != null) {
         console.log('Cambia el item');
-        this.getItemById(this.itemId()!);
+        this.getItemById(this.pruebaId()!);
       }
 
       if (this.listado().length) {
@@ -131,7 +131,7 @@ export class PruebaDetail {
 
       // 1. Obtener el project_id desde la versión
 
-      const versionId = Number(this.item.version_id);
+      const versionId = String(this.item.version_id);
 
       if (!versionId) {
         console.error('version_id inválido');
@@ -139,7 +139,7 @@ export class PruebaDetail {
       }
 
       this._versionService.getVersionById(versionId).subscribe(version => {
-        const projectId = Number(version.project_id);
+        const projectId = String(version.project_id);
 
         // 2. Cargar las versiones del proyecto
         this._versionService.getByProject(projectId).subscribe(res => {
@@ -181,7 +181,7 @@ export class PruebaDetail {
 
   borrar(id: string | null | undefined): void {
     if (!id) {
-      console.warn('No hay itemId válido para borrar');
+      console.warn('No hay pruebaId válido para borrar');
       return;
     }
 
@@ -191,7 +191,7 @@ export class PruebaDetail {
         this.listado.update(list => list.filter(item => item.id !== id));
 
         this._toastService.show('Prueba eliminada correctamente', 'success');
-        this.itemId.set(null);
+        this.pruebaId.set(null);
       },
       error: error => {
         this._toastService.show('Error eliminando la prueba', 'error');
@@ -219,13 +219,13 @@ export class PruebaDetail {
 
     console.log('Payload final:', payload); // Datos a introducir ***MODIFICAR***
 
-      if (this.modo() === 'detalle' && this.itemId()) {
-        this._itemService.updatePrueba(this.itemId()!, payload).subscribe({
+      if (this.modo() === 'detalle' && this.pruebaId()) {
+        this._itemService.updatePrueba(this.pruebaId()!, payload).subscribe({
           next: () => {
             console.log('Ítem actualizado');
               this.listado.update((listado) =>
                 listado.map(item =>
-                  item.id === this.itemId() ? { ...item, ...payload } : item
+                  item.id === this.pruebaId() ? { ...item, ...payload } : item
                 )
               );
 

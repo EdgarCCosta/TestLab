@@ -16,7 +16,7 @@ import { ToastService } from '../../../../layout/shared/toast/toast';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { PruebaService } from '../../../../services/prueba-service';
 
-import { Modal } from '../../../../layout/shared/modal/modal';
+import { ModalDetail } from '../../../../layout/shared/modal/modal-detail/modal-detail';
 import { ProyectoNew } from '../proyecto-new/proyecto-new';
 
 // import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
@@ -26,11 +26,15 @@ import { SpinnerService } from '../../../../services/spinner-service';
 
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { UsuarioDetail } from "../../usuario/usuario-detail/usuario-detail";
+import { VersionDetail } from "../../version/version-detail/version-detail";
+import { PruebaDetail } from "../../prueba/prueba-detail/prueba-detail";
+import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-detail";
 
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, Modal, ProyectoNew, LoadingComponent],
+  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
@@ -58,10 +62,25 @@ export class ProyectoDetail {
   loadingPruebas = signal(false);
   loadingEjecuciones = signal(false);
 
-
   // Estado modal
   proyectoSelId = model<string | null>(null);
+  userSelId = model<string | null>(null);
+  versionSelId = model<string | null>(null);
+  pruebaSelId = model<string | null>(null);
+  ejecucionSelId = model<string | null>(null);
   modo = model<'nuevo' | 'editar'>('editar');
+  tituloModalDetail = '';
+
+  // Models para vigilar y actualizar los arrays de los listados
+  listadoUsuarios = model<any[]>([]);
+  listadoVersiones = model<any[]>([]);
+  listadoPruebas = model<any[]>([]);
+  listadoEjecuciones = model<any[]>([]);
+
+  public nuevoUser: boolean = false;
+  public nuevaVersion: boolean = false;
+  public nuevaPrueba: boolean = false;
+  public nuevaEjecucion: boolean = false;
 
   // Servicios
   private _proyectoService = inject(ProyectoService);
@@ -71,8 +90,8 @@ export class ProyectoDetail {
   private _ejecucionService = inject(EjecucionService);
   private _toastService = inject(ToastService);
   private _location = inject(Location);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private _router = inject(Router);
+  private _route = inject(ActivatedRoute);
 
   // Signal global de proyectos
   proyectos = this._proyectoService.proyectos;
@@ -93,7 +112,7 @@ export class ProyectoDetail {
   constructor(
     public _spinnerService : SpinnerService
   ) {
-    this.route.paramMap.subscribe(params => {
+    this._route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.proyectoId.set(id);
 
@@ -132,7 +151,7 @@ export class ProyectoDetail {
       },
       error: () => {
         this._toastService.show('No se pudo cargar el proyecto', 'error');
-        this.router.navigate(['/proyecto']);
+        this._router.navigate(['/proyecto']);
       }
     });
   }
@@ -142,18 +161,17 @@ export class ProyectoDetail {
   //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
   // }
 
-editarProyecto() {
-  this.modo.set('editar');
-
-  this.proyectoSelId.set(this.proyectoId()); // el id actual
-  document.getElementById('btnAbrirModalProyecto')?.click();
-}
+  editarProyecto() {
+    this.modo.set('editar');
+    this.proyectoSelId.set(this.proyectoId()); // el id actual
+    this.tituloModalDetail = 'Editar proyecto';
+    document.getElementById('btnAbrirModalProyecto')?.click();
+  }
 
 
   eliminarProyecto() {
     const id = this.proyectoId();
     if (!id) return;
-
 
     const ok = confirm("¿Seguro que quieres eliminar este proyecto? Esta acción no se puede deshacer.");
 
@@ -162,7 +180,7 @@ editarProyecto() {
     this._proyectoService.deleteProyecto(id.toString()).subscribe({
       next: () => {
         this._toastService.show('Proyecto eliminado correctamente', 'success');
-        this.router.navigate(['/proyecto']);
+        this._router.navigate(['/proyecto']);
       },
       error: (err) => {
         console.error('Error eliminando proyecto:', err);
@@ -171,14 +189,17 @@ editarProyecto() {
     });
   }
 
+
+  /************************ USUARIOS ********************************/
+
   abrirAsociarUsuario(proyectoId: string) {
     // TODO: Modal y componente de asociación de usuario a proyecto
   }
 
   disociarUsuario(idUsuario: string) {
-     const id = this.proyectoId();   // leer el signal
+    const id = this.proyectoId();   // leer el signal
 
-  if (!id) return;                // seguridad: evitar null
+    if (!id) return;                // seguridad: evitar null
 
     this._proyectoService.unlinkUsuarioFromProyecto(id, idUsuario).subscribe({
       next: () => {
@@ -188,10 +209,14 @@ editarProyecto() {
     })
   }
 
-  abrirNuevaVersion(proyectoId: string) {
-    // TODO: Modal para crear nueva versión
-  }
+  /************************ VERSIONES ********************************/
 
+  abrirNuevaVersion(proyectoId: string) {
+    this.versionSelId.set(null);
+    this.nuevaVersion = true;   // activar modo creación
+    this.modo.set('nuevo');
+    this.tituloModalDetail = 'Nueva version';
+  }
 
   editarVersion(versionId: string) {
     // TODO: Modal para editar versión
@@ -200,6 +225,15 @@ editarProyecto() {
   eliminarVersion(versionId: string) {
     // TODO: Modal para eliminar versión
   }
+
+  listadoVersionesChange($e: any){
+    console.log('Listado de versiones ha cambiado:', this.versiones);
+    for (const v of this.versiones) {
+      //
+    }
+  }
+
+  /************************ PRUEBAS ********************************/
 
   abrirAsociarPrueba(proyectoId: string) {
     // TODO: Modal y componente de asociación de prueba a proyecto (desde prueba ya existente o creación de prueba y asociar)
@@ -218,6 +252,15 @@ editarProyecto() {
     })
   }
 
+  listadoPruebasChange($e: any){
+    console.log('Listado de pruebas ha cambiado:', this.pruebas);
+    for (const p of this.pruebas) {
+      //
+    }
+  }
+
+  /************************ EJECUCIONES ********************************/
+
   editarEjecucion(idEjecucion: string) {
     // TODO: Modal para editar ejecucion
   }
@@ -229,6 +272,13 @@ editarProyecto() {
       },
       error: (err) => console.error('Error eliminando ejecución:', err)
     });
+  }
+
+  listadoEjecucionesChange($e: any){
+    console.log('Listado de ejecuciones ha cambiado:', this.ejecuciones);
+    for (const e of this.ejecuciones) {
+      //
+    }
   }
 
   atras() {

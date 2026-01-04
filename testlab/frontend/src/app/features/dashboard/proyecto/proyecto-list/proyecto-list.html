@@ -21,9 +21,9 @@
   
 </app-listado>
 
-<app-modal [title]="'Nuevo proyecto'">
+<app-modal-detail [title]="'Nuevo proyecto'">
   @if (nuevoProject) {
     <app-proyecto-new [(listado)]="this.proyectos" (listadoChange)="listadoChange($event)"></app-proyecto-new>
   }
-</app-modal>
+</app-modal-detail>
 <app-loading [show]="_spinnerService.loading()"></app-loading>
