@@ -61,4 +61,11 @@ export class EstadisticaService {
    *  ============================ */
 
   // Aquí podrás añadir endpoints cuando los crees en backend
+  getProjectStats() : Observable<any> {
+    return this.http.get(`${this.apiUrl}/dashboard/projects`);
+  }
+
+  getUserStats() : Observable<any> {
+    return this.http.get(`${this.apiUrl}/dashboard/users`);
+  }
 }

@@ -73,4 +73,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('dashboard/success-rates', [DashboardController::class, 'successRates'])->middleware('role:admin,manager,tester');
     // Añadido
     Route::get('/dashboard/last-months', [DashboardController::class, 'lastSixMonths'])->middleware('role:admin,manager,tester');
+
+    //Añadido 2
+    Route::get('/dashboard/projects', [DashboardController::class, 'getProjectStats'])->middleware('role:admin,manager,tester');
+    Route::get('/dashboard/users', [DashboardController::class, 'getUserStats'])->middleware('role:admin,manager,tester');
 });

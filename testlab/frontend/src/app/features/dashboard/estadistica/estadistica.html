@@ -132,88 +132,113 @@
         </div>
       </div>
 
-      <!-- Fila inferior -->
-      <div class="row">
-        <div class="col">
+      <!-- Fila inferior: TOP 3 PROYECTOS -->
+      <div class="row" *ngIf="top3Projects?.length">
+
+        <!-- Tarjeta 1 (🥇 Oro) -->
+        <div class="col" *ngIf="top3Projects[0]">
           <div class="card shadow-sm">
             <div class="stat-title mb-2">
-              Proyecto A
+              🥇 {{ top3Projects[0].name }}
             </div>
+
             <div class="stat-line">
               <div>Total:</div>
-              <div>120</div>
+              <div>{{ top3Projects[0].total }}</div>
             </div>
+
             <div class="stat-line">
               <div>Pasados:</div>
-              <div class="stat-success">105</div>
+              <div class="stat-success">{{ top3Projects[0].passed }}</div>
             </div>
+
             <div class="stat-line">
               <div>Fallidos:</div>
-              <div class="stat-fail">15</div>
+              <div class="stat-fail">{{ top3Projects[0].failed }}</div>
             </div>
+
             <hr>
+
             <div class="stat-line">
               <div>Tasa de éxito</div>
             </div>
-            <div class="stat-number">
-              87,5%
+
+            <div class="stat-number gold">
+              {{ top3Projects[0].success_rate }}%
             </div>
           </div>
         </div>
-        <div class="col">
+
+        <!-- Tarjeta 2 (🥈 Plata) -->
+        <div class="col" *ngIf="top3Projects[1]">
           <div class="card shadow-sm">
             <div class="stat-title mb-2">
-              Proyecto B
+              🥈 {{ top3Projects[1].name }}
             </div>
+
             <div class="stat-line">
               <div>Total:</div>
-              <div>120</div>
+              <div>{{ top3Projects[1].total }}</div>
             </div>
+
             <div class="stat-line">
               <div>Pasados:</div>
-              <div class="stat-success">105</div>
+              <div class="stat-success">{{ top3Projects[1].passed }}</div>
             </div>
+
             <div class="stat-line">
               <div>Fallidos:</div>
-              <div class="stat-fail">15</div>
+              <div class="stat-fail">{{ top3Projects[1].failed }}</div>
             </div>
+
             <hr>
+
             <div class="stat-line">
               <div>Tasa de éxito</div>
             </div>
-            <div class="stat-number">
-              87,5%
+
+            <div class="stat-number silver">
+              {{ top3Projects[1].success_rate }}%
             </div>
           </div>
         </div>
-        <div class="col">
+
+        <!-- Tarjeta 3 (🥉 Bronce) -->
+        <div class="col" *ngIf="top3Projects[2]">
           <div class="card shadow-sm">
             <div class="stat-title mb-2">
-              Proyecto C
+              🥉 {{ top3Projects[2].name }}
             </div>
+
             <div class="stat-line">
               <div>Total:</div>
-              <div>120</div>
+              <div>{{ top3Projects[2].total }}</div>
             </div>
+
             <div class="stat-line">
               <div>Pasados:</div>
-              <div class="stat-success">105</div>
+              <div class="stat-success">{{ top3Projects[2].passed }}</div>
             </div>
+
             <div class="stat-line">
               <div>Fallidos:</div>
-              <div class="stat-fail">15</div>
+              <div class="stat-fail">{{ top3Projects[2].failed }}</div>
             </div>
+
             <hr>
+
             <div class="stat-line">
               <div>Tasa de éxito</div>
             </div>
-            <div class="stat-number">
-              87,5%
+
+            <div class="stat-number bronze">
+              {{ top3Projects[2].success_rate }}%
             </div>
           </div>
         </div>
 
       </div>
+
 
     </div>
 
@@ -237,142 +262,55 @@
         <div class="col">
           <div class="card shadow-sm p-3">
             <div class="chart-title">Leaderboard</div>
+
             <div class="table-responsive">
               <table class="table leaderboard mt-3">
-                <tr>
+
+                <tr *ngFor="let user of top4Users; let i = index">
                   <td>
                     <div class="stat-line">
+
+                      <!-- IZQUIERDA: posición + nombre + ejecutados -->
                       <div class="d-flex align-items-center">
                         <div class="pe-4">
-                          <span class="leaderboard-1">1</span>
+                          <span 
+                            class="leaderboard-{{ i + 1 }}">
+                            {{ i + 1 }}
+                          </span>
                         </div>
+
                         <div>
                           <div class="stat-title">
-                            Usuario A
+                            {{ user.name }}
                           </div>
+
                           <div>
-                            150 tests ejecutados
+                            {{ user.executed }} tests ejecutados
                           </div>
                         </div>
-                        
                       </div>
 
+                      <!-- DERECHA: tasa de éxito -->
                       <div>
                         <div class="stat-title">
-                          85,5%
+                          {{ user.success_rate }}%
                         </div>
                         <div>
                           Tasa de éxito
                         </div>
                       </div>
+
                     </div>
-                    
-                  </td>
-                </tr>
-
-                <tr class="leaderboard">
-                  <td>
-                    <div class="stat-line">
-                      <div class="d-flex align-items-center">
-                        <div class="pe-4">
-                          <span class="leaderboard-2">2</span>
-                        </div>
-                        <div>
-                          <div class="stat-title">
-                            Usuario B
-                          </div>
-                          <div>
-                            150 tests ejecutados
-                          </div>
-                        </div>
-                        
-                      </div>
-
-                      <div>
-                        <div class="stat-title">
-                          85,5%
-                        </div>
-                        <div>
-                          Tasa de éxito
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </td>
-                </tr>
-
-                <tr class="leaderboard">
-                  <td>
-                    <div class="stat-line">
-                      <div class="d-flex align-items-center">
-                        <div class="pe-4">
-                          <span class="leaderboard-3">3</span>
-                        </div>
-                        <div>
-                          <div class="stat-title">
-                            Usuario C
-                          </div>
-                          <div>
-                            150 tests ejecutados
-                          </div>
-                        </div>
-                        
-                      </div>
-
-                      <div>
-                        <div class="stat-title">
-                          85,5%
-                        </div>
-                        <div>
-                          Tasa de éxito
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </td>
-                </tr>
-
-                <tr class="leaderboard">
-                  <td>
-                    <div class="stat-line">
-                      <div class="d-flex align-items-center">
-                        <div class="pe-4">
-                          <span class="leaderboard-4">4</span>
-                        </div>
-                        <div>
-                          <div class="stat-title">
-                            Usuario D
-                          </div>
-                          <div>
-                            150 tests ejecutados
-                          </div>
-                        </div>
-                        
-                      </div>
-
-                      <div>
-                        <div class="stat-title">
-                          85,5%
-                        </div>
-                        <div>
-                          Tasa de éxito
-                        </div>
-                      </div>
-                    </div>
-                    
                   </td>
                 </tr>
 
               </table>
             </div>
-          </div>
-          
 
+          </div>
         </div>
       </div>
-
-    </div>
-
+      </div>
   </div>
 
   

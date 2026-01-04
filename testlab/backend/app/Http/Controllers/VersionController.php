@@ -167,12 +167,12 @@ class VersionController extends Controller
     }
 
     public function getByProject($projectId)
-        {
-            try {
-                $versions = Version::where('project_id', $projectId)->get();
-                return ApiResponse::success($versions);
-            } catch (\Exception $e) {
-                return ApiResponse::error('Failed to load versions', 500, $e->getMessage());
-            }
+    {
+        try {
+            $versions = Version::where('project_id', $projectId)->get();
+            return ApiResponse::success($versions);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to load versions', 500, $e->getMessage());
         }
+    }
 }

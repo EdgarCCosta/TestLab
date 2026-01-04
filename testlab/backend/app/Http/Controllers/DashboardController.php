@@ -117,4 +117,14 @@ class DashboardController extends Controller
             return ApiResponse::error('Failed to load last six months evolution', 500, $e->getMessage());
         }
     }
+    public function getProjectStats()
+    {
+        // return response()->json("funciona"); 
+        return ApiResponse::success($this->dashboardService->getProjectStats());
+    }
+
+    public function getUserStats()
+    { 
+        return ApiResponse::success($this->dashboardService->getUserStats());
+    }
 }

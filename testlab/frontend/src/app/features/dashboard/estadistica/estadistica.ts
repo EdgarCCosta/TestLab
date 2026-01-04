@@ -6,10 +6,12 @@ import { LoadingComponent } from '../../../layout/shared/loading/loading';
 
 import { SpinnerService } from '../../../services/spinner-service';
 import { Chart } from 'chart.js/auto';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-estadistica',
-  imports: [LoadingComponent],
+  imports: [LoadingComponent, CommonModule],
   templateUrl: './estadistica.html',
   styleUrl: './estadistica.css',
 })
@@ -18,6 +20,7 @@ export class Estadistica implements OnInit {
   public graficoEvolucion: any;
   public graficoEstados: any;
   public graficoComparativaProyectos: any;
+  public graficoComparativaUsuarios: any;
 
   public dashboard: any = null;
   public summary: any = null;
@@ -26,6 +29,15 @@ export class Estadistica implements OnInit {
   public successRates: SuccessRatesResponse['data'] | null = null;
   public pending_total = 0;
   public pending_rate = 0;
+
+
+  public top3Projects: any[] = [];
+  public projectStats: any[] = [];
+
+
+  public userStats: any[] = [];
+  public top4Users: any[] = [];
+
   
 
 
@@ -37,8 +49,37 @@ export class Estadistica implements OnInit {
   forkJoin({
       main: this._estadisticaService.getMainDashboard(),
       evolution: this._estadisticaService.getLastSixMonths(),
-      rates: this._estadisticaService.getSuccessRates()
-    }).subscribe(({ main, evolution, rates }) => {
+      rates: this._estadisticaService.getSuccessRates(),
+      projects: this._estadisticaService.getProjectStats(),
+      users: this._estadisticaService.getUserStats()
+
+    }).subscribe(({ main, evolution, rates, projects, users }) => {
+      this.projectStats = projects.data;
+      
+      console.log(projects);
+      console.log(users);
+
+      // Top 3 proyectos con mayor ratio de éxitos y fallos
+      this.top3Projects = [...this.projectStats]
+        .filter(p => p.total > 0) // opcional: evitar proyectos sin ejecuciones
+        .sort((a, b) => b.success_rate - a.success_rate)
+        .slice(0, 3);
+
+      console.log(this.top3Projects);
+
+      this.top3Projects.forEach(project => {
+        console.log(project.name);
+      });
+
+      // Usuarios totales
+      this.userStats = users.data;
+
+      // Usuarios ordenados por número de tests ejecutados
+      this.top4Users = [...this.userStats]
+        .sort((a, b) => b.executed - a.executed)
+        .slice(0, 4);
+
+      console.log(this.top4Users);
 
       // Dashboard
       this.dashboard = main.data.dashboard;
@@ -121,15 +162,7 @@ export class Estadistica implements OnInit {
               }
             }
           },
-        },
-        scales: {
-          x: {
-            stacked: false
-          },
-          y: {
-            stacked: false
-          }
-        },
+        }
       }
     });
   }
@@ -179,22 +212,35 @@ export class Estadistica implements OnInit {
 
   createGraficoComparativaProyectos(): void {
 
-    let dataPasados = {
-      label: 'Pasados',
-      data: [85, 85, 85],
-      // backgroundColor: 'green'
-    }
+    if (!this.top3Projects?.length) return;
 
-    let dataFallidos = {
-      label: 'Fallidos',
-      data: [15, 15, 15],
-      // backgroundColor: 'red'
-    }
+      // Labels dinámicas
+      const labels = this.top3Projects.map(p => p.name);
+
+      // Datos dinámicos
+      const dataPasados = {
+        label: 'Pasados',
+        data: this.top3Projects.map(p => p.passed),
+        backgroundColor: '#4CAF50'
+      };
+
+      const dataFallidos = {
+        label: 'Fallidos',
+        data: this.top3Projects.map(p => p.failed),
+        backgroundColor: '#F44336'
+      };
+
+      // Destruir gráfico previo si existe
+      if (this.graficoComparativaProyectos) {
+        this.graficoComparativaProyectos.destroy();
+      }
+
+
 
     this.graficoComparativaProyectos = new Chart("GraficoComparativaProyectos", {
       type: 'bar',
       data: {
-        labels: ['Proyecto A', 'Proyecto B', 'Proyecto C'],
+        labels: labels,
         datasets: [dataPasados, dataFallidos],
       },
       options: {
@@ -218,23 +264,32 @@ export class Estadistica implements OnInit {
 
 
   createGraficoComparativaUsuarios(): void {
+    
+  if (!this.top4Users?.length) return;
 
-    let dataEjecutados = {
+    const labels = this.top4Users.map(u => u.name);
+
+    const dataEjecutados = {
       label: 'Ejecutados',
-      data: [150, 120, 85, 75],
-      // backgroundColor: 'green'
-    }
+      data: this.top4Users.map(u => u.executed),
+      backgroundColor: '#2196F3'
+    };
 
-    let dataPasados = {
+    const dataPasados = {
       label: 'Pasados',
-      data: [140, 100, 60, 70],
-      // backgroundColor: 'red'
+      data: this.top4Users.map(u => u.passed),
+      backgroundColor: '#4CAF50'
+    };
+
+    if (this.graficoComparativaUsuarios) {
+      this.graficoComparativaUsuarios.destroy();
     }
 
-    this.graficoComparativaProyectos = new Chart("GraficoComparativaUsuarios", {
+
+    this.graficoComparativaUsuarios = new Chart("GraficoComparativaUsuarios", {
       type: 'bar',
       data: {
-        labels: ['Usuario A', 'Usuario B', 'Usuario C', 'Usuario D'],
+        labels: labels,
         datasets: [dataEjecutados, dataPasados],
       },
       options: {
