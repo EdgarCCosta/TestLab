@@ -39,12 +39,22 @@ class TestCaseController extends Controller
             'steps.*' => 'required|string|max:500',
             'expected_result' => 'required|string',
             'user_profile' => 'required|string|max:255',
-            'version_id' => 'required|exists:versions,id'
+            'version_ids' => 'required|array|min:1',
+            'version_ids.*' => 'exists:versions,id'
+
         ]);
 
         try {
-            $testCase = TestCase::create($validated);
-            return ApiResponse::created($testCase, 'Test case created successfully');
+            /*$testCase = TestCase::create($validated);
+            return ApiResponse::created($testCase, 'Test case created successfully');*/
+
+            $testCase = TestCase::create(
+                collect($validated)->except('version_ids')->toArray()
+            );
+
+            $testCase->versions()->attach($validated['version_ids']);
+
+            return ApiResponse::created($testCase->load('versions'));
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to create test case', 500, $e->getMessage());
         }
@@ -65,11 +75,24 @@ class TestCaseController extends Controller
                 'steps.*' => 'string|max:500',
                 'expected_result' => 'sometimes|string',
                 'user_profile' => 'sometimes|string|max:255',
-                'version_id' => 'sometimes|exists:versions,id'
+                'version_ids' => 'sometimes|array|min:1',
+                'version_ids.*' => 'exists:versions,id'
+
             ]);
 
-            $testCase->update($validated);
-            return ApiResponse::updated($testCase, 'Test case updated successfully');
+            /*$testCase->update($validated);
+            return ApiResponse::updated($testCase, 'Test case updated successfully');*/
+
+
+            $testCase->update(
+                collect($validated)->except('version_ids')->toArray()
+            );
+
+            if (isset($validated['version_ids'])) {
+                $testCase->versions()->sync($validated['version_ids']);
+            }
+
+            return ApiResponse::updated($testCase->load('versions'));
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to update test case', 500, $e->getMessage());
         }
@@ -98,11 +121,15 @@ class TestCaseController extends Controller
     {
         try {
 
-            $version = Version::findOrFail($version_id);
+            /*$version = Version::findOrFail($version_id);
 
             $testCases = TestCase::with('version')->where('version_id', $version_id)->get();
 
-            return ApiResponse::success($testCases);
+            return ApiResponse::success($testCases);*/
+
+            $version = Version::with('testCases')->findOrFail($version_id);
+
+            return ApiResponse::success($version->testCases);
         } catch (\Exception $e) {
             return ApiResponse::notFound('Test cases for this version not found');
         }

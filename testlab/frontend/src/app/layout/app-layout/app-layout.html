@@ -1,0 +1,18 @@
+<div class="layout" [class.fondoTestlab]="esLogin()">
+
+  <div class="contenedor-principal">
+    @if (!esLogin()) {
+      <app-sidebar></app-sidebar>
+    }
+
+    <div class="content w-100 p-5">
+      <!-- Paths hijos de App-Layout -->
+      <router-outlet></router-outlet>
+
+      @if (!esLogin()) {
+        <app-footer-menu class="text-white bg-light"></app-footer-menu>
+      }
+    </div>
+  </div>
+  
+</div>

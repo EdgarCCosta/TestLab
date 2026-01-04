@@ -1,0 +1,26 @@
+<input id="filtro" type="text" name="filtro" [(ngModel)]="filtro" placeholder="Buscar usuario" class="filtro rounded-3 ps-4 py-2">
+
+
+<div class="d-flex justify-content-between mb-5">
+  <h1>Usuarios</h1>
+<button type="button"
+        class="btn btn-nuevo"
+        data-bs-toggle="modal"
+        data-bs-target="#detalleModal"
+        (click)="abrirNuevoUsuario()">
+  <i class="bi bi-plus-lg"></i> Nuevo usuario
+</button></div>
+
+<app-listado [(itemSelId)]="this.usuarioSelId"
+  [cabeceras]="['Nombre', 'Email', 'Rol']" 
+  [datos]="this.usuariosFiltrados"
+  [atributos]="['name', 'email', 'rol']">
+</app-listado>
+
+<app-modal [title]="(nuevoUser && usuarioSelId === null) ? 'Nuevo usuario' : 'Detalle usuario'">
+  @if (nuevoUser && usuarioSelId === null) {
+    <app-usuario-detail [(listado)]="this.usuarios" (listadoChange)="listadoChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
+  } @else if (usuarioSelId) {
+    <app-usuario-detail [usuarioId]="usuarioSelId" [modo]="'detalle'"></app-usuario-detail>
+  }
+</app-modal>

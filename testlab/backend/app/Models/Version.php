@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 
 
@@ -54,9 +56,17 @@ class Version extends Model
         return $this->release_date?->isFuture() ?? false;
     }
 
-    public function testCases()
+    /*public function testCases()
     {
         return $this->hasMany(TestCase::class, 'version_id');
+    }*/
+
+    public function testCases(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            TestCase::class,
+            'version_test_cases'
+        );
     }
 
     /**

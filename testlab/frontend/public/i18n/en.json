@@ -1,0 +1,14 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Dashboard",
+    "USERS": "Users",
+    "PROJECTS": "Projects",
+    "TESTS": "Tests",
+    "STATISTICS": "Statistics"
+  },
+  "LANG_BUTTON": {
+    "ES": "Spanish",
+    "EN": "English",
+    "EU": "Basque"
+  }
+}

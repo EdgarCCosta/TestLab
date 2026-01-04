@@ -19,13 +19,16 @@ return new class extends Migration
             $table->json('steps'); // Pasos como JSON
             $table->text('expected_result');
             $table->string('user_profile'); // Perfil de usuario objetivo
-            $table->foreignId('version_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
             $table->index('user_profile');        // Para filtrar por perfil
-            $table->index('version_id');          // Para buscar por versión
-            $table->index(['version_id', 'user_profile']); // Búsquedas compuestas
+
         });
+
+        // Schema::table('test_cases', function (Blueprint $table) {
+        //     $table->dropForeign(['version_id']);
+        //     $table->dropColumn('version_id');
+        // });
     }
 
     /**

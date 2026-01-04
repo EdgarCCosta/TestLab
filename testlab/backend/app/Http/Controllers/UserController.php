@@ -15,9 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
 
         // echo "Hola mundo";
         // return response()->json(['message' => 'Hola mundo']);
+=======
+        // return response()->json(['message' => 'Hello World']);
+>>>>>>> 3f09f477387ebfbc3fdb571cbafeb79b38bba419
         try {
             $users = User::all();
             $userDTOs = UserDTO::fromCollection($users);

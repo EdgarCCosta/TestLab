@@ -1,0 +1,19 @@
+.cal-dia {
+  height: 70px;      /* altura consistente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.btn-reset {
+  background-color: #C1CBFD !important;
+  border: none !important;
+  padding: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.bg-proyecto {
+  background-color: #C1CBFD !important; /* azul clarito */
+}
