@@ -317,6 +317,10 @@
       <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" (listadoUsuariosChange)="listadoUsuariosChange($event)" [modo]="'detalle'"></app-usuario-detail>
     } -->
 
+    @if (!this.nuevaVersion){
+      <app-proyecto-new [(listado)]="this.proyectos" [proyectoId]="this.proyectoId()" [modo]="'editar'"></app-proyecto-new>
+    }
+
     @if (this.nuevaVersion && versionSelId() === null) {
       <app-version-detail [(listado)]="this.versiones" (listadoVersionesChange)="listadoVersionesChange($event)" [versionId]="null" [projectId]="this.proyectoId()" [modo]="'nuevo'"></app-version-detail>
     } @else if (userSelId()) {

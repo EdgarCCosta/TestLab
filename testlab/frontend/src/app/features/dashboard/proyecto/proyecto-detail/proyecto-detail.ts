@@ -97,17 +97,17 @@ export class ProyectoDetail {
   proyectos = this._proyectoService.proyectos;
 
   // Efecto para sincronizar el detalle cuando cambia la lista global
-  // actualizarProyectoEffect = effect(() => {
-  //   const id = this.proyectoId();
-  //   if (!id) return;
+  actualizarProyectoEffect = effect(() => {
+    const id = this.proyectoId();
+    if (!id) return;
 
-  //   const lista = this.proyectos();
-  //   const actualizado = lista.find(p => p.id.toString() === id);
+    const lista = this.proyectos();
+    const actualizado = lista.find(p => p.id.toString() === id);
 
-  //   if (actualizado) {
-  //     this.proyecto.set(actualizado);
-  //   }
-  // });
+    if (actualizado) {
+      this.proyecto.set(actualizado);
+    }
+  });
 
   constructor(
     public _spinnerService : SpinnerService
