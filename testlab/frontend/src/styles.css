@@ -19,6 +19,7 @@ body {
   --bs-body-font-size: 1.6rem;
   height: 100vh;
   max-height: 100vh;
+  width: 100vw;
 }
 
 app-root {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EstadisticaService } from '../../../services/estadistica-service';
 import { EvolutionResponse, SuccessRatesResponse } from '../../../models/dashboardData';
 import { forkJoin } from 'rxjs';
@@ -7,11 +7,11 @@ import { LoadingComponent } from '../../../layout/shared/loading/loading';
 import { SpinnerService } from '../../../services/spinner-service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
-
+import { CountUpModule } from 'ngx-countup';
 
 @Component({
   selector: 'app-estadistica',
-  imports: [LoadingComponent, CommonModule],
+  imports: [LoadingComponent, CommonModule, CountUpModule],
   templateUrl: './estadistica.html',
   styleUrl: './estadistica.css',
 })
@@ -38,15 +38,11 @@ export class Estadistica implements OnInit {
   public userStats: any[] = [];
   public top4Users: any[] = [];
 
-  
-
-
-
   constructor(private _estadisticaService: EstadisticaService, public _spinnerService: SpinnerService) {}
 
   ngOnInit(): void {
     this.loading = true;
-  forkJoin({
+    forkJoin({
       main: this._estadisticaService.getMainDashboard(),
       evolution: this._estadisticaService.getLastSixMonths(),
       rates: this._estadisticaService.getSuccessRates(),
@@ -56,8 +52,8 @@ export class Estadistica implements OnInit {
     }).subscribe(({ main, evolution, rates, projects, users }) => {
       this.projectStats = projects.data;
       
-      console.log(projects);
-      console.log(users);
+      // console.log(projects);
+      // console.log(users);
 
       // Top 3 proyectos con mayor ratio de éxitos y fallos
       this.top3Projects = [...this.projectStats]
@@ -265,7 +261,7 @@ export class Estadistica implements OnInit {
 
   createGraficoComparativaUsuarios(): void {
     
-  if (!this.top4Users?.length) return;
+    if (!this.top4Users?.length) return;
 
     const labels = this.top4Users.map(u => u.name);
 
@@ -284,7 +280,6 @@ export class Estadistica implements OnInit {
     if (this.graficoComparativaUsuarios) {
       this.graficoComparativaUsuarios.destroy();
     }
-
 
     this.graficoComparativaUsuarios = new Chart("GraficoComparativaUsuarios", {
       type: 'bar',
@@ -310,6 +305,5 @@ export class Estadistica implements OnInit {
     });
 
   }
-  
 
 }
