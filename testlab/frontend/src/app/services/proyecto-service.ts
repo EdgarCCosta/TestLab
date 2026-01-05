@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Proyecto, CreateProyectoDto, UpdateProyectoDto } from '../models/proyecto';
@@ -25,10 +25,17 @@ export class ProyectoService {
   constructor(private http: HttpClient, private _usuarioService: UsuarioService, private _pruebaService: PruebaService, private spinner: SpinnerService) {}
 
   /** Obtener todos los proyectos */
-  getProyectos(): Observable<Proyecto[]> {
+  getProyectos(options?: { silent?: boolean }): Observable<Proyecto[]> {
+    let headers = new HttpHeaders();
+
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
+
     return this.http
       .get<{ success: boolean; message: string; data: Proyecto[] }>(
-        this.apiUrl + this.endpoint
+        this.apiUrl + this.endpoint,
+        { headers }
       )
       .pipe(map(
         response => {

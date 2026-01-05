@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EstadisticaService } from '../../../services/estadistica-service';
 import { EvolutionResponse, SuccessRatesResponse } from '../../../models/dashboardData';
 import { forkJoin } from 'rxjs';
@@ -15,7 +15,7 @@ import { CountUpModule } from 'ngx-countup';
   templateUrl: './estadistica.html',
   styleUrl: './estadistica.css',
 })
-export class Estadistica implements OnInit {
+export class Estadistica implements OnInit, AfterViewInit  {
 
   public graficoEvolucion: any;
   public graficoEstados: any;
@@ -26,7 +26,13 @@ export class Estadistica implements OnInit {
   public summary: any = null;
   public loading = true;
   public evolution: EvolutionResponse['data']['evolution'] = [];
-  public successRates: SuccessRatesResponse['data'] | null = null;
+public successRates: SuccessRatesResponse['data'] = {
+  total_executed: 0,
+  total_passed: 0,
+  total_failed: 0,
+  success_rate: 0,
+  failure_rate: 0
+};
   public pending_total = 0;
   public pending_rate = 0;
 
@@ -56,9 +62,31 @@ export class Estadistica implements OnInit {
       // console.log(users);
 
       // Top 3 proyectos con mayor ratio de éxitos y fallos
-      this.top3Projects = [...this.projectStats]
-        .filter(p => p.total > 0) // opcional: evitar proyectos sin ejecuciones
-        .sort((a, b) => b.success_rate - a.success_rate)
+      // Ranking únicamente por criterio de ratio
+      // this.top3Projects = [...this.projectStats]
+      //   .filter(p => p.total > 0) // opcional: evitar proyectos sin ejecuciones
+      //   .sort((a, b) => b.success_rate - a.success_rate)
+      //   .slice(0, 3);
+
+      
+      // Top 3 ranking de proyectos ponderando el número y el ratio de éxito o fracaso.
+      // Evita 1 proyecto con un 100% de acierto pero con una sola prueba
+      // this.top3Projects = [...this.projectStats]
+      //   .filter(p => p.total > 0)
+      //   .sort((a, b) => (b.success_rate * b.total) - (a.success_rate * a.total))
+      //   .slice(0, 3);
+
+
+      // Con un criterio de 70% para ratio y un 30% para el número de test sobre el total del proyecto
+      const maxTotal = Math.max(...this.projectStats.map(p => p.total));
+
+      this.top3Projects = [...this.projectStats] // .. Convierte los argumentos de un array en elementos sueltos
+        .filter(p => p.total > 0)
+        .map(p => ({
+          ...p,
+          score: p.success_rate * 0.7 + (p.total / maxTotal) * 0.3
+        }))
+        .sort((a, b) => b.score - a.score)
         .slice(0, 3);
 
       console.log(this.top3Projects);
@@ -95,15 +123,20 @@ export class Estadistica implements OnInit {
         this.pending_rate = Number(
           ((this.pending_total / this.successRates.total_executed) * 100).toFixed(2)
         );
-        // Crear gráficos cuando TODO está listo
-        this.createGraphics();
-
-        this.loading = false;
+                this.loading = false;
       });
 
 
 
   }
+  ngAfterViewInit() {
+  const interval = setInterval(() => {
+    if (!this.loading) {
+      this.createGraphics();
+      clearInterval(interval);
+    }
+  }, 50);
+}
 
   createGraphics() {
     this.createGraficoEvolucion();

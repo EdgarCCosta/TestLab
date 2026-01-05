@@ -3,17 +3,19 @@ import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { ToastsComponent } from "./layout/shared/toast/toast.component/toast.component";
+import { LoadingComponent } from "./layout/shared/loading/loading";
+import { SpinnerService } from "./services/spinner-service";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ToastsComponent],
+  imports: [RouterOutlet, ToastsComponent, LoadingComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class App {
-  constructor(private translate: TranslateService, public router: Router) { 
+  constructor(private translate: TranslateService, public router: Router, public _spinnerService: SpinnerService) { 
     // 🛑 1. Establece los idiomas disponibles y el idioma por defecto
     translate.addLangs(['en', 'es', 'eu']);
     

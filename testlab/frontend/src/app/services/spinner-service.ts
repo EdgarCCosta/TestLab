@@ -7,6 +7,8 @@ export class SpinnerService {
   loading = this._loading.asReadonly();
 
   show() {
+      console.log('%cSHOW SPINNER', 'color: green; font-size: 16px');
+
     this._loading.set(true);
   }
 

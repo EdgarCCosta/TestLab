@@ -82,12 +82,12 @@ export class Calendar implements OnInit {
     this.loading = true;
 
     // 1. Cargar proyectos
-    this.proyectoService.getProyectos().subscribe({
+    this.proyectoService.getProyectos({ silent: true }).subscribe({
       next: (pres) => {
         pres.forEach(p => this.projectMap.set(p.id, p.name));
 
         // 2. Cargar versiones
-        this.versionService.getVersiones().subscribe({
+        this.versionService.getVersiones({ silent: true }).subscribe({
           next: (vres) => {
             // 3. Enriquecer versiones con project_name
             this.versiones = vres.map((v: Version) => ({

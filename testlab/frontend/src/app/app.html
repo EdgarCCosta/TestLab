@@ -2,5 +2,8 @@
   <!-- Renderiza la ruta activa Path App-Layout-->
    <router-outlet></router-outlet>
    <app-toasts></app-toasts>
+   <app-loading [show]="_spinnerService.loading()"></app-loading>
+   
+
 
 </main>

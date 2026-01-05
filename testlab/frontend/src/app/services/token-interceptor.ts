@@ -29,7 +29,13 @@ export class TokenInterceptor implements HttpInterceptor {
     const token = this.auth.getToken();
 
     // Activar spinner
-    this.spinner.show();
+    const silent = req.headers.get('X-Silent') === 'true';
+
+    if (!silent) {
+      this.spinner.show();
+    }
+
+
 
 
 
@@ -91,6 +97,7 @@ export class TokenInterceptor implements HttpInterceptor {
       // Se ejecuta SIEMPRE: éxito o error
       finalize(() => {
         console.log('Finalize');
+        
         // setTimeout(() => this.spinner.hide(), 150); // Tiempo para renderizar
         this.spinner.hide();
       })

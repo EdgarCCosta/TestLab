@@ -9,14 +9,15 @@ import { Modal } from 'bootstrap';
 import { Location } from '@angular/common';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { Version } from '../../../../models/version';
-import { LoadingInlineComponent } from '../../../../layout/shared/loading-inline/loading-inline';
+import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-one-step.validator';
+import { SpinnerService } from '../../../../services/spinner-service';
 
 
 @Component({
   selector: 'app-prueba-detail',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingInlineComponent],
+  imports: [ReactiveFormsModule, LoadingComponent],
   templateUrl: './prueba-detail.html',
   styleUrl: './prueba-detail.css',
 })
@@ -24,7 +25,7 @@ import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-on
 
 export class PruebaDetail {
 
-  loading: boolean = true;
+  // loading: boolean = true;
 
   pruebaId = model<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
@@ -45,7 +46,8 @@ export class PruebaDetail {
     private _location: Location,
     private _toastService: ToastService,
     private _projectService: ProyectoService,
-    private _versionService: VersionService
+    private _versionService: VersionService,
+    public _spinnerService: SpinnerService
   ) {
 
     this.form = this.fb.group({
@@ -72,7 +74,7 @@ export class PruebaDetail {
       }
 
       if (this.modo() === 'nuevo') {
-        this.loading = false;
+        // this.loading = false;
         this.form.reset({
           title: '',
           objective: '',
@@ -111,9 +113,11 @@ export class PruebaDetail {
       return;
     }
 
-    this._versionService.getByProject(projectId).subscribe({
+    this._versionService.getByProject(projectId, { silent: true }).subscribe({
       next: (res) => {
+        console.log('RES CARGADAS: ', res);
         this.versions = res.data;
+        console.log("version" , this.versions)
         console.log('VERSIONES CARGADAS: ', this.versions);
         this.form.patchValue({ version_id: '' }); // Actualiza solo este campo a vacío
       },
@@ -124,7 +128,7 @@ export class PruebaDetail {
 
   /*** Recuperación de Prueba ***/
   getItemById(id: string): void {
-    this.loading = true;
+    // this.loading = true;
   this._itemService.getPruebaById(id).subscribe({
     next: (datos) => {
       this.item = datos.data;
@@ -166,7 +170,7 @@ export class PruebaDetail {
             control.markAsDirty();
           });
 
-          this.loading = false; // ✔ Todo listo
+          // this.loading = false; // ✔ Todo listo
 
         });
       });
@@ -242,11 +246,14 @@ export class PruebaDetail {
           next: (datos) => {
             console.log('Ítem creado');
             // console.log('Listado antes de añadir:', this.listado());
-            this.listado.update((listado) => ([...listado, datos.data]));
+
             this._toastService.show('Prueba creada correctamente', 'success');
+
+            this.listado.update((listado) => ([...listado, datos.data]));
             // console.log('Listado tras añadir:', this.listado());
           },
           error: (err) => {
+              
             console.error('Error creando ítem:', err);
             this._toastService.show('Error creando la prueba', 'error');
           }
