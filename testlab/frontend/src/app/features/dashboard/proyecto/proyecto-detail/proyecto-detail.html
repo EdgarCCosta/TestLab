@@ -318,7 +318,7 @@
     } -->
 
     @if (this.nuevaVersion && versionSelId() === null) {
-      <app-version-detail [(listado)]="this.versiones" (listadoVersionesChange)="listadoVersionesChange($event)" [versionId]="null" [modo]="'nuevo'"></app-version-detail>
+      <app-version-detail [(listado)]="this.versiones" (listadoVersionesChange)="listadoVersionesChange($event)" [versionId]="null" [projectId]="this.proyectoId()" [modo]="'nuevo'"></app-version-detail>
     } @else if (userSelId()) {
       <app-version-detail [(listado)]="this.versiones" [versionId]="versionSelId()" (listadoUsuariosChange)="listadoVersionesChange($event)" [modo]="'detalle'"></app-version-detail>
     }
