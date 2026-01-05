@@ -1,6 +1,6 @@
 import { Component, effect, input, model } from '@angular/core';
 import { UpdateVersionDto } from '../../../../models/version';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { VersionService } from '../../../../services/version-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../../layout/shared/toast/toast';
@@ -9,13 +9,14 @@ import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-version-detail',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './version-detail.html',
   styleUrl: './version-detail.css',
 })
 export class VersionDetail {
 
   versionId = input<string | null>();                 // puede ser string o null
+  projectId = input<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
   listado = model<any[]>([]);
 
@@ -33,8 +34,8 @@ export class VersionDetail {
     this.form = this.fb.group({
       version_number: ['', [Validators.required, Validators.minLength(2)]],
       release_date: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(6)]],
-      project_id: ['', Validators.required]
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      project_id: ['']
     });
 
     effect(() => {

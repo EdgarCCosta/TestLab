@@ -1,1 +1,66 @@
-<p>version-detail works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <div class="mb-4" [class.was-validated]="this.form.get('version_number')?.dirty || this.form.get('version_number')?.touched">
+    <label for="version_number" class="form-label">Número de versión</label>
+    <input id="version_number" type="text" name="version_number" class="form-control" formControlName="version_number" required minlength="2">
+    <div>
+      @if (
+            this.form.get('version_number')?.invalid && 
+            (this.form.get('version_number')?.dirty || this.form.get('version_number')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes rellenar un número de versión.
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('release_date')?.dirty || this.form.get('release_date')?.touched">
+    <label for="release_date" class="form-label">Fecha de lanzamiento</label>
+    <input id="release_date" type="date" name="release_date" class="form-control" formControlName="release_date" required>
+    <div>
+      @if (
+            this.form.get('release_date')?.invalid && 
+            (this.form.get('release_date')?.dirty || this.form.get('release_date')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una fecha de lanzamiento válida.
+        </div>
+      }
+    </div>
+    
+  </div>
+
+  <div class="mb-4" [class.was-validated]="this.form.get('description')?.dirty || this.form.get('description')?.touched">
+    <label for="description" class="form-label">Descripción</label>
+    <input id="description" type="text" name="description" class="form-control" formControlName="description" required minlength="10">
+    <div>
+      @if (
+            this.form.get('description')?.invalid && 
+            (this.form.get('description')?.dirty || this.form.get('description')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una descripción válida (al menos 10 caracteres).
+        </div>
+      }
+    </div>
+  </div>
+
+  <input type="hidden" name="project_id" value="{{projectId()}}">
+
+  <div class="d-flex justify-content-evenly mt-5">
+  @if (this.modo() === 'detalle') {
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(this.versionId())" data-bs-dismiss="modal">Eliminar versión</button> 
+      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+  } @else {
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+      <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear versión</button>
+  }
+  </div>
+
+  
+</form>
