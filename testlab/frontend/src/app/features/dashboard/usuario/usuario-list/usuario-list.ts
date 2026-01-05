@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { SpinnerService } from '../../../../services/spinner-service';
+import { signal, computed } from '@angular/core';
+import { OnInit } from '@angular/core';
 
 
 @Component({
@@ -18,116 +20,71 @@ import { SpinnerService } from '../../../../services/spinner-service';
   templateUrl: './usuario-list.html',
   standalone: true,
 })
-export class UsuarioList {
+export class UsuarioList implements OnInit {
+  // 1. Signals de estado base
+  usuarios = signal<any[]>([]); 
+  filtro = signal<string>(''); // Este sustituye a _filtro
+  
+  usuarioSelId: string | null = null;
+  nuevoUser: boolean = false;
+  loading: boolean = true;
 
-  public usuarios: any[] = [];
-  public usuarioSelId: string | null = null;
-  public usuariosFiltrados: Usuario[] = [];
-  public nuevoUser: boolean = false;
-  public _filtro: string = '';
-  public loading: boolean = true;
-  // public loading: boolean = false;
+  // 2. Signal Computada (Se actualiza SOLA cuando 'usuarios' o 'filtro' cambian)
+  usuariosFiltrados = computed(() => {
+    const term = this.filtro().toLowerCase();
+    const lista = this.usuarios();
+    
+    if (!term) return lista;
+
+    return lista.filter(u => 
+      u.name.toLowerCase().includes(term) || 
+      u.email.toLowerCase().includes(term) ||
+      (u.rol && u.rol.toLowerCase().includes(term))
+    );
+  });
 
   constructor(
-    private _usuarioService: UsuarioService, private _router: Router, private toastService: ToastService,
+    private _usuarioService: UsuarioService, 
+    private toastService: ToastService,
     public _spinnerService: SpinnerService
-  ) {
-  }
-  ngOnInit() {
-    this.obtenerUsuarios();   // En el constructor no se activan los interceptors
-  }
+  ) {}
 
+  ngOnInit() {
+    this.obtenerUsuarios();
+  }
 
   obtenerUsuarios(): void {
-    this.loading = true; // ACTIVAR LOADING
-    // this._spinnerService.show();
-
+    this.loading = true;
     this._usuarioService.getUsuarios().subscribe({
       next: (response) => {
-        console.log('Response:', response);
-
-          this.usuarios = response.map(u => {
-            return {
-              ...u,
-              Nombre: u.name,
-              Email: u.email,
-              Rol: u.rol
-            };
-          });
-
-          console.log('usuarios:', this.usuarios);
-          
-        this.usuariosFiltrados = this.usuarios;
-        console.log("Tenemos los usuarios: ", this.usuarios);
+        // IMPORTANTE: Usamos .set() para actualizar la Signal
+        const dataMapeada = response.map(u => ({
+          ...u,
+          Nombre: u.name,
+          Email: u.email,
+          Rol: u.rol
+        }));
+        
+        this.usuarios.set(dataMapeada); 
         this.loading = false;
-
-        // this.loading = false; // 👇 DESACTIVAR LOADING
-
-        // // reaplicar filtro si existía
-        // if (this._filtro !== '') {
-        //   this.filtro = this._filtro;
-        // }
       },
       error: () => {
         this.loading = false;
         this.toastService.show('No se pudieron cargar los usuarios', 'error');
-        // ❌ No desactivas spinner aquí, lo hace el interceptor
       }
     });
-
-    // 👇 Enganchar evento de Bootstrap para resetear al cerrar modal
-    const modalEl = document.getElementById('detalleModal');
-    if (modalEl) {
-      modalEl.addEventListener('hidden.bs.modal', () => {
-        this.usuarioSelId = null; // reset automático
-        this.nuevoUser = false;
-      });
-    }
-
   }
 
+  // Ya no necesitas 'listadoChange' ni el 'setter' de filtro
+  // porque la signal 'usuariosFiltrados' reacciona al cambio de 'usuarios'
+  
   seleccionarUsuario(id: string): void {
-    this.loading = false;
     this.usuarioSelId = id;
-  }
-
-  set filtro(valor: string) {
-    this._filtro = valor;
-    this.usuariosFiltrados = [];
-    for (const u of this.usuarios) {
-      if (
-        u.name.toLowerCase().includes(valor.toLowerCase()) ||
-        u.email.toLowerCase().includes(valor.toLowerCase()) ||
-        u.rol.toLowerCase().includes(valor.toLowerCase())
-      ) {
-        this.usuariosFiltrados.push(u);
-      }
-    }
+    this.nuevoUser = false;
   }
 
   abrirNuevoUsuario() {
-    this.loading = false;
-    this.usuarioSelId = null;   // no hay id
-    this.nuevoUser = true;      // activar modo creación
-  }
-
-
-  listadoChange($e: any) {
-    console.log('Listado ha cambiado:', this.usuarios);
-    this.usuariosFiltrados = [];
-    for (const u of this.usuarios) {
-      if (this._filtro !== '') {
-        console.log("El filtro es:", this._filtro);
-        if (
-          u.name.toLowerCase().includes(this._filtro.toLowerCase()) ||
-          u.email.toLowerCase().includes(this._filtro.toLowerCase()) ||
-          u.rol.toLowerCase().includes(this._filtro.toLowerCase())
-        ) {
-          this.usuariosFiltrados.push(u);
-        }
-      } else {
-          this.usuariosFiltrados.push(u);
-      }
-    }
+    this.usuarioSelId = null;
+    this.nuevoUser = true;
   }
 }

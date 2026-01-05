@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario, CreateUsuarioDto, UpdateUsuarioDto } from '../models/usuario';
 import { map } from 'rxjs/operators';
@@ -17,13 +17,21 @@ export class UsuarioService {
 
   /** Obtener todos los usuarios */
   getUsuarios(): Observable<Usuario[]> {
+
+    
     return this.http
       .get<{ success: boolean; message: string; data: Usuario[] }>(this.apiUrl + this.endpoint)
       .pipe(map(response => response.data));
   }
 
-  getUsuarioById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
+  getUsuarioById(id: string, options?: { silent?: boolean }): Observable<any> {
+            let headers = new HttpHeaders();
+
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
+
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`, { headers });
   }
 
   // Obtiene el rol del usuario que está accediendo a la aplicación para permitir o restringir acceso a funciones

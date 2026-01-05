@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Prueba, CreatePruebaDto, UpdatePruebaDto } from '../models/prueba';
 import { map } from 'rxjs/operators';
@@ -20,8 +20,14 @@ export class PruebaService {
       .pipe(map(response => response.data));
   }
 
-  getPruebaById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`);
+  getPruebaById(id: string, options?: { silent?: boolean }): Observable<any> {
+    let headers = new HttpHeaders();
+
+  if (options?.silent) {
+    headers = headers.set('X-Silent', 'true');
+  }
+
+    return this.http.get(`${this.apiUrl + this.endpoint}/${id}`, { headers });
   }
 
   createPrueba(dto: CreatePruebaDto): Observable<any> {

@@ -32,9 +32,15 @@ getVersiones(options?: { silent?: boolean }): Observable<Version[]> {
       .pipe(map(response => response.data));
   }
 
-getVersionById(id: string): Observable<Version> {
+getVersionById(id: string,options?: { silent?: boolean }) {
+  let headers = new HttpHeaders();
+
+  if (options?.silent) {
+    headers = headers.set('X-Silent', 'true');
+  }
+
   return this.http
-    .get<ApiResponse<Version>>(`${this.apiUrl + this.endpoint}/${id}`)
+    .get<ApiResponse<Version>>(`${this.apiUrl + this.endpoint}/${id}`, { headers })
     .pipe(map(res => res.data));
 }
 

@@ -1,3 +1,8 @@
+<app-loading-inline *ngIf="loading" [show]="true"></app-loading-inline>
+
+<div *ngIf="!loading">
+
+
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
@@ -180,3 +185,4 @@
 
   
 </form>
+</div>

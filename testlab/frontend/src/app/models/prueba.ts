@@ -3,7 +3,7 @@ export interface Prueba {
   title: string;
   objective: string;
   preconditions: string;
-  steps: string[];               // 👈 array real del backend
+  steps: string[];               // array real del backend
   expected_result: string;
   user_profile: 'tester';
   version_id: number;

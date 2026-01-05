@@ -3,13 +3,15 @@ import { UpdateUsuarioDto } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Modal } from 'bootstrap';
 import { ToastService } from '../../../../layout/shared/toast/toast';
+import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline/loading-inline";
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-usuario-detail',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LoadingInlineComponent, CommonModule],
   templateUrl: './usuario-detail.html',
   styleUrls: ['./usuario-detail.css']
 })
@@ -22,6 +24,7 @@ export class UsuarioDetail {
 
   usuario!: UpdateUsuarioDto;
   form!: FormGroup;
+  loading = true;
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -39,6 +42,14 @@ export class UsuarioDetail {
     });
 
     effect(() => {
+
+      this.loading = true;
+      this.form.reset({
+          name: '',
+          email: '',
+          password: '',
+          rol: ''
+      });
       if (this.usuarioId() != null) {
         console.log('Cambia el usuario');
         this.getUsuarioById(this.usuarioId()!);
@@ -49,12 +60,7 @@ export class UsuarioDetail {
       }
 
       if (this.modo() === 'nuevo') {
-        this.form.reset({
-          name: '',
-          email: '',
-          password: '',
-          rol: ''
-        });
+        this.loading = false;
       }
     });
   }
@@ -62,7 +68,7 @@ export class UsuarioDetail {
   /*** Recuperación de Usuario ***/
   getUsuarioById(id: string): void {
     console.log('En propiedad getUsuarioById');
-    this._usuarioService.getUsuarioById(id).subscribe({
+    this._usuarioService.getUsuarioById(id, { silent: true }).subscribe({
       next: (datos) => {
         console.log(datos);
         this.usuario = datos.data;
@@ -86,6 +92,9 @@ export class UsuarioDetail {
         console.error('Error obteniendo el usuario:', err);
       }
     });
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
   }
 
   borrar(id: string | null | undefined): void {
@@ -146,11 +155,13 @@ export class UsuarioDetail {
         });
       }
 
-      const modalEl = document.getElementById('detalleModal');
-      if (modalEl) {
-        const modal = Modal.getInstance(modalEl);
-        modal?.hide();
-      }
+      // setTimeout(() => {
+      //   const modalEl = document.getElementById('detalleModal');
+      //   if (modalEl) {
+      //     const modal = Modal.getInstance(modalEl);
+      //     modal?.hide();
+      //   }
+      // });
     }
   }
 

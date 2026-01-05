@@ -1,4 +1,4 @@
-import { Component, input, model, effect } from '@angular/core';
+import { Component, input, model, effect,  } from '@angular/core';
 import { UpdatePruebaDto } from '../../../../models/prueba';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PruebaService } from '../../../../services/prueba-service';
@@ -6,18 +6,19 @@ import { ProyectoService } from '../../../../services/proyecto-service';
 import { VersionService } from '../../../../services/version-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Modal } from 'bootstrap';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { Version } from '../../../../models/version';
 import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-one-step.validator';
 import { SpinnerService } from '../../../../services/spinner-service';
+import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline/loading-inline";
 
 
 @Component({
   selector: 'app-prueba-detail',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingComponent],
+  imports: [ReactiveFormsModule, LoadingComponent, CommonModule, LoadingInlineComponent],
   templateUrl: './prueba-detail.html',
   styleUrl: './prueba-detail.css',
 })
@@ -25,7 +26,7 @@ import { SpinnerService } from '../../../../services/spinner-service';
 
 export class PruebaDetail {
 
-  // loading: boolean = true;
+  loading: boolean = true;
 
   pruebaId = model<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
@@ -39,7 +40,7 @@ export class PruebaDetail {
 
 
   constructor(
-    private _itemService: PruebaService,
+    private _pruebaService: PruebaService,
     private _route: ActivatedRoute,
     private _router: Router,
     private fb: FormBuilder,
@@ -74,7 +75,7 @@ export class PruebaDetail {
       }
 
       if (this.modo() === 'nuevo') {
-        // this.loading = false;
+        this.loading = false;
         this.form.reset({
           title: '',
           objective: '',
@@ -95,7 +96,7 @@ export class PruebaDetail {
   }
 
   loadProjects() {
-    this._projectService.getProyectos().subscribe({
+    this._projectService.getProyectos({ silent: true }).subscribe({
       next: (res) => {
         this.projects = res;
         console.log("PROYECTOS CARGADOS: ", this.projects);
@@ -128,25 +129,27 @@ export class PruebaDetail {
 
   /*** Recuperación de Prueba ***/
   getItemById(id: string): void {
-    // this.loading = true;
-  this._itemService.getPruebaById(id).subscribe({
-    next: (datos) => {
-      this.item = datos.data;
+    this.loading = true;
+    this.form.reset(); // Limpia datos anteriores
 
-      // 1. Obtener el project_id desde la versión
+    this._pruebaService.getPruebaById(id, { silent: true }).subscribe({
+      next: (datos) => {
+        this.item = datos.data;
 
-      const versionId = String(this.item.version_id);
+        // 1. Obtener el project_id desde la versión
 
-      if (!versionId) {
-        console.error('version_id inválido');
-        return;
-      }
+        const versionId = String(this.item.version_id);
 
-      this._versionService.getVersionById(versionId).subscribe(version => {
-        const projectId = String(version.project_id);
+        if (!versionId) {
+          console.error('version_id inválido');
+          return;
+        }
+        this._versionService.getVersionById(versionId, { silent: true }).subscribe(version => {
+          const projectId = String(version.project_id);
+
 
         // 2. Cargar las versiones del proyecto
-        this._versionService.getByProject(projectId).subscribe(res => {
+        this._versionService.getByProject(projectId, { silent: true }).subscribe(res => {
           this.versions = res.data;
 
           // 3. Rellenar el formulario
@@ -169,9 +172,6 @@ export class PruebaDetail {
             control.markAsTouched();
             control.markAsDirty();
           });
-
-          // this.loading = false; // ✔ Todo listo
-
         });
       });
     },
@@ -181,6 +181,11 @@ export class PruebaDetail {
       this._toastService.show('Error obteniendo la prueba', 'error');
     }
   });
+  // Al final de getItemById
+setTimeout(() => {
+  this.loading = false;
+}, 5000);
+
 }
 
   borrar(id: string | null | undefined): void {
@@ -189,7 +194,7 @@ export class PruebaDetail {
       return;
     }
 
-    this._itemService.deletePrueba(id).subscribe({
+    this._pruebaService.deletePrueba(id).subscribe({
       next: data => {
         console.log("OK: ", data);
         this.listado.update(list => list.filter(item => item.id !== id));
@@ -224,7 +229,7 @@ export class PruebaDetail {
     console.log('Payload final:', payload); // Datos a introducir ***MODIFICAR***
 
       if (this.modo() === 'detalle' && this.pruebaId()) {
-        this._itemService.updatePrueba(this.pruebaId()!, payload).subscribe({
+        this._pruebaService.updatePrueba(this.pruebaId()!, payload).subscribe({
           next: () => {
             console.log('Ítem actualizado');
               this.listado.update((listado) =>
@@ -242,7 +247,7 @@ export class PruebaDetail {
         });
       } else if (this.modo() === 'nuevo') {
         console.log('Payload final:', payload);
-        this._itemService.createPrueba(payload).subscribe({
+        this._pruebaService.createPrueba(payload).subscribe({
           next: (datos) => {
             console.log('Ítem creado');
             // console.log('Listado antes de añadir:', this.listado());

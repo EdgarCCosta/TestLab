@@ -102,9 +102,9 @@ export class PruebaList {
       if (this._filtro !== '') {
         console.log("El filtro es:", this._filtro);
         if (
-          i.name.toLowerCase().includes(this._filtro.toLowerCase()) ||
-          i.email.toLowerCase().includes(this._filtro.toLowerCase()) ||
-          i.rol.toLowerCase().includes(this._filtro.toLowerCase())
+          i.title.toLowerCase().includes(this._filtro.toLowerCase()) ||
+          i.objective.toLowerCase().includes(this._filtro.toLowerCase()) ||
+          i.expected_result.toLowerCase().includes(this._filtro.toLowerCase())
         ) {
           this.pruebasFiltradas.push(i);
         }
