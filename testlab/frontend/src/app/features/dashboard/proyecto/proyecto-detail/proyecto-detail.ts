@@ -41,7 +41,7 @@ import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-deta
 export class ProyectoDetail {
 
   // Signals principales
-  proyectoId = signal<string | null>(null);
+  proyectoId: string | null = null;
   proyecto = signal<Proyecto | null>(null);
 
   usuarios: Usuario[] = [];
@@ -65,10 +65,10 @@ export class ProyectoDetail {
   // Estado modal
   proyectoSelId = model<string | null>(null);
   userSelId = model<string | null>(null);
-  versionSelId = model<string | null>(null);
+  versionSelId: string | null  = null;
   pruebaSelId = model<string | null>(null);
   ejecucionSelId = model<string | null>(null);
-  modo = model<'nuevo' | 'editar'>('editar');
+  modo: 'nuevo' | 'detalle' = 'detalle';
   tituloModalDetail = '';
 
   // Models para vigilar y actualizar los arrays de los listados
@@ -114,8 +114,8 @@ export class ProyectoDetail {
   ) {
     this._route.paramMap.subscribe(params => {
       const id = params.get('id');
-      this.proyectoId.set(id);
-      console.log('proyecto-detail - proyectoId: ', this.proyectoId());
+      this.proyectoId = id;
+      console.log('proyecto-detail - proyectoId: ', this.proyectoId);
 
       if (id) {
         this.cargarDetalle(id);
@@ -164,15 +164,15 @@ export class ProyectoDetail {
   // }
 
   editarProyecto() {
-    this.modo.set('editar');
-    this.proyectoSelId.set(this.proyectoId()); // el id actual
+    this.modo = 'detalle';
+    this.proyectoSelId.set(this.proyectoId); // el id actual
     this.tituloModalDetail = 'Editar proyecto';
     document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
 
   eliminarProyecto() {
-    const id = this.proyectoId();
+    const id = this.proyectoId;
     if (!id) return;
 
     const ok = confirm("¿Seguro que quieres eliminar este proyecto? Esta acción no se puede deshacer.");
@@ -199,7 +199,7 @@ export class ProyectoDetail {
   }
 
   disociarUsuario(idUsuario: string) {
-    const id = this.proyectoId();   // leer el signal
+    const id = this.proyectoId;   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 
@@ -214,14 +214,19 @@ export class ProyectoDetail {
   /************************ VERSIONES ********************************/
 
   abrirNuevaVersion(proyectoId: string) {
-    this.versionSelId.set(null);
-    this.nuevaVersion = true;   // activar modo creación
-    this.modo.set('nuevo');
+    this.versionSelId = null;
+    this.nuevaVersion = true;
+    this.modo = 'nuevo';
     this.tituloModalDetail = 'Nueva version';
   }
 
   editarVersion(versionId: string) {
-    // TODO: Modal para editar versión
+    this.versionSelId = versionId;
+    this.nuevaVersion = false;
+    this.modo = 'detalle';
+    this.tituloModalDetail = 'Editar version';
+    document.getElementById('btnAbrirModalVersion')?.click();
+
   }
 
   eliminarVersion(versionId: string) {
@@ -242,7 +247,7 @@ export class ProyectoDetail {
   }
 
   disociarPrueba(idPrueba: string) {
-    const id = this.proyectoId();   // leer el signal
+    const id = this.proyectoId;   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 

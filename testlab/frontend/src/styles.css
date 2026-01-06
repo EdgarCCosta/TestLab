@@ -50,12 +50,6 @@ app-login {
   display: flex;
   height: 100vh;
   position: relative
-  /* background-color: var(--light-bg-color); */
-}
-
-
-.fondoTestlab {
-  /* background-color: var(--light-bg-color); */
 }
 
 .login-background {
@@ -69,12 +63,12 @@ app-login {
 
 .olas {
   position: absolute;
-  left: 0;
+  /* left: 0; */
   top: 0;
+  left: -200px;
   z-index: -5;
   width: 4000px;
   height: 100vh;
-  left: -200px;
   -webkit-transform: rotate3d(1,1,1,-20deg);
   transform: rotate3d(1,1,1,-20deg);
 }
@@ -120,27 +114,27 @@ pattern {
 
 @keyframes deslizamiento {
   0% {
-    -webkit-transform: translateX(0px);
-    transform: translateX(0px);
-  }
-  100% {
     -webkit-transform: translateX(-1000px);
     transform: translateX(-1000px);
+  }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px);
   }
 }
 
 @keyframes marea {
   0% {
-    -webkit-transform: translate(0px, 0px);
-    transform: translate(0px, 0px);
+    -webkit-transform: translate(-1000px, 0px);
+    transform: translate(-1000px, 0px);
   }
   50% {
     -webkit-transform: translate(-500px, 50px);
     transform: translate(-500px, 50px);
   }
   100% {
-    -webkit-transform: translate(-1000px, 0px);
-    transform: translate(-1000px, 0px);
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
   }
 }
 
@@ -150,6 +144,7 @@ pattern {
   border-radius: 4rem;
   corner-shape: squircle;
   background-color: white;
+  z-index: 10;
 }
 
 #formLogin {
@@ -347,6 +342,10 @@ h1 {
   }
 }
 
+.list-group-item {
+  background-color: var(--light-bg-color);
+}
+
 /* ESTADISTICAS */
 
 app-estadistica {
@@ -408,7 +407,7 @@ canvas {
 }
 
 .leaderboard > :not(caption) > * > * {
-  background-color: transparent;
+  background-color: var(--light-bg-color);
 }
 
 .leaderboard > thead > tr, .leaderboard > thead > th {

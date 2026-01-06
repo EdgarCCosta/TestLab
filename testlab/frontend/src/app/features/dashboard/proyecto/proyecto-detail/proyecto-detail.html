@@ -92,7 +92,7 @@
             class="btn btn-nuevo"
             data-bs-toggle="modal"
             data-bs-target="#asociarModal"
-            (click)="abrirAsociarUsuario(this.proyectoId()!)">
+            (click)="abrirAsociarUsuario(this.proyectoId!)">
           <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
         </button>
       </div>
@@ -139,7 +139,7 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirNuevaVersion(this.proyectoId()!)">
+          (click)="abrirNuevaVersion(this.proyectoId!)">
           <i class="bi bi-plus-lg"></i> Añadir versión
         </button>
       </div>
@@ -161,6 +161,11 @@
                 <!-- Acciones -->
                 <div class="acciones">
                   <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
+                    <button id="btnAbrirModalVersion"
+                      class="d-none"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detalleModal">
+                    </button>
                   <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
                 </div>
               </div>
@@ -189,7 +194,7 @@
           class="btn btn-nuevo"
           data-bs-toggle="modal"
           data-bs-target="#detalleModal"
-          (click)="abrirAsociarPrueba(this.proyectoId()!)">
+          (click)="abrirAsociarPrueba(this.proyectoId!)">
           <i class="bi bi-plus-lg"></i> Asociar nueva prueba
         </button>
       </div>
@@ -238,8 +243,8 @@
       <div class="card shadow-sm">
         <ul class="list-group list-group-flush">
           @for (e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3)); track e) {
-            <li class="list-group-item">
 
+            <li class="list-group-item">
               <div class="d-flex">
                 <div>
 
@@ -316,23 +321,14 @@
       <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" (listadoUsuariosChange)="listadoUsuariosChange($event)" [modo]="'detalle'"></app-usuario-detail>
     } -->
 
-    @if (this.nuevaVersion && versionSelId() === null) {
+
       <app-version-detail
         [(listado)]="this.versiones"
         (listadoVersionesChange)="listadoVersionesChange($event)"
-        [versionId]="null"
-        [projectId]="proyectoId()"
-        [modo]="'nuevo'">
+        [versionId]="versionSelId"
+        [projectId]="proyectoId"
+        [modo]="modo">
       </app-version-detail>
-    } @else if (versionSelId()) {
-      <app-version-detail
-        [(listado)]="this.versiones"
-        (listadoVersionesChange)="listadoVersionesChange($event)"
-        [versionId]="versionSelId()"
-        [projectId]="proyectoId()"
-        [modo]="'detalle'">
-      </app-version-detail>
-    }
 
     @if (this.nuevaPrueba && pruebaSelId() === null) {
       <app-prueba-detail [(listado)]="this.pruebas" (listadoPruebasChange)="listadoPruebasChange($event)" [pruebaId]="null" [modo]="'nuevo'"></app-prueba-detail>

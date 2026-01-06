@@ -40,7 +40,7 @@ export class VersionDetail {
 
     effect(() => {
       if (this.versionId() != null) {
-        console.log('Cambia la versión');
+        console.log('Cambia la versión', this.versionId());
         this.getVersionById(this.versionId()!);
       }
 
@@ -52,10 +52,6 @@ export class VersionDetail {
           description: '',
           project_id: this.projectId()
         });
-      }
-
-      if (this.listado().length) {
-        console.log('Nueva versión añadida al listado:', this.listado());
       }
 
       if (this.modo() === 'nuevo') {
@@ -71,7 +67,7 @@ export class VersionDetail {
 
   /*** Recuperación de versión ***/
   getVersionById(id: string): void {
-    console.log('En propiedad getUsuarioById');
+    console.log('En propiedad getVersionById');
     this._versionService.getVersionById(id).subscribe({
       next: (datos) => {
 
@@ -80,7 +76,7 @@ export class VersionDetail {
 
         this.form.setValue({
           version_number: this.version?.version_number,
-          release_date: this.version?.release_date,
+          release_date: this.version?.release_date?.substring(0, 10),
           description: this.version?.description,
           project_id: this.version?.project_id
         });
