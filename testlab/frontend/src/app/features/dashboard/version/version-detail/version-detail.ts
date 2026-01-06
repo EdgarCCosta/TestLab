@@ -17,7 +17,7 @@ export class VersionDetail {
 
   versionId = input<string | null>();                 // puede ser string o null
   projectId = input<string | null>();                 // puede ser string o null
-  modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
+  modo = input<'nuevo' | 'editar'>('editar');       // valor por defecto: 'editar'
   listado = model<any[]>([]);
 
   version!: UpdateVersionDto;
@@ -74,7 +74,7 @@ export class VersionDetail {
         console.log(datos);
         this.version = datos;
 
-        this.form.setValue({
+        this.form.patchValue({
           version_number: this.version?.version_number,
           release_date: this.version?.release_date?.substring(0, 10),
           description: this.version?.description,
@@ -120,7 +120,7 @@ export class VersionDetail {
 
       console.log('Valores formulario', this.form.value);
 
-      if (this.modo() === 'detalle' && this.versionId()) {
+      if (this.modo() === 'editar' && this.versionId()) {
         this._versionService.updateVersion(this.versionId()!, this.form.value).subscribe({
           next: () => {
             this.listado.update(list =>

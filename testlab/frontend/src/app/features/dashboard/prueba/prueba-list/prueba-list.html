@@ -21,7 +21,8 @@
 
 <app-modal-detail [title]="(nuevaPrueba && pruebaSelId === null) ? 'Nuevo caso de prueba' : 'Detalle caso de prueba'">
   @if (nuevaPrueba && pruebaSelId === null) {
-    <app-prueba-detail [(listado)]="this.pruebas" 
+    <app-prueba-detail
+      [(listado)]="this.pruebas" 
       (listadoChange)="listadoChange($event)" 
       [(pruebaId)]="pruebaSelId" 
       [modo]="'nuevo'">

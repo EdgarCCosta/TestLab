@@ -40,9 +40,8 @@ import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-deta
 })
 export class ProyectoDetail {
 
-  // Signals principales
   proyectoId: string | null = null;
-  proyecto = signal<Proyecto | null>(null);
+  proyecto: Proyecto | null = null;
 
   usuarios: Usuario[] = [];
   versiones: Version[] = [];
@@ -63,12 +62,13 @@ export class ProyectoDetail {
   loadingEjecuciones = signal(false);
 
   // Estado modal
+  modal: 'proyecto' | 'usuario' | 'version' | 'prueba' | 'ejecucion' | null = null;
   proyectoSelId = model<string | null>(null);
   userSelId = model<string | null>(null);
   versionSelId: string | null  = null;
   pruebaSelId = model<string | null>(null);
   ejecucionSelId = model<string | null>(null);
-  modo: 'nuevo' | 'detalle' = 'detalle';
+  modo: 'nuevo' | 'editar' = 'editar';
   tituloModalDetail = '';
 
   // Models para vigilar y actualizar los arrays de los listados
@@ -112,6 +112,7 @@ export class ProyectoDetail {
   constructor(
     public _spinnerService : SpinnerService
   ) {
+
     this._route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.proyectoId = id;
@@ -121,11 +122,13 @@ export class ProyectoDetail {
         this.cargarDetalle(id);
       }
     });
+
   }
 
   ngOnInit() {
     // Cargar lista global si no está cargada
     this._proyectoService.getProyectos().subscribe(); // PARA QUÉ??
+
   }
 
   // 🔵 CARGA COMPLETA DEL DETALLE CON forkJoin
@@ -144,7 +147,7 @@ export class ProyectoDetail {
     )
     .subscribe({
       next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-        this.proyecto.set(proyecto);
+        this.proyecto = proyecto;
         this.usuarios = usuarios;
         this.pruebas = pruebas;
         this.versiones = versiones;
@@ -159,12 +162,36 @@ export class ProyectoDetail {
   }
 
 
+    // CARGA de proyecto (para actualizaciones tras editar)
+  cargarProyecto(id: string) {
+    this.loadingDetalle.set(true);
+
+    this._proyectoService.getProyectoById(id)
+    .pipe(
+      finalize(() => this.loadingDetalle.set(false))
+    )
+    .subscribe({
+      next: (proyecto) => {
+        this.proyecto = proyecto;
+      },
+      error: (error) => {
+        console.log('Error: ', error);
+        this._toastService.show('No se pudo cargar el proyecto', 'error');
+        this._router.navigate(['/proyecto']);
+      }
+    });
+  }
+
+
+  /*********************** PROYECTO *************************************/
+
   // editarProyecto() {
   //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
   // }
 
   editarProyecto() {
-    this.modo = 'detalle';
+    this.modal = 'proyecto';
+    this.modo = 'editar';
     this.proyectoSelId.set(this.proyectoId); // el id actual
     this.tituloModalDetail = 'Editar proyecto';
     document.getElementById('btnAbrirModalProyecto')?.click();
@@ -191,6 +218,11 @@ export class ProyectoDetail {
     });
   }
 
+  proyectoChange($e: any) {
+    console.log('Proyecto editado en proyecto-detail.ts:', this.proyecto);
+    this.cargarProyecto(this.proyectoId!);
+  }
+
 
   /************************ USUARIOS ********************************/
 
@@ -213,17 +245,19 @@ export class ProyectoDetail {
 
   /************************ VERSIONES ********************************/
 
-  abrirNuevaVersion(proyectoId: string) {
+  abrirNuevaVersion() {
+    this.modal = 'version';
+    this.modo = 'nuevo';
     this.versionSelId = null;
     this.nuevaVersion = true;
-    this.modo = 'nuevo';
     this.tituloModalDetail = 'Nueva version';
   }
 
   editarVersion(versionId: string) {
+    this.modal = 'version';
+    this.modo = 'editar';
     this.versionSelId = versionId;
     this.nuevaVersion = false;
-    this.modo = 'detalle';
     this.tituloModalDetail = 'Editar version';
     document.getElementById('btnAbrirModalVersion')?.click();
 
