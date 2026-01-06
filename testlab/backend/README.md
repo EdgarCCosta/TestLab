@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 # TestLab
 
 **TestLab** es una aplicación web diseñada para facilitar el registro, ejecución y seguimiento de pruebas de software en entornos de desarrollo. Su objetivo principal es mejorar la trazabilidad de los test y centralizar la información que, tradicionalmente, se gestiona de manera dispersa en hojas de cálculo o documentos.
@@ -101,8 +98,7 @@ EJECUCIONES {
     datetime fecha_ejecucion 
 }
 ```
-=======
->>>>>>> backend_Adrian
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -162,7 +158,3 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-<<<<<<< HEAD
-=======
->>>>>>> backend-local
->>>>>>> backend_Adrian

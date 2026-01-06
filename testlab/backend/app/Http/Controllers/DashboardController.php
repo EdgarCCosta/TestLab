@@ -104,6 +104,7 @@ class DashboardController extends Controller
         }
     }
 
+
     public function lastSixMonths()
     {
         try {
@@ -127,4 +128,6 @@ class DashboardController extends Controller
     { 
         return ApiResponse::success($this->dashboardService->getUserStats());
     }
+
 }
+

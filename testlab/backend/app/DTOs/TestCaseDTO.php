@@ -2,60 +2,84 @@
 
 namespace App\DTOs;
 
-use App\Models\TestCase;
+use App\Models\TestExecution;
 
-class TestCaseDTO
+class TestExecutionDTO
 {
     public int $id;
-    public string $title;
-    public string $objective;
-    public ?string $preconditions;
-    public array $steps;
-    public string $expected_result;
-    public string $user_profile;
-
+    public int $test_case_id;
     public int $version_id;
-    public string $version_number;
+    public int $user_id;
+    public string $result;
+    public ?string $comment;
+    public ?array $test_data;
+    public ?string $error_status;
+    public ?string $correction_notes;
+    public ?string $observations;
+    public ?string $executed_at;
+
+    // Campos opcionales para mostrar info relacionada
+    public ?string $user_name;
+    public ?string $version_number;
+    public ?string $test_title;
 
     public function __construct(
         int $id,
-        string $title,
-        string $objective,
-        ?string $preconditions,
-        array $steps,
-        string $expected_result,
-        string $user_profile,
+        int $test_case_id,
         int $version_id,
-        string $version_number
+        int $user_id,
+        string $result,
+        ?string $comment,
+        ?array $test_data,
+        ?string $error_status,
+        ?string $correction_notes,
+        ?string $observations,
+        ?string $executed_at,
+        ?string $user_name = null,
+        ?string $version_number = null,
+        ?string $test_title = null
     ) {
         $this->id = $id;
-        $this->title = $title;
-        $this->objective = $objective;
-        $this->preconditions = $preconditions;
-        $this->steps = $steps;
-        $this->expected_result = $expected_result;
-        $this->user_profile = $user_profile;
+        $this->test_case_id = $test_case_id;
         $this->version_id = $version_id;
+        $this->user_id = $user_id;
+        $this->result = $result;
+        $this->comment = $comment;
+        $this->test_data = $test_data;
+        $this->error_status = $error_status;
+        $this->correction_notes = $correction_notes;
+        $this->observations = $observations;
+        $this->executed_at = $executed_at;
+
+        $this->user_name = $user_name;
         $this->version_number = $version_number;
+        $this->test_title = $test_title;
     }
 
-    public static function fromModel(TestCase $testCase): self
+    public static function fromModel(TestExecution $testExecution): self
     {
         return new self(
-            $testCase->id,
-            $testCase->title,
-            $testCase->objective,
-            $testCase->preconditions,
-            $testCase->steps,
-            $testCase->expected_result,
-            $testCase->user_profile,
-            $testCase->version?->id ?? 0,
-            $testCase->version?->version_number ?? null,
+            $testExecution->id,
+            $testExecution->test_case_id,
+            $testExecution->version_id,
+            $testExecution->user_id,
+            $testExecution->result,
+            $testExecution->comment,
+            $testExecution->test_data,
+            $testExecution->error_status,
+            $testExecution->correction_notes,
+            $testExecution->observations,
+            $testExecution->executed_at?->toDateTimeString(),
+            $testExecution->user->name ?? null,
+            $testExecution->version->version_number ?? null,
+            $testExecution->testCase->title ?? null
         );
     }
 
-    public static function fromCollection($testCases): array
+    public static function fromCollection($testExecutions): array
     {
-        return $testCases->map(fn($tc) => self::fromModel($tc))->toArray();
+        return $testExecutions->map(function ($t) {
+            return self::fromModel($t);
+        })->toArray();
     }
 }

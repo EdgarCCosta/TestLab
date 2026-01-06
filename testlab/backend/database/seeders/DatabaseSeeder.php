@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             ]),
             'expected_result' => 'Usuario redirigido al dashboard',
             'user_profile' => 'Usuario estándar',
-            'version_id' => $version1->id
+            // 'version_id' => $version1->id
         ]);
 
         $testCase2 = TestCase::create([
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
             ]),
             'expected_result' => 'Usuario registrado y email de confirmación enviado',
             'user_profile' => 'Nuevo usuario',
-            'version_id' => $version1->id
+            // 'version_id' => $version1->id
         ]);
 
         // 5. Crear test executions

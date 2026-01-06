@@ -12,10 +12,12 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+
         $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
 
         $user = User::where('email', $validated['email'])->first();
 
@@ -23,6 +25,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        
         // Crear token
         try {
             $token = $user->createToken('angular-client')->plainTextToken;

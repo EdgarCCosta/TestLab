@@ -10,7 +10,7 @@ use App\Models\TestExecution;
 
 class ProjectController extends Controller
 {
-
+    //Listar todos los proyectos
     public function index()
     {
         try {
@@ -26,17 +26,28 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255|unique:projects,name',
             'description' => 'nullable|string',
-            'status'      => 'sometimes|in:active,inactive,archived'
+            'status'      => 'sometimes|in:active,inactive,archived',
+            'user_ids'    => 'sometimes|array',
+            'user_ids.*'  => 'exists:users,id'
         ]);
 
         try {
-            $project = Project::create($validated);
+            $project = Project::create([
+                'name' => $validated['name'],
+                'description' => $validated['description'],
+                'status' => $validated['status'] ?? 'active',
+                'created_by' => $request->user()->id
+            ]);
+            if (!empty($validated['user_ids'])) {
+                $project->users()->sync($validated['user_ids']);
+            }
 
             return ApiResponse::created($project, 'Project created successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to create project', 500, $e->getMessage());
         }
     }
+
 
     public function show(string $id)
     {
@@ -57,10 +68,18 @@ class ProjectController extends Controller
             $validated = $request->validate([
                 'name'        => 'sometimes|required|string|max:255|unique:projects,name,' . $project->id,
                 'description' => 'sometimes|string',
-                'status'      => 'sometimes|in:active,inactive,archived'
+                'status'      => 'sometimes|in:active,inactive,archived',
+                'user_ids'    => 'sometimes|array', // usuarios a asignar
+                'user_ids.*'  => 'exists:users,id'
             ]);
 
-            $project->update($validated);
+            $projectData = collect($validated)->except('user_ids')->toArray();
+
+            $project->update($projectData);
+
+            if (array_key_exists('user_ids', $validated)) {
+                $project->users()->sync($validated['user_ids']);
+            }
 
             return ApiResponse::updated($project, 'Project updated successfully');
         } catch (\Exception $e) {
@@ -85,6 +104,40 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
 
             return ApiResponse::error('Failed to delete project', 500, $e->getMessage());
+        }
+    }
+
+    //------ Assignacion de usuarios ------//
+
+    // Añadir usuarios sin eliminar existentes
+    public function addUsers(Request $request, Project $project)
+    {
+        $validated = $request->validate([
+            'user_ids'   => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        try {
+            $project->users()->sync($validated['user_ids']);
+            return ApiResponse::success($project->load('users'), 'Users assigned successfully');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to assign users', 500, $e->getMessage());
+        }
+    }
+
+    // Remover usuarios
+    public function removeUsers(Request $request, Project $project)
+    {
+        $validated = $request->validate([
+            'user_ids'   => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        try {
+            $project->users()->detach($validated['user_ids']); // elimina solo los indicados
+            return ApiResponse::success($project->load('users'), 'Users removed successfully');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to remove users', 500, $e->getMessage());
         }
     }
 

@@ -27,12 +27,12 @@ class DashboardService
         return Project::count();
     }
 
-    public function getActiveTestCasesCount(): int
-    {
-        return TestCase::whereHas('version.project', function ($query) {
-            $query->where('status', 'active');
-        })->count();
-    }
+public function getActiveTestCasesCount(): int
+{
+    return TestCase::whereHas('versions.project', function ($query) {
+        $query->where('status', 'active');
+    })->count();
+}
 
     public function getTestsExecutedCount(): int
     {

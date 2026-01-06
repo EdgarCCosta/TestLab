@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('version_test_cases', function(Blueprint $table) {
+        Schema::create('version_test_cases', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('version_id')->constrained('versions')->onDelete('cascade');
             $table->foreignId('test_case_id')->constrained('test_cases')->onDelete('cascade');
 
+            $table->unique(['version_id', 'test_case_id']);
         });
-        
     }
 
     /**

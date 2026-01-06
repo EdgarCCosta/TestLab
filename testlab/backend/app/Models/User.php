@@ -8,13 +8,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
+use App\Traits\HasEntityHash;
+use App\Models\Project;
+
 
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, HasEntityHash;
 
 
     protected $fillable = [
@@ -47,6 +51,10 @@ class User extends Authenticatable
         return $this->hasMany(TestExecution::class, 'user_id');
     }
 
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class)->withTimestamps();
+    }
     // Scopes
     public function scopeAdmin($query)
     {
