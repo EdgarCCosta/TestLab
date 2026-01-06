@@ -115,6 +115,7 @@ export class ProyectoDetail {
     this._route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.proyectoId.set(id);
+      console.log('proyecto-detail - proyectoId: ', this.proyectoId());
 
       if (id) {
         this.cargarDetalle(id);
@@ -124,7 +125,7 @@ export class ProyectoDetail {
 
   ngOnInit() {
     // Cargar lista global si no está cargada
-    this._proyectoService.getProyectos().subscribe();
+    this._proyectoService.getProyectos().subscribe(); // PARA QUÉ??
   }
 
   // 🔵 CARGA COMPLETA DEL DETALLE CON forkJoin
@@ -135,7 +136,7 @@ export class ProyectoDetail {
       proyecto: this._proyectoService.getProyectoById(id),
       usuarios: this._proyectoService.getUsersFromProyectoById(id),
       pruebas: this._proyectoService.getPruebasFromProyectoById(id),
-      versiones: this._versionService.getVersiones(),
+      versiones: this._versionService.getVersionesByProject(id),
       ejecuciones: this._ejecucionService.getEjecuciones()
     })
     .pipe(
@@ -146,10 +147,11 @@ export class ProyectoDetail {
         this.proyecto.set(proyecto);
         this.usuarios = usuarios;
         this.pruebas = pruebas;
-        this.versiones = versiones.filter(v => v.project_id.toString() === id);
+        this.versiones = versiones;
         this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
       },
-      error: () => {
+      error: (error) => {
+        console.log('Error: ', error);
         this._toastService.show('No se pudo cargar el proyecto', 'error');
         this._router.navigate(['/proyecto']);
       }

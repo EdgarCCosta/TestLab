@@ -6,43 +6,54 @@ import { Version, CreateVersionDto, UpdateVersionDto } from '../models/version';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../models/apiResponse';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class VersionService {
-
   private readonly apiUrl = environment.apiUrl;
   private readonly endpoint = '/versions';
 
   constructor(private http: HttpClient) {}
 
-getVersiones(options?: { silent?: boolean }): Observable<Version[]> {
-  let headers = new HttpHeaders();
+  getVersiones(options?: { silent?: boolean }): Observable<Version[]> {
+    let headers = new HttpHeaders();
 
-  if (options?.silent) {
-    headers = headers.set('X-Silent', 'true');
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
+
+    return this.http
+      .get<{ success: boolean; message: string; data: Version[] }>(this.apiUrl + this.endpoint, {
+        headers,
+      })
+      .pipe(map((response) => response.data));
   }
 
-  return this.http
-      .get<{ success: boolean; message: string; data: Version[] }>(
-        this.apiUrl + this.endpoint,
-        { headers }
-      )
-      .pipe(map(response => response.data));
+  getVersionesByProject(id: string, options?: { silent?: boolean }) {
+    let headers = new HttpHeaders();
+
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
+
+    return this.http
+      .get<ApiResponse<Version[]>>(this.apiUrl + `/projects/${id}/versions`, { headers })
+      .pipe(map((res) => res.data));
   }
 
-getVersionById(id: string,options?: { silent?: boolean }) {
-  let headers = new HttpHeaders();
+  
 
-  if (options?.silent) {
-    headers = headers.set('X-Silent', 'true');
+  getVersionById(id: string, options?: { silent?: boolean }) {
+    let headers = new HttpHeaders();
+
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
+
+    return this.http
+      .get<ApiResponse<Version>>(`${this.apiUrl + this.endpoint}/${id}`, { headers })
+      .pipe(map((res) => res.data));
   }
-
-  return this.http
-    .get<ApiResponse<Version>>(`${this.apiUrl + this.endpoint}/${id}`, { headers })
-    .pipe(map(res => res.data));
-}
 
   createVersion(dto: CreateVersionDto): Observable<any> {
     return this.http.post(this.apiUrl + this.endpoint, dto);
@@ -56,19 +67,15 @@ getVersionById(id: string,options?: { silent?: boolean }) {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
 
+  getByProject(projectId: string, options?: { silent?: boolean }) {
+    let headers = new HttpHeaders();
 
-getByProject(projectId: string, options?: { silent?: boolean }) {
+    if (options?.silent) {
+      headers = headers.set('X-Silent', 'true');
+    }
 
-  let headers = new HttpHeaders();
-
-  if (options?.silent) {
-    headers = headers.set('X-Silent', 'true');
+    return this.http.get<ApiResponse<Version[]>>(`${this.apiUrl}/projects/${projectId}/versions`, {
+      headers,
+    });
   }
-
-  return this.http.get<ApiResponse<Version[]>>(
-    `${this.apiUrl}/projects/${projectId}/versions`,
-    { headers }
-  );
-
-}
 }

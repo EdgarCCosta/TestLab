@@ -30,18 +30,28 @@ export class VersionDetail {
     private fb: FormBuilder,
     private _toastService: ToastService
   ) {
-
+    console.log('ID proyecto inicial: ', this.projectId());
     this.form = this.fb.group({
       version_number: ['', [Validators.required, Validators.minLength(2)]],
       release_date: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      project_id: ['']
+      project_id: [this.projectId()]
     });
 
     effect(() => {
       if (this.versionId() != null) {
-        console.log('Cambia el usuario');
+        console.log('Cambia la versión');
         this.getVersionById(this.versionId()!);
+      }
+
+      if (this.projectId() != null) {
+        console.log('Cambia projectId', this.projectId());
+        this.form.setValue({
+          version_number: '',
+          release_date: '',
+          description: '',
+          project_id: this.projectId()
+        });
       }
 
       if (this.listado().length) {
@@ -49,17 +59,17 @@ export class VersionDetail {
       }
 
       if (this.modo() === 'nuevo') {
-        this.form.reset({
-          version_number: '',
-          release_date: '',
-          description: '',
-          project_id: ''
-        });
+        // this.form.reset({
+        //   version_number: '',
+        //   release_date: '',
+        //   description: '',
+        //   // No reseteamos el id de proyecto para no perderlo
+        // });
       }
     });
   }
 
-  /*** Recuperación de Usuario ***/
+  /*** Recuperación de versión ***/
   getVersionById(id: string): void {
     console.log('En propiedad getUsuarioById');
     this._versionService.getVersionById(id).subscribe({
@@ -111,6 +121,8 @@ export class VersionDetail {
 
   onSubmit() {
     if (this.form.valid) {
+
+      console.log('Valores formulario', this.form.value);
 
       if (this.modo() === 'detalle' && this.versionId()) {
         this._versionService.updateVersion(this.versionId()!, this.form.value).subscribe({
