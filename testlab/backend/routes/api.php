@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 //LOGIN
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/users2', [UserController::class, 'index']);
+// Route::get('/users2', [UserController::class, 'index']);
 
 Route::get('statistics/project/{project}', [StatisticsController::class, 'byProject']);
 Route::get('statistics/global', [StatisticsController::class, 'global']);
