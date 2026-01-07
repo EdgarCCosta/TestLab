@@ -97,35 +97,43 @@
         </button>
       </div>
 
-      <div class="card shadow-sm">
-        <ul class="list-group list-group-flush">
-          @for (u of (mostrarTodosUsuarios ? usuarios : usuarios?.slice(0,3)); track u) {
-            <li class="list-group-item">
-              <div class="d-flex">
-                <div>
-                  <strong>{{ u.name }}</strong>
-                  <span class="text-muted">
-                    ({{ u.rol }})
-                  </span>
-                </div>
+      @if(usuarios.length) {
+      
+        <div class="card shadow-sm">
+          <ul class="list-group list-group-flush">
+            @for (u of (mostrarTodosUsuarios ? usuarios : usuarios.slice(0,3)); track u) {
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <div>
+                    <strong>{{ u.name }}</strong>
+                    <span class="text-muted">
+                      ({{ u.rol }})
+                    </span>
+                  </div>
 
-                <!-- Acciones -->
-                <div class="acciones">
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarUsuario(u.id)" title="Eliminar usuario del proyecto"></i>
+                  <!-- Acciones -->
+                  <div class="acciones">
+                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarUsuario(u.id)" title="Eliminar usuario del proyecto"></i>
+                  </div>
                 </div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
+              </li>
+            }
+          </ul>
+        </div>
 
-      @if (usuarios.length > 3) {
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodosUsuarios = !mostrarTodosUsuarios">
-            {{ mostrarTodosUsuarios ? 'Mostrar menos' : 'Mostrar todo' }}
-            <i class="align-self-end bi"
-              [ngClass]="mostrarTodosUsuarios ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
-          </button>
+        @if (usuarios.length > 3) {
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodosUsuarios = !mostrarTodosUsuarios">
+              {{ mostrarTodosUsuarios ? 'Mostrar menos' : 'Mostrar todo' }}
+              <i class="align-self-end bi"
+                [ngClass]="mostrarTodosUsuarios ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+            </button>
+          </div>
+        }
+      } @else {
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <img [src]="imgComponent.randomImgNoResults" class="img-fluid" alt="Sin resultados" width="394" height="431">
+          <p class="fs-2 mt-5">Aquí no hay nada&hellip;</p>
         </div>
       }
     </div>
@@ -144,43 +152,51 @@
         </button>
       </div>
 
-      <div class="card shadow-sm">
-        <ul class="list-group list-group-flush">
-          @for (v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3)); track v) {
-            <li class="list-group-item">
-              <div class="d-flex">
-                <div>
-                  <strong>{{ v.version_number }}</strong>
-                  <span class="text-muted">
-                    ({{ v.release_date | date:'shortDate' }})
-                  </span>
+      @if(versiones.length) {
+      
+        <div class="card shadow-sm">
+          <ul class="list-group list-group-flush">
+            @for (v of (mostrarTodasVersiones ? versiones : versiones.slice(0,3)); track v) {
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <div>
+                    <strong>{{ v.version_number }}</strong>
+                    <span class="text-muted">
+                      ({{ v.release_date | date:'shortDate' }})
+                    </span>
 
-                  <p class="mb-0">{{ v.description }}</p>
+                    <p class="mb-0">{{ v.description }}</p>
+                  </div>
+
+                  <!-- Acciones -->
+                  <div class="acciones">
+                    <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
+                      <button id="btnAbrirModalVersion"
+                        class="d-none"
+                        data-bs-toggle="modal"
+                        data-bs-target="#detalleModal">
+                      </button>
+                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
+                  </div>
                 </div>
+              </li>
+            }
+          </ul>
+        </div>
 
-                <!-- Acciones -->
-                <div class="acciones">
-                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
-                    <button id="btnAbrirModalVersion"
-                      class="d-none"
-                      data-bs-toggle="modal"
-                      data-bs-target="#detalleModal">
-                    </button>
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
-                </div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-
-      @if (versiones.length > 3) {
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
-            {{ mostrarTodasVersiones ? 'Mostrar menos' : 'Mostrar todo' }}
-            <i class="bi"
-              [ngClass]="mostrarTodasVersiones ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
-          </button>
+        @if (versiones.length > 3) {
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasVersiones = !mostrarTodasVersiones">
+              {{ mostrarTodasVersiones ? 'Mostrar menos' : 'Mostrar todo' }}
+              <i class="bi"
+                [ngClass]="mostrarTodasVersiones ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+            </button>
+          </div>
+        }
+      } @else {
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <img [src]="imgComponent.randomImgNoResults" class="img-fluid" alt="Sin resultados" width="394" height="431">
+          <p class="fs-2 mt-5">Aquí no hay nada&hellip;</p>
         </div>
       }
     </div>
@@ -199,35 +215,43 @@
         </button>
       </div>
 
-      <div class="card shadow-sm">
-        <ul class="list-group list-group-flush">
-          @for (p of (mostrarTodasPruebas ? pruebas : pruebas.slice(0,3)); track p) {
-            <li class="list-group-item">
-              <div class="d-flex">
-                <div>
-                  <strong>{{ p.title }}</strong>
-                  <span class="text-muted">
-                    ({{ p.objective }})
-                  </span>
-                </div>
+      @if(pruebas.length) {
 
-                <!-- Acciones -->
-                <div class="acciones">
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPrueba(p.id)" title="Eliminar prueba del proyecto"></i>
-                </div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
+        <div class="card shadow-sm">
+          <ul class="list-group list-group-flush">
+            @for (p of (mostrarTodasPruebas ? pruebas : pruebas.slice(0,3)); track p) {
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <div>
+                    <strong>{{ p.title }}</strong>
+                    <span class="text-muted">
+                      ({{ p.objective }})
+                    </span>
+                  </div>
 
-      @if (pruebas.length > 3) {
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasPruebas = !mostrarTodasPruebas">
-            {{ mostrarTodasPruebas ? 'Mostrar menos' : 'Mostrar todo' }}
-            <i class="bi"
-              [ngClass]="mostrarTodasPruebas ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
-          </button>
+                  <!-- Acciones -->
+                  <div class="acciones">
+                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPrueba(p.id)" title="Eliminar prueba del proyecto"></i>
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+
+        @if (pruebas.length > 3) {
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasPruebas = !mostrarTodasPruebas">
+              {{ mostrarTodasPruebas ? 'Mostrar menos' : 'Mostrar todo' }}
+              <i class="bi"
+                [ngClass]="mostrarTodasPruebas ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+            </button>
+          </div>
+        }
+      } @else {
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <img [src]="imgComponent.randomImgNoResults" class="img-fluid" alt="Sin resultados" width="394" height="431">
+          <p class="fs-2 mt-5">Aquí no hay nada&hellip;</p>
         </div>
       }
 
@@ -240,68 +264,70 @@
         <h2>Ejecuciones de pruebas del proyecto</h2>
       </div>
 
-      <div class="card shadow-sm">
-        <ul class="list-group list-group-flush">
-          @for (e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3)); track e) {
+      @if(ejecuciones.length) {
 
-            <li class="list-group-item">
-              <div class="d-flex">
-                <div>
+        <div class="card shadow-sm">
+          <ul class="list-group list-group-flush">
+            @for (e of (mostrarTodasEjecuciones ? ejecuciones : ejecuciones.slice(0,3)); track e) {
 
-                  <!-- Título del caso de prueba -->
-                  <strong>{{ e.test_case.title }}</strong>
+              <li class="list-group-item">
+                <div class="d-flex">
+                  <div>
 
-                  <!-- Resultado -->
-                  <span class="badge ms-2"
-                        [ngClass]="{
-                          'bg-success': e.result === 'passed',
-                          'bg-danger': e.result === 'failed'
-                        }">
-                    {{ e.result | uppercase }}
-                  </span>
+                    <!-- Título del caso de prueba -->
+                    <strong>{{ e.test_case.title }}</strong>
 
-                  <!-- Usuario -->
-                  <p class="mb-0">
+                    <!-- Resultado -->
+                    <span class="badge ms-2"
+                          [ngClass]="{
+                            'bg-success': e.result === 'passed',
+                            'bg-danger': e.result === 'failed'
+                          }">
+                      {{ e.result | uppercase }}
+                    </span>
+
+                    <!-- Usuario -->
+                    <p class="mb-0">
+                      <small class="text-muted">
+                        Ejecutado por: {{ e.user.name }}
+                      </small>
+                    </p>
+
+                    <!-- Fecha -->
                     <small class="text-muted">
-                      Ejecutado por: {{ e.user.name }}
+                      {{ e.executed_at | date:'short' }}
                     </small>
-                  </p>
 
-                  <!-- Fecha -->
-                  <small class="text-muted">
-                    {{ e.executed_at | date:'short' }}
-                  </small>
+                    <!-- Comentario -->
+                    <p class="mt-1 mb-0"><em>{{ e.comment }}</em></p>
 
-                  <!-- Comentario -->
-                  <p class="mt-1 mb-0"><em>{{ e.comment }}</em></p>
+                    <!-- Estado de error -->
+                    <small 
+                      class="fw-semibold"
+                      [ngClass]="{
+                        'text-danger': e.error_status === 'critical',
+                        'text-warning': e.error_status === 'high',
+                        'text-info': e.error_status === 'low',
+                        'text-success': e.error_status === 'none'
+                      }"
+                    >
+                      <i class="bi bi-exclamation-circle-fill"></i>
+                      Error: {{ e.error_status }}
+                    </small>
 
-                  <!-- Estado de error -->
-                  <small 
-                    class="fw-semibold"
-                    [ngClass]="{
-                      'text-danger': e.error_status === 'critical',
-                      'text-warning': e.error_status === 'high',
-                      'text-info': e.error_status === 'low',
-                      'text-success': e.error_status === 'none'
-                    }"
-                  >
-                    <i class="bi bi-exclamation-circle-fill"></i>
-                    Error: {{ e.error_status }}
-                  </small>
+                  </div>
 
+                  <!-- Acciones -->
+                  <div class="acciones">
+                    <i class="bi bi-pencil fs-3 text-primary" (click)="editarEjecucion(e.id)" title="Editar ejecución"></i>
+                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
+                  </div>
                 </div>
-
-                <!-- Acciones -->
-                <div class="acciones">
-                  <i class="bi bi-pencil fs-3 text-primary" (click)="editarEjecucion(e.id)" title="Editar ejecución"></i>
-                  <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
-                </div>
-              </div>
-            </li>
-          }
-        </ul>
-      </div>
-       @if(ejecuciones.length > 3) {
+              </li>
+            }
+          </ul>
+        </div>
+        @if(ejecuciones.length > 3) {
           <div class="d-flex justify-content-center">
             <button class="btn btn-nuevo rounded-pill px-4 my-5" (click)="mostrarTodasEjecuciones = !mostrarTodasEjecuciones">
               {{ mostrarTodasEjecuciones ? 'Mostrar menos' : 'Mostrar todo' }}
@@ -310,6 +336,12 @@
             </button>
           </div>
         }
+      } @else {
+        <div class="d-flex flex-column align-items-center justify-content-center">
+          <img [src]="imgComponent.randomImgNoResults" class="img-fluid" alt="Sin resultados" width="394" height="431">
+          <p class="fs-2 mt-5">Aquí no hay nada&hellip;</p>
+        </div>
+      } 
     </div>
   </div>
 
@@ -369,6 +401,6 @@
   </app-modal-detail>
 
 
-
+<app-img #imgComponent></app-img>
 </section>
 

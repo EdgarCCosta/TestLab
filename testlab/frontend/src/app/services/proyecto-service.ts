@@ -129,6 +129,17 @@ export class ProyectoService {
     //   .pipe(map(response => response.data));
   }
 
+  linkUsuariotoProyecto(idProyecto: string, idUsuario: string): Observable<Usuario> {
+
+    return this.http.post<{ user_ids: [idUsuario] }>(this.apiUrl + this.endpoint, dto)
+      .pipe(
+        map(res => {
+          this.proyectos.update(usuario => (res.data));  // 👈 Añadir al signal
+          return res;
+        })
+      );
+  }
+
   unlinkUsuarioFromProyecto(idProyecto: string, idUsuario: string): Observable<any> {
     // *** Mientras no haya estructura necesaria en backend, devolvemos el usuario a disociar ***
     return this._usuarioService.getUsuarioById(idUsuario);

@@ -32,10 +32,12 @@ import { VersionDetail } from "../../version/version-detail/version-detail";
 import { PruebaDetail } from "../../prueba/prueba-detail/prueba-detail";
 import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-detail";
 
+import { Img } from '../../../../layout/shared/img/img/img';
+
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail],
+  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
