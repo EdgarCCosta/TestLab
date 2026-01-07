@@ -148,11 +148,22 @@ class ProjectController extends Controller
     {
         try {
             $project = Project::with(['versions.testCases', 'versions.testExecutions'])->findOrFail($projectId);
+            
+            $project = Project::with([
+                'versions.testCases',
+                'versions.testExecutions.testCase', // ← AÑADIDO
+                'versions.testExecutions.user',     // ← AÑADIDO
+                'users' // ← AÑADIDO
+            ])->findOrFail($projectId);
+            // return ApiResponse::success($projectId);
 
+
+            
             $totalTestCases = 0;
             $totalExecutions = 0;
             $passedExecutions = 0;
             $failedExecutions = 0;
+
 
             foreach ($project->versions as $version) {
                 $totalTestCases += $version->testCases->count();
@@ -172,21 +183,84 @@ class ProjectController extends Controller
 
             return ApiResponse::success([
                 'project' => $project,
+
+                // 👥 Usuarios del proyecto
+                'users' => $project->users->map(function ($user) {
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'rol' => $user->rol,
+                    ];
+                }),
+
+                // 🛡 Administradores del proyecto
+                'admins' => $project->users->where('rol', 'admin')->values(),
+
+                // 📊 Métricas del proyecto
                 'metrics' => [
                     'total_versions' => $project->versions->count(),
                     'total_test_cases' => $totalTestCases,
                     'total_executions' => $totalExecutions,
                     'passed_executions' => $passedExecutions,
                     'failed_executions' => $failedExecutions,
-                    'success_rate' => $totalExecutions > 0 ? round(($passedExecutions / $totalExecutions) * 100, 2) : 0
+                    'success_rate' => $totalExecutions > 0
+                        ? round(($passedExecutions / $totalExecutions) * 100, 2)
+                        : 0
                 ],
+
+                // 🧪 Últimas ejecuciones (ya incluyen testCase, version y user)
                 'latest_executions' => $latestExecutions,
+
+                // 📦 Resumen de versiones
                 'versions_summary' => $project->versions->map(function ($version) {
                     return [
                         'id' => $version->id,
                         'version_number' => $version->version_number,
                         'test_cases_count' => $version->testCases->count(),
-                        'executions_count' => $version->testExecutions->count()
+                        'executions_count' => $version->testExecutions->count(),
+
+
+                        // Test cases completos
+                        'test_cases' => $version->testCases->map(function ($tc) {
+                            return [
+                                'id' => $tc->id,
+                                'title' => $tc->title,
+                                'objective' => $tc->objective,
+                                'steps' => $tc->steps,
+                                'expected_result' => $tc->expected_result,
+                                'user_profile' => $tc->user_profile,
+                            ];
+                        }),
+
+                        // Ejecuciones completas con usuario y test case
+                        'test_executions' => $version->testExecutions->map(function ($exec) {
+                            return [
+                                'id' => $exec->id,
+                                'result' => $exec->result,
+                                'comment' => $exec->comment,
+                                'test_data' => $exec->test_data,
+                                'error_status' => $exec->error_status,
+                                'executed_at' => $exec->executed_at,
+
+                                // Usuario que ejecutó
+                                'user' => [
+                                    'id' => $exec->user->id,
+                                    'name' => $exec->user->name,
+                                    'email' => $exec->user->email,
+                                    'rol' => $exec->user->rol,
+                                ],
+
+                                // Test case asociado
+                                'test_case' => [
+                                    'id' => $exec->testCase->id,
+                                    'title' => $exec->testCase->title,
+                                    'objective' => $exec->testCase->objective,
+                                    'steps' => $exec->testCase->steps,
+                                    'expected_result' => $exec->testCase->expected_result,
+                                ]
+                            ];
+                        }),
                     ];
                 })
             ]);
@@ -195,5 +269,21 @@ class ProjectController extends Controller
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to retrieve dashboard data', 500, $e->getMessage());
         }
+    }
+
+    public function executionsByProject($projectId)
+        {
+            try {
+                $executions = TestExecution::whereHas('version', function ($query) use ($projectId) {
+                    $query->where('project_id', $projectId);
+                })
+                ->with(['testCase', 'version', 'user'])
+                ->orderBy('executed_at', 'desc')
+                ->get();
+
+                return ApiResponse::success($executions);
+            } catch (\Exception $e) {
+                return ApiResponse::error('Failed to load executions', 500, $e->getMessage());
+            }
     }
 }

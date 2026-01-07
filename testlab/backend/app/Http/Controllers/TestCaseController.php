@@ -12,7 +12,7 @@ class TestCaseController extends Controller
     public function index()
     {
         try {
-            $testCases = TestCase::all();
+            $testCases = TestCase::with('versions')->get();
             return ApiResponse::success($testCases);
         } catch (\Exception $e) {
             return ApiResponse::notFound('Test cases not found');
@@ -22,7 +22,7 @@ class TestCaseController extends Controller
     public function show(string $id)
     {
         try {
-            $testCase = TestCase::findOrFail($id);
+            $testCase = TestCase::with('versions')->findOrFail($id);
             return ApiResponse::success($testCase);
         } catch (\Exception $e) {
             return ApiResponse::notFound('Test case not found');

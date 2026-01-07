@@ -15,7 +15,7 @@ class VersionController extends Controller
     public function index()
     {
         try {
-            $versions = Version::all();
+           $versions = Version::with('testCases')->get();
             return ApiResponse::success($versions);
         } catch (\Exception $e) {
             return ApiResponse::notFound('Versions not found');
@@ -54,7 +54,8 @@ class VersionController extends Controller
     public function show(string $id)
     {
         try {
-            $version = Version::findOrFail($id);
+               $version = Version::with(['testCases', 'testExecutions'])->findOrFail($id);
+        
 
             return ApiResponse::success($version);
         } catch (\Exception $e) {
@@ -169,7 +170,10 @@ class VersionController extends Controller
     public function getByProject($projectId)
     {
         try {
-            $versions = Version::where('project_id', $projectId)->get();
+            $versions = Version::with(['testCases', 'testExecutions'])
+            ->where('project_id', $projectId)
+            ->get();
+
             return ApiResponse::success($versions);
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to load versions', 500, $e->getMessage());

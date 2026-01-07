@@ -2,187 +2,142 @@
 
 <div *ngIf="!loading">
 
-
-
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
   <!-- TÍTULO -->
-  
-  <div class="mb-4" [class.was-validated]="this.form.get('title')?.dirty || this.form.get('title')?.touched">
+  <div class="mb-4" [class.was-validated]="form.get('title')?.dirty || form.get('title')?.touched">
     <label for="title" class="form-label">Título</label>
-    <input id="title" type="text" name="title" class="form-control" formControlName="title" required minlength="2">
-    <div>
-      @if (
-            this.form.get('title')?.invalid && 
-            (this.form.get('title')?.dirty || this.form.get('title')?.touched)
-          ) 
-      {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar un título válido (mínimo 2 caracteres)
-        </div>
-      }
-    </div>
+    <input id="title" type="text" class="form-control" formControlName="title" required minlength="2">
+    @if (form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes rellenar un título válido (mínimo 2 caracteres)
+      </div>
+    }
   </div>
 
   <!-- OBJETIVO -->
-
-  <div class="mb-4" [class.was-validated]="this.form.get('objective')?.dirty || this.form.get('objective')?.touched">
+  <div class="mb-4" [class.was-validated]="form.get('objective')?.dirty || form.get('objective')?.touched">
     <label for="objective" class="form-label">Objetivo</label>
-    <input id="objective" type="text" name="objective" class="form-control" formControlName="objective" required minlength="5">
-    <div>
-      @if (
-            this.form.get('objective')?.invalid && 
-            (this.form.get('objective')?.dirty || this.form.get('objective')?.touched)
-          ) 
-      {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar un objetivo válido (mínimo 5 caracteres)
-        </div>
-      }
-    </div>
+    <input id="objective" type="text" class="form-control" formControlName="objective" required minlength="5">
+    @if (form.get('objective')?.invalid && (form.get('objective')?.dirty || form.get('objective')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes rellenar un objetivo válido (mínimo 5 caracteres)
+      </div>
+    }
   </div>
 
   <!-- CONDICIONES PREVIAS -->
-
-  <div class="mb-4" [class.was-validated]="this.form.get('preconditions')?.dirty || this.form.get('preconditions')?.touched">
+  <div class="mb-4" [class.was-validated]="form.get('preconditions')?.dirty || form.get('preconditions')?.touched">
     <label for="preconditions" class="form-label">Condiciones previas</label>
-    <textarea id="preconditions" name="preconditions" class="form-control" formControlName="preconditions" required minlength="5">
-    </textarea>
-    <div>
-      @if (
-            this.form.get('preconditions')?.invalid && 
-            (this.form.get('preconditions')?.dirty || this.form.get('preconditions')?.touched)
-          ) 
-      {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar condiciones previas válidas (mínimo 5 caracteres)
-        </div>
-      }
-
-    </div>
+    <textarea id="preconditions" class="form-control" formControlName="preconditions" required minlength="5"></textarea>
+    @if (form.get('preconditions')?.invalid && (form.get('preconditions')?.dirty || form.get('preconditions')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes rellenar condiciones previas válidas (mínimo 5 caracteres)
+      </div>
+    }
   </div>
 
   <!-- PASOS -->
+  <div class="mb-4" [class.was-validated]="form.get('steps')?.dirty || form.get('steps')?.touched">
+    <label for="steps" class="form-label">
+      Pasos
+      <small class="text-muted d-block">
+        <i class="bi bi-info-circle text-secondary"></i>
+        Sepáralos por comas, puntos o pulsando Enter
+      </small>
+    </label>
+    <textarea id="steps" class="form-control" formControlName="steps" rows="4" required minlength="10"></textarea>
 
-  <div class="mb-4" [class.was-validated]="this.form.get('steps')?.dirty || this.form.get('steps')?.touched">
-  <label for="steps" class="form-label" z>
-    Pasos
-    <small class="text-muted d-block"><i class="bi bi-info-circle text-secondary" title="Separa los pasos por comas, puntos o dando al Enter"></i> Sepáralos por comas o puntos. Ej: paso 1, paso 2. paso 3 o pulsando Enter</small>
-
-  </label>
-    <textarea id="steps" name="steps" class="form-control" formControlName="steps" rows="4" required minlength="10" placeholder="Ej: Abrir app, Iniciar sesión. Crear pedido">
-    </textarea>
-    <div>
-      @if (
-            this.form.get('steps')?.invalid && 
-            (this.form.get('steps')?.dirty || this.form.get('steps')?.touched)
-          ) 
-      {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar unos pasos válidos (mínimo 10 caracteres)
-        </div>
-      }
-      @if (this.form.get('steps')?.errors?.['noSteps'] && (this.form.get('steps')?.dirty || this.form.get('steps')?.touched)) {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes introducir al menos un paso válido.
-        </div>
-      }
-    </div>
+    @if (form.get('steps')?.invalid && (form.get('steps')?.dirty || form.get('steps')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes rellenar unos pasos válidos (mínimo 10 caracteres)
+      </div>
+    }
+    @if (form.get('steps')?.errors?.['noSteps'] && (form.get('steps')?.dirty || form.get('steps')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes introducir al menos un paso válido.
+      </div>
+    }
   </div>
 
   <!-- RESULTADO ESPERADO -->
-
-  <div class="mb-4" [class.was-validated]="this.form.get('expected_result')?.dirty || this.form.get('expected_result')?.touched">
+  <div class="mb-4" [class.was-validated]="form.get('expected_result')?.dirty || form.get('expected_result')?.touched">
     <label for="expected_result" class="form-label">Resultado esperado</label>
-    <textarea id="expected_result" name="expected_result" class="form-control" formControlName="expected_result" required minlength="10">
-    </textarea>
-    <div>
-      @if (
-            this.form.get('expected_result')?.invalid && 
-            (this.form.get('expected_result')?.dirty || this.form.get('expected_result')?.touched)
-          ) 
-      {
-        <div class="invalid-feedback d-block m-0 pt-2">
-          Debes rellenar un resultado esperado válido (mínimo 10 caracteres)
-        </div>
+    <textarea id="expected_result" class="form-control" formControlName="expected_result" required minlength="10"></textarea>
+    @if (form.get('expected_result')?.invalid && (form.get('expected_result')?.dirty || form.get('expected_result')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes rellenar un resultado esperado válido (mínimo 10 caracteres)
+      </div>
+    }
+  </div>
+
+  <!-- ROL -->
+  <div class="mb-4" [class.was-validated]="form.get('rol')?.dirty || form.get('rol')?.touched">
+    <label for="rol" class="form-label">Rol</label>
+    <select id="rol" class="form-control" formControlName="rol" required>
+      <option value="">Selecciona un rol</option>
+      <option value="admin">Admin</option>
+      <option value="manager">Manager</option>
+      <option value="tester">Tester</option>
+    </select>
+    @if (form.get('rol')?.invalid && (form.get('rol')?.dirty || form.get('rol')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes elegir un rol.
+      </div>
+    }
+  </div>
+
+  <!-- PROYECTO -->
+  <div class="mb-4" [class.was-validated]="form.get('project_id')?.dirty || form.get('project_id')?.touched">
+    <label for="project_id" class="form-label">Proyecto</label>
+    <select id="project_id" class="form-control" formControlName="project_id" (change)="onProjectChange($event)" required>
+      <option value="">Selecciona un proyecto</option>
+      @for (p of projects; track p.id) {
+        <option [value]="p.id">{{ p.name }}</option>
+      }
+    </select>
+    @if (form.get('project_id')?.invalid && (form.get('project_id')?.dirty || form.get('project_id')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes seleccionar un proyecto.
+      </div>
+    }
+  </div>
+
+  <!-- VERSIÓN -->
+  <div class="mb-4">
+    <label class="form-label">Versión/es</label>
+
+    <div class="d-flex flex-column gap-2 mt-2">
+      @for (v of versions; track v.id) {
+        <label class="d-flex align-items-center gap-2">
+          <input type="checkbox"
+                [checked]="form.value.version_ids?.includes(v.id)"
+                (change)="toggleVersion(v.id, $event)">
+          {{ v.version_number }}
+        </label>
       }
     </div>
-    
+
+    @if (form.get('version_ids')?.invalid && (form.get('version_ids')?.dirty || form.get('version_ids')?.touched)) {
+      <div class="invalid-feedback d-block m-0 pt-2">
+        Debes seleccionar al menos una versión válida.
+      </div>
+    }
   </div>
 
-    <div class="mb-4" [class.was-validated]="this.form.get('rol')?.dirty || this.form.get('rol')?.touched" required minlength="1">
-      <label for="rol" class="form-label">Rol</label>
-      <select id="rol" name="rol" class="form-control" formControlName="rol" required>
-        <option value="">Selecciona un rol</option>
-        <option value="admin">Admin</option>
-        <option value="manager">Manager</option>
-        <option value="tester">Tester</option>
-      </select>
-      <div>
-        @if (
-              this.form.get('rol')?.invalid && 
-              (this.form.get('rol')?.dirty || this.form.get('rol')?.touched)
-            ) 
-        {
-          <div class="invalid-feedback d-block m-0 pt-2">
-            Debes elegir un rol.
-          </div>
-        }
-      </div>
-    </div>
-
-<!-- PROYECTO -->
-<div class="mb-4" [class.was-validated]="form.get('project_id')?.dirty || form.get('project_id')?.touched">
-  <label for="project_id" class="form-label">Proyecto</label>
-
-  <select id="project_id" class="form-control" formControlName="project_id" (change)="onProjectChange($event)" required>
-    <option value="">Selecciona un proyecto</option>
-
-    @for (p of projects; track p.id) {
-      <option [value]="p.id">{{ p.name }}</option>
-    }
-  </select>
-
-  @if (form.get('project_id')?.invalid && (form.get('project_id')?.dirty || form.get('project_id')?.touched)) {
-    <div class="invalid-feedback d-block m-0 pt-2">
-      Debes seleccionar un proyecto.
-    </div>
-  }
-</div>
-
-<!-- VERSIÓN -->
-<div class="mb-4" [class.was-validated]="form.get('version_id')?.dirty || form.get('version_id')?.touched">
-  <label for="version_id" class="form-label">Versión</label>
-
-  <select id="version_id" class="form-control" formControlName="version_id" required>
-    <option value="">Selecciona una versión</option>
-
-    @for (v of versions; track v.id) {
-      <option [value]="v.id">{{ v.version_number }}</option>
-    }
-  </select>
-
-  @if (form.get('version_id')?.invalid && (form.get('version_id')?.dirty || form.get('version_id')?.touched)) {
-    <div class="invalid-feedback d-block m-0 pt-2">
-      Debes seleccionar una versión válida.
-    </div>
-  }
-</div>
-
-
-  @if (this.modo() === 'detalle'){
+  <!-- BOTONES -->
+  @if (modo() === 'detalle') {
     <div class="d-flex justify-content-evenly mt-5">
-      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
-      <button type="button" class="btn btn-danger" (click)="borrar(this.pruebaId())" data-bs-dismiss="modal">Eliminar prueba</button> 
-      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(pruebaId())" data-bs-dismiss="modal">Eliminar prueba</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid" data-bs-dismiss="modal">Guardar cambios</button>
     </div>
   } @else {
-  <div class="d-flex justify-content-evenly mt-5">
-    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear prueba</button>
-  </div>
-}
+    <div class="d-flex justify-content-evenly mt-5">
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid" data-bs-dismiss="modal">Crear prueba</button>
+    </div>
+  }
 
-  
 </form>
 </div>

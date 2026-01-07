@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 //LOGIN
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/users2', [UserController::class, 'index']);
+// Route::get('/users2', [UserController::class, 'index']);
 
 Route::get('statistics/project/{project}', [StatisticsController::class, 'byProject']);
 Route::get('statistics/global', [StatisticsController::class, 'global']);
@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar proyecto
     Route::post('projects/{project}/users', [ProjectController::class, 'addUsers'])->middleware(['role:admin,manager']); // Anadir usuarios a un proyecto
     Route::delete('projects/{project}/users', [ProjectController::class, 'removeUsers'])->middleware(['role:admin,manager']); // Removoe usuarios a un proyecto
+    Route::get('/projects/{id}/dashboard', [ProjectController::class, 'dashboard'])->middleware(['role:admin,manager,tester']);
 
     //VERSIONS
     Route::get('/versions', [VersionController::class, 'index'])->middleware(['role:admin,manager,tester']); // Listar versiones
@@ -60,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/test-executions/{id}', [TestExecutionController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar testexecution
 
     Route::get('/test-executions/statistics', [TestExecutionController::class, 'statistics'])->middleware('role:admin,manager,tester'); // Obtiene estadísticas generales de ejecuciones
+    Route::get('/test-executions/report/{version_id}', [TestExecutionController::class, 'report'])->middleware('role:admin,manager,tester'); // Reporte detallado de una versión
 
 
 

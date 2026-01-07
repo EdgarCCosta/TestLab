@@ -1,3 +1,5 @@
+import { Version } from './version';
+
 export interface Prueba {
   id: string;
   title: string;
@@ -6,7 +8,7 @@ export interface Prueba {
   steps: string[];               // array real del backend
   expected_result: string;
   user_profile: 'tester';
-  version_id: number;
+  versions: Version[];
   created_at: string;
   updated_at: string;
 }
@@ -18,7 +20,7 @@ export interface CreatePruebaDto {
   steps: string[];
   expected_result: string;
   user_profile: Prueba['user_profile'];
-  version_id: string;
+  version_ids: number[];
 }
 
 export interface UpdatePruebaDto {
@@ -28,5 +30,5 @@ export interface UpdatePruebaDto {
   steps?: string[];
   expected_result?: string;
   user_profile?: Prueba['user_profile'];
-  version_id?: string;
+  version_ids: number[];
 }

@@ -39,21 +39,10 @@ export class PruebaList {
     this._pruebaservice.getPruebas().subscribe({
       next: (response) => {
         console.log('Response:', response);
-        // let data = response;
-        // for (let i of data) {
-        //   this.pruebas.push(i);
-        //   this.pruebasFiltradas.push(i);
-        // }
-      this.pruebas = response.map(i => {
-            return {
-              ...i,
-              Título: i.title,
-              Objetivo: i.objective,
-              'Resultado esperado': i.expected_result
-            };
-          });
-      this.pruebasFiltradas = this.pruebas;
-      this.loading = false;
+        this.pruebas = response;
+        this.pruebasFiltradas = response;
+
+        this.loading = false;
 
       },
       

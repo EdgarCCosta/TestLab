@@ -32,7 +32,7 @@ export class Login {
         next: (response) => {
           console.log(response);
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('id', response.data.user.id);
+          localStorage.setItem('id', response.data.user.entity_hash);
           localStorage.setItem('nombre', response.data.user.name);
           localStorage.setItem('rol', response.data.user.rol);
           

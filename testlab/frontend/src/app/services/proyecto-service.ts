@@ -144,4 +144,13 @@ export class ProyectoService {
     // ESTE SERÍA EL RETURN REAL:
     // return this.http.delete(`${this.apiUrl + this.endpoint}/${idProyecto}/testcase/${idUsuario}`);
   }
+
+  /** Obtener dashboard completo de un proyecto */
+  getProyectoDashboard(id: string): Observable<any> {
+    return this.http
+      .get<{ success: boolean; message: string; data: any }>(
+        `${this.apiUrl + this.endpoint}/${id}/dashboard`
+      )
+      .pipe(map(response => response.data));
+  }
 }

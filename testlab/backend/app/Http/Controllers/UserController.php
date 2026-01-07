@@ -15,9 +15,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json("Hola mundo");
+        // return response()->json("Hola mundo");
         try {
             $users = User::all();
+            return ApiResponse::success($users);
             $userDTOs = UserDTO::fromCollection($users);
 
             return ApiResponse::success($userDTOs);

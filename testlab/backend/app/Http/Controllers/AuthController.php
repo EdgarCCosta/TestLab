@@ -21,9 +21,9 @@ class AuthController extends Controller
         $user = User::where('email', $validated['email'])->first();
 
 
-        // if (!$user || !Hash::check($validated['password'], $user->password)) {
-        //     return response()->json(['message' => 'Invalid credentials'], 401);
-        // }
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
 
         
         // Crear token
@@ -32,7 +32,6 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to create authentication token', 500, $e->getMessage());
         }
-        return response()->json(['message' =>  $user]);
 
         return ApiResponse::success([
             'message' => 'Login successful',
