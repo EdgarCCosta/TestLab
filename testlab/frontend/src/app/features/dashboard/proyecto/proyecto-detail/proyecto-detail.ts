@@ -115,7 +115,7 @@ export class ProyectoDetail {
     this._route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.proyectoId.set(id);
-      console.log('proyecto-detail - proyectoId: ', this.proyectoId);
+      console.log('proyecto-detail - proyectoId: ', this.proyectoId());
 
       if (id) {
         this.cargarDetalle(id);
@@ -146,7 +146,7 @@ export class ProyectoDetail {
     )
     .subscribe({
       next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-        this.proyecto = proyecto;
+        this.proyecto.set(proyecto)
         this.usuarios = usuarios;
         this.pruebas = pruebas;
         this.versiones = versiones;
@@ -171,7 +171,7 @@ export class ProyectoDetail {
     )
     .subscribe({
       next: (proyecto) => {
-        this.proyecto = proyecto;
+        this.proyecto.set(proyecto);
       },
       error: (error) => {
         console.log('Error: ', error);
@@ -191,14 +191,14 @@ export class ProyectoDetail {
   editarProyecto() {
     this.modal = 'proyecto';
     this.modo = 'editar';
-    this.proyectoSelId.set(this.proyectoId); // el id actual
+    this.proyectoSelId.set(this.proyectoId()); // el id actual
     this.tituloModalDetail = 'Editar proyecto';
     document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
 
   eliminarProyecto() {
-    const id = this.proyectoId;
+    const id = this.proyectoId();
     if (!id) return;
 
     const ok = confirm("¿Seguro que quieres eliminar este proyecto? Esta acción no se puede deshacer.");
@@ -219,7 +219,7 @@ export class ProyectoDetail {
 
   proyectoChange($e: any) {
     console.log('Proyecto editado en proyecto-detail.ts:', this.proyecto);
-    this.cargarProyecto(this.proyectoId!);
+    this.cargarProyecto(this.proyectoId()!);
   }
 
 
@@ -230,7 +230,7 @@ export class ProyectoDetail {
   }
 
   disociarUsuario(idUsuario: string) {
-    const id = this.proyectoId;   // leer el signal
+    const id = this.proyectoId();   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 
@@ -280,7 +280,7 @@ export class ProyectoDetail {
   }
 
   disociarPrueba(idPrueba: string) {
-    const id = this.proyectoId;   // leer el signal
+    const id = this.proyectoId();   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 
