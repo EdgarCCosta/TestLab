@@ -213,7 +213,7 @@ public successRates: SuccessRatesResponse['data'] = {
 
     this.graficoEstados = new Chart("GraficoEstados", {
       type: 'doughnut',
-      data: {labels: ['pasados', 'fallidos', 'pendientes'], datasets: [{label: "", data: [passed, failed, pending], hoverOffset: 4}]},
+      data: {labels: ['% pasados', '% fallidos', '% pendientes'], datasets: [{label: "", data: [passed, failed, pending], hoverOffset: 4}]},
       options: {
         responsive: true,
         aspectRatio: 1,

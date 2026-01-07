@@ -45,20 +45,106 @@ app-root {
 
 /********************** LOGIN ******************************/
 
-.fondoTestlab {
-  background-color: var(--light-bg-color);
-}
 
 app-login {
   display: flex;
   height: 100vh;
-  background-color: var(--light-bg-color);
+  position: relative
 }
+
+.login-background {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  overflow: hidden;
+}
+
+/* FONDO OLAS */
+
+.olas {
+  position: absolute;
+  /* left: 0; */
+  top: 0;
+  left: -200px;
+  z-index: -5;
+  width: 4000px;
+  height: 100vh;
+  -webkit-transform: rotate3d(1,1,1,-20deg);
+  transform: rotate3d(1,1,1,-20deg);
+}
+
+.olas .ola {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-animation: deslizamiento 15s linear infinite;
+  animation: deslizamiento 15s linear infinite;
+  will-change: transform;
+  z-index: 3;
+}
+
+.olas .ola-2 {
+  left: -160px;
+  -webkit-animation: marea 15s linear infinite;
+  animation: marea 15s linear infinite;
+  z-index: -1;
+}
+
+.olas .ola-3 {
+  left: -60px;
+}
+
+.ola-color {
+  fill: var(--accent-bg-color);
+  fill-opacity: 0.15;
+}
+
+.ola-color-2 {
+  fill: var(--logo-color);
+  fill-opacity: 0.05;
+}
+
+pattern {
+  overflow: hidden;
+}
+
+/* ANIMACIONES OLAS */
+
+@keyframes deslizamiento {
+  0% {
+    -webkit-transform: translateX(-1000px);
+    transform: translateX(-1000px);
+  }
+  100% {
+    -webkit-transform: translateX(0px);
+    transform: translateX(0px);
+  }
+}
+
+@keyframes marea {
+  0% {
+    -webkit-transform: translate(-1000px, 0px);
+    transform: translate(-1000px, 0px);
+  }
+  50% {
+    -webkit-transform: translate(-500px, 50px);
+    transform: translate(-500px, 50px);
+  }
+  100% {
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+  }
+}
+
+/* FORMULARIO LOGIN */
 
 #formWrapper {
   border-radius: 4rem;
   corner-shape: squircle;
   background-color: white;
+  z-index: 10;
 }
 
 #formLogin {
@@ -256,6 +342,10 @@ h1 {
   }
 }
 
+.list-group-item {
+  background-color: var(--light-bg-color);
+}
+
 /* ESTADISTICAS */
 
 app-estadistica {
@@ -317,7 +407,7 @@ canvas {
 }
 
 .leaderboard > :not(caption) > * > * {
-  background-color: transparent;
+  background-color: var(--light-bg-color);
 }
 
 .leaderboard > thead > tr, .leaderboard > thead > th {

@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   
+  <!-- N.º de versión -->
   <div class="mb-4" [class.was-validated]="this.form.get('version_number')?.dirty || this.form.get('version_number')?.touched">
     <label for="version_number" class="form-label">Número de versión</label>
     <input id="version_number" type="text" name="version_number" class="form-control" formControlName="version_number" required minlength="2">
@@ -16,6 +17,7 @@
     </div>
   </div>
 
+  <!-- Fecha lanzamiento -->
   <div class="mb-4" [class.was-validated]="this.form.get('release_date')?.dirty || this.form.get('release_date')?.touched">
     <label for="release_date" class="form-label">Fecha de lanzamiento</label>
     <input id="release_date" type="date" name="release_date" class="form-control" formControlName="release_date" required>
@@ -33,6 +35,7 @@
     
   </div>
 
+  <!-- Descripción -->
   <div class="mb-4" [class.was-validated]="this.form.get('description')?.dirty || this.form.get('description')?.touched">
     <label for="description" class="form-label">Descripción</label>
     <input id="description" type="text" name="description" class="form-control" formControlName="description" required minlength="10">
@@ -49,10 +52,12 @@
     </div>
   </div>
 
-  <input type="hidden" name="project_id" value="{{projectId()}}">
+  <!-- ID de proyecto (hidden) -->
+  <input type="hidden" name="project_id" class="form-control" formControlName="project_id" value="{{this.projectId()}}">
 
+  <!-- Acciones -->
   <div class="d-flex justify-content-evenly mt-5">
-  @if (this.modo() === 'detalle') {
+  @if (this.modo() === 'editar') {
       <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
       <button type="button" class="btn btn-danger" (click)="borrar(this.versionId())" data-bs-dismiss="modal">Eliminar versión</button> 
       <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>

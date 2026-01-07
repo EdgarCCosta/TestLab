@@ -2,7 +2,7 @@ import { Component, input, model, effect } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProyectoService } from '../../../../services/proyecto-service';
-import { CreateProyectoDto } from '../../../../models/proyecto';
+import { CreateProyectoDto, Proyecto } from '../../../../models/proyecto';
 import { Modal } from 'bootstrap';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 
@@ -15,10 +15,10 @@ import { ToastService } from '../../../../layout/shared/toast/toast';
 })
 export class ProyectoNew {
 
-  proyectoId = input<string | null>();                 // puede ser string o null
+  proyectoId = input<string | null>(null);
   listado = model<any[]>([]);
 
-  proyecto!: CreateProyectoDto;
+  proyecto = model<Proyecto | null>(null);
   form!: FormGroup;
 
   modo = input<'nuevo' | 'editar'>('nuevo');
@@ -91,6 +91,11 @@ export class ProyectoNew {
                     : p
                 )
               );
+
+              // Actualiza signal proyecto
+              this.proyecto.update(objeto => ({ ...res.data}));
+
+              console.log('Proyecto editado en proyecto-new.ts: ', this.proyecto());
 
 
               this._toastService.show('Proyecto actualizado correctamente', 'success');

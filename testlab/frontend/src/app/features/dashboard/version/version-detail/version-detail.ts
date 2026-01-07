@@ -17,7 +17,7 @@ export class VersionDetail {
 
   versionId = input<string | null>();                 // puede ser string o null
   projectId = input<string | null>();                 // puede ser string o null
-  modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
+  modo = input<'nuevo' | 'editar'>('editar');       // valor por defecto: 'editar'
   listado = model<any[]>([]);
 
   version!: UpdateVersionDto;
@@ -30,47 +30,53 @@ export class VersionDetail {
     private fb: FormBuilder,
     private _toastService: ToastService
   ) {
-
+    console.log('ID proyecto inicial: ', this.projectId());
     this.form = this.fb.group({
       version_number: ['', [Validators.required, Validators.minLength(2)]],
       release_date: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      project_id: ['']
+      project_id: [this.projectId()]
     });
 
     effect(() => {
       if (this.versionId() != null) {
-        console.log('Cambia el usuario');
+        console.log('Cambia la versión', this.versionId());
         this.getVersionById(this.versionId()!);
       }
 
-      if (this.listado().length) {
-        console.log('Nueva versión añadida al listado:', this.listado());
-      }
-
-      if (this.modo() === 'nuevo') {
-        this.form.reset({
+      if (this.projectId() != null) {
+        console.log('Cambia projectId', this.projectId());
+        this.form.setValue({
           version_number: '',
           release_date: '',
           description: '',
-          project_id: ''
+          project_id: this.projectId()
         });
+      }
+
+      if (this.modo() === 'nuevo') {
+        // this.form.reset({
+        //   version_number: '',
+        //   release_date: '',
+        //   description: '',
+        //   // No reseteamos el id de proyecto para no perderlo
+        // });
       }
     });
   }
 
-  /*** Recuperación de Usuario ***/
+  /*** Recuperación de versión ***/
   getVersionById(id: string): void {
-    console.log('En propiedad getUsuarioById');
+    console.log('En propiedad getVersionById');
     this._versionService.getVersionById(id).subscribe({
       next: (datos) => {
 
         console.log(datos);
         this.version = datos;
 
-        this.form.setValue({
+        this.form.patchValue({
           version_number: this.version?.version_number,
-          release_date: this.version?.release_date,
+          release_date: this.version?.release_date?.substring(0, 10),
           description: this.version?.description,
           project_id: this.version?.project_id
         });
@@ -112,7 +118,9 @@ export class VersionDetail {
   onSubmit() {
     if (this.form.valid) {
 
-      if (this.modo() === 'detalle' && this.versionId()) {
+      console.log('Valores formulario', this.form.value);
+
+      if (this.modo() === 'editar' && this.versionId()) {
         this._versionService.updateVersion(this.versionId()!, this.form.value).subscribe({
           next: () => {
             this.listado.update(list =>

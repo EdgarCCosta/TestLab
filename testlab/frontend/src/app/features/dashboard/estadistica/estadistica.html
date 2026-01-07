@@ -19,21 +19,21 @@
           data-bs-toggle="tab" data-bs-target="#nav-general" type="button" 
           role="tab" aria-controls="nav-general" aria-selected="true"
         >
-          <i class="bi bi-person-circle"></i> Generales
+          <i class="bi bi-speedometer"></i> Generales
         </button>
 
         <button class="nav-link text-dark fs-4 mx-1" id="nav-proyecto-tab" 
           data-bs-toggle="tab" data-bs-target="#nav-proyecto" type="button" 
           role="tab" aria-controls="nav-proyecto" aria-selected="false"
         >
-          <i class="bi bi-box-seam"></i> Por proyecto
+          <i class="bi bi-grid"></i> Por proyecto
         </button>
 
         <button class="nav-link text-dark fs-4 mx-1" id="nav-usuario-tab" 
           data-bs-toggle="tab" data-bs-target="#nav-usuario" type="button" 
           role="tab" aria-controls="nav-usuario" aria-selected="false"
         >
-          <i class="bi bi-clipboard2-check"></i> Por usuario
+          <i class="bi bi-person-circle"></i> Por usuario
         </button>
 
       </div>
@@ -55,7 +55,9 @@
               Tests totales
             </div>
 
-            <div id="totalEjecutados" class="stat-number" [countUp]="this.successRates!.total_executed"></div>
+            <div id="totalEjecutados" class="stat-number" [countUp]="this.successRates!.total_executed"
+              [options]="{ enableScrollSpy: false, scrollSpyOnce: false }">
+            </div>
             <div class="stat-comment stat-success">
               <i class="bi bi-caret-up-fill"></i>12% frente al mes anterior
             </div>
@@ -66,9 +68,11 @@
             <div class="stat-title">
               Tests pasados
             </div>
-            <div class="stat-number stat-success" [countUp]="this.successRates!.total_passed"></div>
+            <div class="stat-number stat-success" [countUp]="this.successRates!.total_passed"
+              [options]="{ enableScrollSpy: false, scrollSpyOnce: false }">
+            </div>
             <div class="stat-comment">
-              {{successRates?.success_rate}}% de éxito
+              {{successRates.success_rate}}% de éxito
             </div>
           </div>
         </div>
@@ -77,9 +81,11 @@
             <div class="stat-title">
               Tests fallidos
             </div>
-            <div class="stat-number stat-fail" [countUp]="this.successRates!.total_failed"></div>
+            <div class="stat-number stat-fail" [countUp]="this.successRates!.total_failed"
+              [options]="{ enableScrollSpy: false, scrollSpyOnce: false }">
+            </div>
             <div class="stat-comment">
-              {{successRates?.failure_rate}}% de fallos
+              {{successRates.failure_rate}}% de fallos
             </div>
           </div>
         </div>
@@ -88,7 +94,9 @@
             <div class="stat-title">
               Tests pendientes
             </div>
-            <div class="stat-number" [countUp]="this.pending_total"></div>
+            <div class="stat-number" [countUp]="this.pending_total"
+              [options]="{ enableScrollSpy: false, scrollSpyOnce: false }">
+            </div>
             <div class="stat-comment">
               {{pending_rate}}% pendientes
             </div>
@@ -167,7 +175,9 @@
                   <div>Tasa de éxito</div>
                 </div>
 
-                <div class="stat-number gold" [countUp]="top3Projects[0].success_rate"></div>
+                <div class="stat-number gold" [countUp]="top3Projects[0].success_rate" 
+                  [options]="{ enableScrollSpy: false, decimal: ',', decimalPlaces: 2, suffix: '%' }">
+                </div>
               </div>
             </div>
           }
@@ -203,7 +213,9 @@
                   <div>Tasa de éxito</div>
                 </div>
 
-                <div class="stat-number silver" [countUp]="top3Projects[1].success_rate"></div>
+                <div class="stat-number silver" [countUp]="top3Projects[1].success_rate" 
+                  [options]="{ enableScrollSpy: false, decimal: ',', decimalPlaces: 2, suffix: '%' }">
+                </div>
               </div>
             </div>
           }
@@ -237,7 +249,9 @@
                   <div>Tasa de éxito</div>
                 </div>
 
-                <div class="stat-number bronze" [countUp]="top3Projects[2].success_rate"></div>
+                <div class="stat-number bronze" [countUp]="top3Projects[2].success_rate" 
+                  [options]="{ enableScrollSpy: false, decimal: ',', decimalPlaces: 2, suffix: '%' }">
+                </div>
               </div>
             </div>
           }
@@ -299,8 +313,8 @@
 
                       <!-- DERECHA: tasa de éxito -->
                       <div>
-                        <div class="stat-title">
-                          {{ user.success_rate }}%
+                        <div class="stat-title" [countUp]="user.success_rate" 
+                          [options]="{ enableScrollSpy: false, decimal: ',', decimalPlaces: 2, suffix: '%' }">
                         </div>
                         <div>
                           Tasa de éxito

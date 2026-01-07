@@ -39,8 +39,6 @@ import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-deta
   styleUrls: ['./proyecto-detail.css']
 })
 export class ProyectoDetail {
-
-  // Signals principales
   proyectoId = signal<string | null>(null);
   proyecto = signal<Proyecto | null>(null);
 
@@ -63,12 +61,13 @@ export class ProyectoDetail {
   loadingEjecuciones = signal(false);
 
   // Estado modal
+  modal: 'proyecto' | 'usuario' | 'version' | 'prueba' | 'ejecucion' | null = null;
   proyectoSelId = model<string | null>(null);
   userSelId = model<string | null>(null);
-  versionSelId = model<string | null>(null);
+  versionSelId: string | null  = null;
   pruebaSelId = model<string | null>(null);
   ejecucionSelId = model<string | null>(null);
-  modo = model<'nuevo' | 'editar'>('editar');
+  modo: 'nuevo' | 'editar' = 'editar';
   tituloModalDetail = '';
 
   // Models para vigilar y actualizar los arrays de los listados
@@ -112,19 +111,23 @@ export class ProyectoDetail {
   constructor(
     public _spinnerService : SpinnerService
   ) {
+
     this._route.paramMap.subscribe(params => {
       const id = params.get('id');
       this.proyectoId.set(id);
+      console.log('proyecto-detail - proyectoId: ', this.proyectoId);
 
       if (id) {
         this.cargarDetalle(id);
       }
     });
+
   }
 
   ngOnInit() {
     // Cargar lista global si no está cargada
-    this._proyectoService.getProyectos().subscribe();
+    this._proyectoService.getProyectos().subscribe(); // PARA QUÉ??
+
   }
 
   // 🔵 CARGA COMPLETA DEL DETALLE CON forkJoin
@@ -135,7 +138,7 @@ export class ProyectoDetail {
       proyecto: this._proyectoService.getProyectoById(id),
       usuarios: this._proyectoService.getUsersFromProyectoById(id),
       pruebas: this._proyectoService.getPruebasFromProyectoById(id),
-      versiones: this._versionService.getVersiones(),
+      versiones: this._versionService.getVersionesByProject(id),
       ejecuciones: this._ejecucionService.getEjecuciones()
     })
     .pipe(
@@ -143,13 +146,14 @@ export class ProyectoDetail {
     )
     .subscribe({
       next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-        this.proyecto.set(proyecto);
+        this.proyecto = proyecto;
         this.usuarios = usuarios;
         this.pruebas = pruebas;
-        this.versiones = versiones.filter(v => v.project_id.toString() === id);
+        this.versiones = versiones;
         this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
       },
-      error: () => {
+      error: (error) => {
+        console.log('Error: ', error);
         this._toastService.show('No se pudo cargar el proyecto', 'error');
         this._router.navigate(['/proyecto']);
       }
@@ -157,20 +161,44 @@ export class ProyectoDetail {
   }
 
 
+    // CARGA de proyecto (para actualizaciones tras editar)
+  cargarProyecto(id: string) {
+    this.loadingDetalle.set(true);
+
+    this._proyectoService.getProyectoById(id)
+    .pipe(
+      finalize(() => this.loadingDetalle.set(false))
+    )
+    .subscribe({
+      next: (proyecto) => {
+        this.proyecto = proyecto;
+      },
+      error: (error) => {
+        console.log('Error: ', error);
+        this._toastService.show('No se pudo cargar el proyecto', 'error');
+        this._router.navigate(['/proyecto']);
+      }
+    });
+  }
+
+
+  /*********************** PROYECTO *************************************/
+
   // editarProyecto() {
   //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
   // }
 
   editarProyecto() {
-    this.modo.set('editar');
-    this.proyectoSelId.set(this.proyectoId()); // el id actual
+    this.modal = 'proyecto';
+    this.modo = 'editar';
+    this.proyectoSelId.set(this.proyectoId); // el id actual
     this.tituloModalDetail = 'Editar proyecto';
     document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
 
   eliminarProyecto() {
-    const id = this.proyectoId();
+    const id = this.proyectoId;
     if (!id) return;
 
     const ok = confirm("¿Seguro que quieres eliminar este proyecto? Esta acción no se puede deshacer.");
@@ -189,6 +217,11 @@ export class ProyectoDetail {
     });
   }
 
+  proyectoChange($e: any) {
+    console.log('Proyecto editado en proyecto-detail.ts:', this.proyecto);
+    this.cargarProyecto(this.proyectoId!);
+  }
+
 
   /************************ USUARIOS ********************************/
 
@@ -197,7 +230,7 @@ export class ProyectoDetail {
   }
 
   disociarUsuario(idUsuario: string) {
-    const id = this.proyectoId();   // leer el signal
+    const id = this.proyectoId;   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 
@@ -211,15 +244,22 @@ export class ProyectoDetail {
 
   /************************ VERSIONES ********************************/
 
-  abrirNuevaVersion(proyectoId: string) {
-    this.versionSelId.set(null);
-    this.nuevaVersion = true;   // activar modo creación
-    this.modo.set('nuevo');
+  abrirNuevaVersion() {
+    this.modal = 'version';
+    this.modo = 'nuevo';
+    this.versionSelId = null;
+    this.nuevaVersion = true;
     this.tituloModalDetail = 'Nueva version';
   }
 
   editarVersion(versionId: string) {
-    // TODO: Modal para editar versión
+    this.modal = 'version';
+    this.modo = 'editar';
+    this.versionSelId = versionId;
+    this.nuevaVersion = false;
+    this.tituloModalDetail = 'Editar version';
+    document.getElementById('btnAbrirModalVersion')?.click();
+
   }
 
   eliminarVersion(versionId: string) {
@@ -240,7 +280,7 @@ export class ProyectoDetail {
   }
 
   disociarPrueba(idPrueba: string) {
-    const id = this.proyectoId();   // leer el signal
+    const id = this.proyectoId;   // leer el signal
 
     if (!id) return;                // seguridad: evitar null
 
