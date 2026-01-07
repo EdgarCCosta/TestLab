@@ -89,4 +89,8 @@ class Version extends Model
     {
         return preg_match('/^v\d+(\.\d+)*$/', $version) === 1;
     }
+    public function testExecutions()
+    {
+        return $this->hasMany(TestExecution::class);
+    }
 }

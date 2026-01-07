@@ -11,6 +11,7 @@ import { Usuario } from '../../../../models/usuario';
 import { Version } from '../../../../models/version';
 import { Prueba } from '../../../../models/prueba';
 import { Ejecucion } from '../../../../models/ejecucion';
+import { ProyectoDashboard } from '../../../../models/proyectoDashboard';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 
 import { UsuarioService } from '../../../../services/usuario-service';
@@ -131,32 +132,41 @@ export class ProyectoDetail {
   cargarDetalle(id: string) {
     this.loadingDetalle.set(true);
 
-    forkJoin({
-      proyecto: this._proyectoService.getProyectoById(id),
-      usuarios: this._proyectoService.getUsersFromProyectoById(id),
-      pruebas: this._proyectoService.getPruebasFromProyectoById(id),
-      versiones: this._versionService.getVersiones(),
-      ejecuciones: this._ejecucionService.getEjecuciones()
-    })
-    .pipe(
-      finalize(() => this.loadingDetalle.set(false))
-    )
-    .subscribe({
-      next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-        this.proyecto.set(proyecto);
-        this.usuarios = usuarios;
-        this.pruebas = pruebas;
-        this.versiones = versiones.filter(v => v.project_id.toString() === id);
-        this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
-      },
-      error: () => {
-        this._toastService.show('No se pudo cargar el proyecto', 'error');
-        this._router.navigate(['/proyecto']);
-      }
-    });
+    this._proyectoService.getProyectoDashboard(id)
+      .pipe(finalize(() => this.loadingDetalle.set(false)))
+      .subscribe({
+        next: (dashboard) => {
+          // Proyecto completo
+          this.proyecto.set(dashboard.project);
+
+          // Usuarios del proyecto
+          this.usuarios = dashboard.users;
+
+          // Pruebas → vienen dentro de test cases de cada versión
+          // Si quieres mantener pruebas como entidad separada:
+          this.pruebas = dashboard.versions_summary
+            .flatMap((v: any) => v.test_cases || []);
+
+          // Versiones del proyecto
+          // this.versiones = dashboard.versions_summary.map((v: any) => ({
+          //   id: v.id,
+          //   version_number: v.version_number,
+          //   test_cases_count: v.test_cases_count,
+          //   executions_count: v.executions_count
+          // }));
+          this.versiones = dashboard.project.versions;
+          console.log("versiones",this.versiones);
+
+          // Ejecuciones del proyecto
+          this.ejecuciones = dashboard.latest_executions;
+          console.log(dashboard);
+        },
+        error: () => {
+          this._toastService.show('No se pudo cargar el proyecto', 'error');
+          this._router.navigate(['/proyecto']);
+        }
+      });
   }
-
-
   // editarProyecto() {
   //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
   // }
