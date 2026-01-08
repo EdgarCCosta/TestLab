@@ -1,0 +1,26 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+    <div class="mb-4" [class.was-validated]="this.form.get('userId')?.dirty || this.form.get('userId')?.touched">
+      <select id="userId" name="userId" class="form-control" formControlName="userId" required>
+        @for (usuario of this.usuarios; track usuario) {
+          <option value="{{usuario.id}}">{{usuario.name}} ({{usuario.email}})</option>
+        }
+      </select>
+      <div>
+        @if (
+              this.form.get('userId')?.invalid && 
+              (this.form.get('userId')?.dirty || this.form.get('userId')?.touched)
+            ) 
+        {
+          <div class="invalid-feedback d-block m-0 pt-2">
+            Debes elegir un usuario existente
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-evenly mt-5">
+    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+    <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Guardar cambios</button>
+  </div>
+</form>

@@ -31,13 +31,14 @@ import { UsuarioDetail } from "../../usuario/usuario-detail/usuario-detail";
 import { VersionDetail } from "../../version/version-detail/version-detail";
 import { PruebaDetail } from "../../prueba/prueba-detail/prueba-detail";
 import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-detail";
+import { ProyectoLinkUser } from '../proyecto-link-user/proyecto-link-user';
 
 import { Img } from '../../../../layout/shared/img/img/img';
 
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img],
+  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, ProyectoLinkUser, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
@@ -269,15 +270,19 @@ export class ProyectoDetail {
 
   abrirAsociarUsuario(proyectoId: string) {
     // TODO: Modal y componente de asociación de usuario a proyecto
-    this.nuevoUser = true;
-    this.modal = 'usuario';
-    this.modo = 'nuevo';
-    this.userSelId.set(null);
+    // this.nuevoUser = true;
+    // this.modal = 'usuario';
+    // this.modo = 'nuevo';
+    // this.userSelId.set(null);
 
     this.proyectoSelId.set(proyectoId);
     this.tituloModalDetail = 'Asociar usuario al proyecto';
 
     document.getElementById('btnAbrirModalProyecto')?.click();
+  }
+
+  listadoUsuariosChange($e: any) {
+    console.log('Listado de usuarios ha cambiado:', this.usuarios);
   }
 
   disociarUsuario(idUsuario: string) {

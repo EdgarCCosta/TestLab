@@ -91,7 +91,7 @@
         <button type="button"
             class="btn btn-nuevo"
             data-bs-toggle="modal"
-            data-bs-target="#asociarModal"
+            data-bs-target="#detalleModal"
             (click)="abrirAsociarUsuario(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
         </button>
@@ -365,10 +365,12 @@
     } -->
 
     
-    @if (this.nuevoUser && userSelId() === null) {
-      <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="null" [modo]="'nuevo'" [proyectoId]="proyectoSelId()"></app-usuario-detail>
-    } @else if (userSelId()) {
-      <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" [modo]="'detalle'"></app-usuario-detail>
+    @if (this.tituloModalDetail === 'Asociar usuario al proyecto') {
+      <app-proyecto-link-user 
+        [(listado)]="this.usuarios" 
+        (listadoUsuariosChange)="listadoUsuariosChange($event)"
+        [proyectoId]="this.proyectoId()">
+      </app-proyecto-link-user>
     }
 
     <!-- @if (!this.nuevaVersion){

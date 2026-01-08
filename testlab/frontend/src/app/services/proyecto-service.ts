@@ -140,6 +140,11 @@ export class ProyectoService {
   //     );
   // }
 
+  linkUsuarioToProyecto(idProyecto: string, idUsuario: string): Observable<any> {
+    // Route::post('projects/{project}/users
+    return this.http.post<{data: Usuario}>(`${this.apiUrl + this.endpoint}/${idProyecto}/users/${idUsuario}`, {'user_ids': [idUsuario]});
+  }
+
   unlinkUsuarioFromProyecto(idProyecto: string, idUsuario: string): Observable<any> {
     // *** Mientras no haya estructura necesaria en backend, devolvemos el usuario a disociar ***
     // return this._usuarioService.getUsuarioById(idUsuario);
