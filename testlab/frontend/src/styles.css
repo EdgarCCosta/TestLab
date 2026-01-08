@@ -19,7 +19,6 @@ body {
   --bs-body-font-size: 1.6rem;
   height: 100vh;
   max-height: 100vh;
-  width: 100vw;
 }
 
 app-root {
@@ -28,14 +27,17 @@ app-root {
 }
 
 .layout {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .content {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  width: 100%;
+  width: 100%
+}
+
+.contenido-ruta {
   padding: 3rem;
 }
 
@@ -202,7 +204,7 @@ app-footer-menu {
 
 @media only screen and (max-width: 939px) {
 
-  app-estadistica section {
+  section {
     /* height: calc(100% + 8rem); */
     flex-grow: 1;
     padding-bottom: 9rem;

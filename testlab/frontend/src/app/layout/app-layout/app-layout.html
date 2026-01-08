@@ -6,8 +6,10 @@
     }
 
     <div class="content">
-      <!-- Paths hijos de App-Layout -->
-      <router-outlet></router-outlet>
+      <div class="contenido-ruta">
+        <!-- Paths hijos de App-Layout -->
+        <router-outlet></router-outlet>
+      </div>
 
       @if (!esLogin()) {
         <app-footer-menu></app-footer-menu>
