@@ -21,10 +21,13 @@ export class UsuarioDetail {
   usuarioId = input<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
   listado = model<any[]>([]);
+  
+  
 
   usuario!: UpdateUsuarioDto;
   form!: FormGroup;
   loading = true;
+  proyectoId = input<string | null>(null);
 
   constructor(
     private _usuarioService: UsuarioService,
@@ -83,6 +86,7 @@ export class UsuarioDetail {
           if (this.modo() === 'detalle' && key === 'password') {
             return; // No tocar password en modo edición
           }
+          
 
           control.markAsTouched();
           control.markAsDirty();
@@ -142,12 +146,21 @@ export class UsuarioDetail {
       } else if (this.modo() === 'nuevo') {
         this._usuarioService.createUsuario(this.form.value).subscribe({
           next: (datos) => {
-            // console.log('Listado antes de añadir:', this.listado());
-            this.listado.update((listado) => ([...listado, datos.data]));
-            this._toastService.show('Usuario creado correctamente', 'success');
+          const nuevoUsuario = datos.data;
 
-            // console.log('Listado tras añadir:', this.listado());
-          },
+                // Si hay proyectoId, asociar al proyecto
+                if (this.proyectoId()) {
+                  this._usuarioService.asociarUsuarioAProyecto(this.proyectoId()!, nuevoUsuario.id)
+                    .subscribe(() => {
+                      this.listado.update(list => [...list, nuevoUsuario]);
+                      this._toastService.show('Usuario creado y asociado correctamente', 'success');
+                    });
+                } else {
+                  // Si no hay proyecto, solo añadir al listado
+                  this.listado.update(list => [...list, nuevoUsuario]);
+                  this._toastService.show('Usuario creado correctamente', 'success');
+                }
+              },
           error: (err) => {
             console.error('Error creando usuario:', err);
             this._toastService.show('Error creando usuario', 'error');
@@ -164,6 +177,8 @@ export class UsuarioDetail {
       // });
     }
   }
+
+  
 
   get formControls() {
     return this.form.controls;

@@ -95,6 +95,7 @@
             (click)="abrirAsociarUsuario(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
         </button>
+        
       </div>
 
       @if(usuarios.length) {
@@ -357,12 +358,19 @@
       </app-proyecto-new>
     }
 
-
-    <!-- @if (this.nuevoUser && userSelId() === null) {
+<!-- 
+    @if (this.nuevoUser && userSelId() === null) {
       <app-usuario-detail [(listado)]="this.usuarios" (listadoUsuariosChange)="listadoUsuariosChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-usuario-detail>
     } @else if (userSelId()) {
       <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" (listadoUsuariosChange)="listadoUsuariosChange($event)" [modo]="'detalle'"></app-usuario-detail>
     } -->
+
+    
+    @if (this.nuevoUser && userSelId() === null) {
+      <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="null" [modo]="'nuevo'" [proyectoId]="proyectoSelId()"></app-usuario-detail>
+    } @else if (userSelId()) {
+      <app-usuario-detail [(listado)]="this.usuarios" [usuarioId]="userSelId()" [modo]="'detalle'"></app-usuario-detail>
+    }
 
     <!-- @if (!this.nuevaVersion){
       <app-proyecto-new [(listado)]="this.proyectos" [proyectoId]="this.proyectoId()" [modo]="'editar'"></app-proyecto-new>

@@ -111,20 +111,20 @@ class ProjectController extends Controller
     //------ Assignacion de usuarios ------//
 
     // Añadir usuarios sin eliminar existentes
-    public function addUsers(Request $request, Project $project)
-    {
-        $validated = $request->validate([
-            'user_ids'   => 'required|array',
-            'user_ids.*' => 'exists:users,id',
-        ]);
+public function addUser(Project $project, User $user)
+{
+    try {
+        $project->users()->syncWithoutDetaching([$user->id]);
 
-        try {
-            $project->users()->sync($validated['user_ids']);
-            return ApiResponse::success($project->load('users'), 'Users assigned successfully');
-        } catch (\Exception $e) {
-            return ApiResponse::error('Failed to assign users', 500, $e->getMessage());
-        }
+        return ApiResponse::success(
+            $project->load('users'),
+            'User assigned successfully'
+        );
+
+    } catch (\Exception $e) {
+        return ApiResponse::error('Failed to assign user', 500, $e->getMessage());
     }
+}
 
     // Remover usuarios
     public function removeUsers(Request $request, Project $project)

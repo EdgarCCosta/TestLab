@@ -269,6 +269,15 @@ export class ProyectoDetail {
 
   abrirAsociarUsuario(proyectoId: string) {
     // TODO: Modal y componente de asociación de usuario a proyecto
+    this.nuevoUser = true;
+    this.modal = 'usuario';
+    this.modo = 'nuevo';
+    this.userSelId.set(null);
+
+    this.proyectoSelId.set(proyectoId);
+    this.tituloModalDetail = 'Asociar usuario al proyecto';
+
+    document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
   disociarUsuario(idUsuario: string) {

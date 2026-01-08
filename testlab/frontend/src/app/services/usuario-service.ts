@@ -63,4 +63,8 @@ export class UsuarioService {
   deleteUsuario(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl + this.endpoint}/${id}`);
   }
+  asociarUsuarioAProyecto(proyectoId: string, usuarioId: string): Observable<any> {
+    console.log('asociarUsuarioAProyecto', proyectoId, usuarioId);
+    return this.http.post(`${this.apiUrl}/projects/${proyectoId}/users/${usuarioId}`, {});
+  }
 }
