@@ -6,6 +6,7 @@ use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\TestExecution;
+use App\Models\User;
 
 
 class ProjectController extends Controller
@@ -129,17 +130,28 @@ class ProjectController extends Controller
     public function removeUsers(Request $request, Project $project)
     {
         $validated = $request->validate([
-            'user_ids'   => 'required|array',
-            'user_ids.*' => 'exists:users,id',
+            'user_id'   => 'required|exists:users,id',
         ]);
 
         try {
-            $project->users()->detach($validated['user_ids']); // elimina solo los indicados
+            $project->users()->detach($validated['user_id']); // elimina solo los indicados
             return ApiResponse::success($project->load('users'), 'Users removed successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to remove users', 500, $e->getMessage());
         }
     }
+
+public function removeUser(Project $project, User $user)
+{
+    $project->users()->detach($user->id);
+
+    // Recargar desde BD, no desde la relación cacheada
+    $project->load('users');
+
+    return ApiResponse::success([
+        'users' => $project->users()->get()->values()
+    ]);
+}
 
     /**
      * Datos para dashboard de un proyecto

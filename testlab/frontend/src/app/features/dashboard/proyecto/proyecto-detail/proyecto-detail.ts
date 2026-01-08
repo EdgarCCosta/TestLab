@@ -173,6 +173,7 @@ export class ProyectoDetail {
 
           // Usuarios del proyecto
           this.usuarios = dashboard.users;
+          console.log('usuarios', this.usuarios);
 
           // Pruebas → vienen dentro de test cases de cada versión
           // Si quieres mantener pruebas como entidad separada:
@@ -210,6 +211,7 @@ export class ProyectoDetail {
     )
     .subscribe({
       next: (proyecto) => {
+        console.log('Proyecto cargado EDITADO:', proyecto);
         this.proyecto.set(proyecto);
       },
       error: (error) => {
@@ -274,12 +276,22 @@ export class ProyectoDetail {
 
     if (!id) return;                // seguridad: evitar null
 
+    console.log('Disociando usuario', id, idUsuario);
+    console.log('usuarios pre', this.usuarios);
+
     this._proyectoService.unlinkUsuarioFromProyecto(id, idUsuario).subscribe({
-      next: () => {
-        // TODO: Modal o toast informativos
+    next: () => {
+        this._toastService.show('Usuario eliminado del proyecto', 'success');
+      // 🔥 Recargar SOLO los usuarios
+      this.usuarios = this.usuarios.filter(u => u.id !== idUsuario);
+      console.log('usuarios post', this.usuarios);
       },
-      error: (err) => console.error('Error disociando usuario del proyecto:', err)
-    })
+      error: (err) => {
+        console.error('Error disociando usuario del proyecto:', err);
+        this._toastService.show('No se pudo eliminar el usuario', 'error');
+      }
+    });
+
   }
 
   /************************ VERSIONES ********************************/

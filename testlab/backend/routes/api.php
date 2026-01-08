@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar proyecto
     Route::post('projects/{project}/users', [ProjectController::class, 'addUsers'])->middleware(['role:admin,manager']); // Anadir usuarios a un proyecto
     Route::delete('projects/{project}/users', [ProjectController::class, 'removeUsers'])->middleware(['role:admin,manager']); // Removoe usuarios a un proyecto
+    Route::delete('projects/{project}/users/{user}', [ProjectController::class, 'removeUser'])->middleware(['role:admin,manager']); // Removoe usuarios a un proyecto
     Route::get('/projects/{id}/dashboard', [ProjectController::class, 'dashboard'])->middleware(['role:admin,manager,tester']);
 
     //VERSIONS
