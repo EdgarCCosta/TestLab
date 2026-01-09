@@ -6,6 +6,7 @@ use App\Models\Version;
 use App\Models\TestExecution;
 use Illuminate\Http\Request;
 use App\Http\Responses\ApiResponse;
+use App\Models\TestCase;
 
 class VersionController extends Controller
 {
@@ -111,6 +112,17 @@ class VersionController extends Controller
             return ApiResponse::deleted('Version deleted successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to delete version', 500, $e->getMessage());
+        }
+    }
+
+    public function removeTestCase(Version $version, TestCase $testCase)
+    {
+        try {
+            $version->testCases()->detach($testCase->id);
+
+            return ApiResponse::deleted('Test case removed from version');
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to remove test case', 500, $e->getMessage());
         }
     }
 

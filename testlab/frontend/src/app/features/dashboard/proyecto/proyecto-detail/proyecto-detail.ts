@@ -193,7 +193,7 @@ export class ProyectoDetail {
 
           // Ejecuciones del proyecto
           this.ejecuciones = dashboard.latest_executions;
-          console.log(dashboard);
+          console.log("las pruebitas", this.pruebas);
         },
         error: () => {
           this._toastService.show('No se pudo cargar el proyecto', 'error');
@@ -271,7 +271,7 @@ export class ProyectoDetail {
   abrirAsociarUsuario(proyectoId: string) {
     // TODO: Modal y componente de asociación de usuario a proyecto
     // this.nuevoUser = true;
-    // this.modal = 'usuario';
+    this.modal = 'usuario';
     // this.modo = 'nuevo';
     // this.userSelId.set(null);
 
@@ -329,7 +329,20 @@ export class ProyectoDetail {
   }
 
   eliminarVersion(versionId: string) {
+    this.versionSelId = versionId;
     // TODO: Modal para eliminar versión
+    const ok = confirm('¿Estás seguro de eliminar esta versión?');
+    if (!ok) return;
+    this._versionService.deleteVersion(this.versionSelId!).subscribe({
+      next: () => {
+        this._toastService.show('Versión eliminada correctamente', 'success');
+        this.versiones = this.versiones.filter(v => v.id !== this.versionSelId);
+      },
+      error: (err) => {
+        console.error('Error eliminando versión:', err);
+        this._toastService.show('No se pudo eliminar la versión', 'error');
+      }
+    });
   }
 
   listadoVersionesChange($e: any){
@@ -345,18 +358,24 @@ export class ProyectoDetail {
     // TODO: Modal y componente de asociación de prueba a proyecto (desde prueba ya existente o creación de prueba y asociar)
   }
 
-  disociarPrueba(idPrueba: string) {
-    const id = this.proyectoId();   // leer el signal
-
-    if (!id) return;                // seguridad: evitar null
-
-    this._proyectoService.unlinkPruebaFromProyecto(id, idPrueba).subscribe({
+  disociarPruebaDeVersion(versionId: string, testCaseId: string) {
+    this._versionService.unlinkPruebaFromVersion(versionId.toString(), testCaseId).subscribe({
       next: () => {
-        // TODO: Modal o toast informativos
+        this._toastService.show('Prueba eliminada de la versión', 'success');
+
+        // 🔥 Actualizar listado local para prueba y version determinadas
+        this.pruebas = this.pruebas.filter(
+          p => !(p.id === testCaseId && p.version_id === versionId)
+        );
       },
-      error: (err) => console.error('Error disociando prueba del proyecto:', err)
-    })
+      error: (err) => {
+        console.error('Error disociando prueba:', err);
+        this._toastService.show('No se pudo eliminar la prueba', 'error');
+      }
+    });
   }
+
+  
 
   listadoPruebasChange($e: any){
     console.log('Listado de pruebas ha cambiado:', this.pruebas);

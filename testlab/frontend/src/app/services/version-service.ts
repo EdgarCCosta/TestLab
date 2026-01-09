@@ -78,4 +78,7 @@ export class VersionService {
       headers,
     });
   }
+  unlinkPruebaFromVersion(idVersion: string, idPrueba: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/versions/${idVersion}/test-cases/${idPrueba}`);
+  }
 }

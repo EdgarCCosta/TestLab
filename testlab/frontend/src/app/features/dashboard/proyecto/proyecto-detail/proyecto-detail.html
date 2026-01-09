@@ -225,13 +225,14 @@
                   <div>
                     <strong>{{ p.title }}</strong>
                     <span class="text-muted">
-                      ({{ p.objective }})
+                      ({{ p.objective }}) – En la versión: {{ p.version_number }}
                     </span>
+
                   </div>
 
                   <!-- Acciones -->
                   <div class="acciones">
-                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPrueba(p.id)" title="Eliminar prueba del proyecto"></i>
+                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
                   </div>
                 </div>
               </li>
@@ -365,7 +366,7 @@
     } -->
 
     
-    @if (this.tituloModalDetail === 'Asociar usuario al proyecto') {
+    @if (this.tituloModalDetail === 'Asociar usuario al proyecto' && this.modal == 'usuario') {
       <app-proyecto-link-user 
         [(listado)]="this.usuarios" 
         (listadoUsuariosChange)="listadoUsuariosChange($event)"

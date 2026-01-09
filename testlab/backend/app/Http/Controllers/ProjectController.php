@@ -234,7 +234,7 @@ public function removeUser(Project $project, User $user)
 
 
                         // Test cases completos
-                        'test_cases' => $version->testCases->map(function ($tc) {
+                        'test_cases' => $version->testCases->map(function ($tc) use ($version) {
                             return [
                                 'id' => $tc->id,
                                 'title' => $tc->title,
@@ -242,6 +242,8 @@ public function removeUser(Project $project, User $user)
                                 'steps' => $tc->steps,
                                 'expected_result' => $tc->expected_result,
                                 'user_profile' => $tc->user_profile,
+                                'version_id' => $version->id,
+                                'version_number' => $version->version_number,
                             ];
                         }),
 

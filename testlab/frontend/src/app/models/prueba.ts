@@ -11,6 +11,11 @@ export interface Prueba {
   versions: Version[];
   created_at: string;
   updated_at: string;
+
+  // Para relaciones con proyectos y versiones de estos (Version-Prueba)
+  version_id: string;
+  version_number: string;
+
 }
 
 export interface CreatePruebaDto {
