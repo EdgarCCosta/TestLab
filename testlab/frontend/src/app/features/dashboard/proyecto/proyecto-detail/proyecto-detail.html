@@ -394,6 +394,14 @@
       </app-version-detail>
     }
 
+@if (modal === 'prueba') {
+  <app-proyecto-link-testcase
+    [(listado)]="pruebas"
+    [versiones]="versiones"
+    (cerrar)="modal = null">
+  </app-proyecto-link-testcase>
+}
+
       
 
     @if (this.nuevaPrueba && pruebaSelId() === null) {

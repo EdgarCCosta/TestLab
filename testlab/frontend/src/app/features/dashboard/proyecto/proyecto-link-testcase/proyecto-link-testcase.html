@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <label class="form-label">Prueba existente</label>
+  <select class="form-select" formControlName="testCaseId">
+    <option value="">Selecciona una prueba</option>
+    @for (p of pruebas; track p.id) {
+      <option [value]="p.id">{{ p.title }}</option>
+    }
+  </select>
+
+  <label class="form-label mt-3">Versión del proyecto</label>
+  <select class="form-select" formControlName="versionId">
+    <option value="">Selecciona una versión</option>
+    @for (v of versiones(); track v.id) {
+      <option [value]="v.id">{{ v.version_number }}</option>
+    }
+  </select>
+
+  <button class="btn btn-primary mt-3" type="submit" [disabled]="form.invalid">
+    Asociar prueba
+  </button>
+
+</form>

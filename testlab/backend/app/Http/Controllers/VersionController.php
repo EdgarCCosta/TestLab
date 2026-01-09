@@ -191,4 +191,25 @@ class VersionController extends Controller
             return ApiResponse::error('Failed to load versions', 500, $e->getMessage());
         }
     }
+
+    public function addTestCase(Version $version, TestCase $testCase)
+    {
+        try {
+            // Evitar duplicados
+            if ($version->testCases()->where('test_case_id', $testCase->id)->exists()) {
+                return ApiResponse::error('Test case already assigned to this version', 409);
+            }
+
+            // Insertar en la tabla pivote
+            $version->testCases()->attach($testCase->id);
+
+            return ApiResponse::created(
+                $version->load('testCases'),
+                'Test case added to version successfully'
+            );
+
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to add test case', 500, $e->getMessage());
+        }
+    }
 }

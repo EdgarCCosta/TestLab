@@ -34,11 +34,12 @@ import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-deta
 import { ProyectoLinkUser } from '../proyecto-link-user/proyecto-link-user';
 
 import { Img } from '../../../../layout/shared/img/img/img';
+import { ProyectoLinkTestcase } from "../proyecto-link-testcase/proyecto-link-testcase";
 
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, ProyectoLinkUser, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img],
+  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, ProyectoLinkUser, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img, ProyectoLinkTestcase],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
@@ -356,6 +357,55 @@ export class ProyectoDetail {
 
   abrirAsociarPrueba(proyectoId: string) {
     // TODO: Modal y componente de asociación de prueba a proyecto (desde prueba ya existente o creación de prueba y asociar)
+
+    this.modal = 'prueba';
+    this.proyectoSelId.set(proyectoId);
+
+    // cargar pruebas y versiones si no las tienes ya
+    this.loadingPruebas.set(true);
+    // this.loadingVersiones.set(true);
+
+    this._pruebaService. getPruebas().subscribe(pruebas => {
+      this.listadoPruebas.set(pruebas);
+      this.loadingPruebas.set(false);
+    });
+
+    // Ya tenemos las versiones cargadas
+    this.listadoVersiones.set(this.versiones);
+
+
+  }
+
+  asociarPrueba(event: { versionId: string; testCaseId: string }) {
+    const { versionId, testCaseId } = event;
+
+    this._versionService.linkPruebaToVersion(versionId, testCaseId).subscribe({
+      next: () => {
+        this._toastService.show('Prueba asociada correctamente', 'success');
+
+        // Obtener prueba seleccionada
+        const prueba = this.listadoPruebas().find(p => p.id === testCaseId);
+        const version = this.listadoVersiones().find(v => v.id === versionId);
+
+        if (prueba && version) {
+          // Añadir nueva relación prueba–versión
+          this.pruebas = [
+            ...this.pruebas,
+            {
+              ...prueba,
+              version_id: version.id,
+              version_number: version.version_number
+            }
+          ];
+        }
+
+        this.modal = null;
+      },
+      error: (err) => {
+        console.error('Error asociando prueba:', err);
+        this._toastService.show('No se pudo asociar la prueba', 'error');
+      }
+    });
   }
 
   disociarPruebaDeVersion(versionId: string, testCaseId: string) {

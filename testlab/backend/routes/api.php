@@ -51,9 +51,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/test-cases/{id}', [TestCaseController::class, 'update'])->middleware(['role:admin,manager']); // Actualizar test-cases
     Route::delete('/test-cases/{id}', [TestCaseController::class, 'destroy'])->middleware(['role:admin,manager']); // Eliminar test-cases
 
+    //TESTCASE-VERSION
     Route::get('/versions/{version_id}/test-cases', [TestCaseController::class, 'getByVersion'])->middleware('role:admin,manager,tester'); // Listar testcase por version
     Route::delete('/versions/{version}/test-cases/{testCase}', [VersionController::class, 'removeTestCase'])->middleware(['role:admin,manager']); // Eliminar testcase por version
-
+    Route::post('/versions/{version}/test-cases/{testCase}', [VersionController::class, 'addTestCase'])->middleware(['role:admin,manager,tester']); // Añadir un testcase por version
 
 
     //TESTEXECUTION
