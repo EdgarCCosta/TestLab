@@ -449,20 +449,24 @@ canvas {
 
 .stat-title {
   font-size: 1.8rem;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .stat-number {
   font-size: 3.6rem;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .stat-comment {
   font-size: 1.4rem;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .stat-line {
   display: flex;
   justify-content: space-between;
   font-size: 1.4rem;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .stat-result {
@@ -481,6 +485,7 @@ canvas {
   font-size: 1.8rem;
   padding: .5rem;
   font-weight: 500;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .chart {
@@ -490,6 +495,7 @@ canvas {
 
 .leaderboard > :not(caption) > * > * {
   background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color));
 }
 
 .leaderboard > thead > tr, .leaderboard > thead > th {
@@ -623,6 +629,12 @@ form select + div {
   height: 3rem;
 }
 
+.form-select {
+  font-size: 1.6rem;
+  background-color: light-dark(var(--dark-background), var(--dark-bg-color)) !important;
+  color: light-dark(var(--light-txt-color), var(--light-txt-color)) !important;
+}
+
 /* Tablas angular material */
 
 .mat-mdc-row:hover {
@@ -656,6 +668,9 @@ form select + div {
 mat-paginator, mat-select, mat-option, .mat-mdc-select-value-text {
   font-size: 1.6rem !important;
 }
+
+
+/******************** TOAST ******************/
 
 .toast-wrapper {
   bottom: 20%;
@@ -718,4 +733,12 @@ mat-paginator, mat-select, mat-option, .mat-mdc-select-value-text {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+/******************* MODAL *************************/
+
+.modal-content {
+  background-color: light-dark(var(--light-bg-color), var(--dark-bg-color)) !important;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color)) !important;
 }
