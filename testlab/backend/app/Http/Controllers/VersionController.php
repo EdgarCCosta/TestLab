@@ -203,10 +203,15 @@ class VersionController extends Controller
             // Insertar en la tabla pivote
             $version->testCases()->attach($testCase->id);
 
-            return ApiResponse::created(
-                $version->load('testCases'),
-                'Test case added to version successfully'
-            );
+            return ApiResponse::created([
+                    'version' => [
+                        'id' => $version->id,
+                        'version_number' => $version->version_number,
+                    ],
+                    'test_case' => $testCase
+                ], 'Test case added to version successfully');
+
+
 
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to add test case', 500, $e->getMessage());

@@ -35,6 +35,7 @@ import { ProyectoLinkUser } from '../proyecto-link-user/proyecto-link-user';
 
 import { Img } from '../../../../layout/shared/img/img/img';
 import { ProyectoLinkTestcase } from "../proyecto-link-testcase/proyecto-link-testcase";
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-proyecto-detail',
@@ -357,7 +358,7 @@ export class ProyectoDetail {
 
   abrirAsociarPrueba(proyectoId: string) {
     // TODO: Modal y componente de asociación de prueba a proyecto (desde prueba ya existente o creación de prueba y asociar)
-
+    this.tituloModalDetail = 'Asociar prueba al proyecto';
     this.modal = 'prueba';
     this.proyectoSelId.set(proyectoId);
 
@@ -372,7 +373,7 @@ export class ProyectoDetail {
 
     // Ya tenemos las versiones cargadas
     this.listadoVersiones.set(this.versiones);
-
+    document.getElementById('btnAbrirModalProyecto')?.click();
 
   }
 
@@ -399,7 +400,6 @@ export class ProyectoDetail {
           ];
         }
 
-        this.modal = null;
       },
       error: (err) => {
         console.error('Error asociando prueba:', err);
@@ -459,4 +459,5 @@ export class ProyectoDetail {
   atras() {
     this._location.back();
   }
+
 }

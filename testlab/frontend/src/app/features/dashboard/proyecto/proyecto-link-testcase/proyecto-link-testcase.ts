@@ -55,20 +55,24 @@ export class ProyectoLinkTestcase {
       
 
       this._versionService.linkPruebaToVersion(versionId, testCaseId).subscribe({
-      next: (datos) => {
-        const version = datos.data;
+      next: (res) => {
 
-        const nuevoTestCase =
-          version.test_cases[version.test_cases.length - 1];
+        const { version, test_case } = res.data;
 
         this.listado.update(lista => [
           ...lista,
           {
-            ...nuevoTestCase,
+            ...test_case,
             version_id: version.id,
             version_number: version.version_number
           }
         ]);
+
+      // Volver a "Selecciona una versión"
+      this.form.get('versionId')?.setValue('');
+
+      // Si también quieres resetear el testCaseId:
+      this.form.get('testCaseId')?.setValue('');
 
         this._toastService.show('Prueba asociada correctamente', 'success');
       },
