@@ -110,8 +110,6 @@ export class EjecucionDetail {
       console.log('versionId: ', this.versionId());
       console.log('pruebaId: ', this.pruebaId());
 
-      this.form.value.test_data = [this.form.value.test_data];
-
       this.form.value.test_case_id = this.pruebaId();
       this.form.value.version_id = this.versionId();
       this.form.value.user_id = this.userId();

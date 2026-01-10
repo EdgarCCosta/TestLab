@@ -55,6 +55,8 @@ class TestExecutionController extends Controller
         // echo "UserId: " . $request->user_id;
         $request->merge(['user_id' => $userId]);
 
+        $request->merge(['test_data' => [$request->test_data]]);
+
         $validated = $request->validate([
             'test_case_id' => 'required|exists:test_cases,id',
             'version_id' => 'required|exists:versions,id',
