@@ -12,12 +12,27 @@ class TestCaseController extends Controller
     public function index()
     {
         try {
-            $testCases = TestCase::with('versions')->get();
+            $user = auth()->user();
+
+            // ADMIN y MANAGER → ven todos los test cases
+            if (in_array($user->rol, ['admin', 'manager'])) {
+                $testCases = TestCase::with('versions')->get();
+                return ApiResponse::success($testCases);
+            }
+
+            // TESTER → solo test cases de proyectos donde participa
+            $testCases = TestCase::whereHas('versions.project.users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->with('versions')
+            ->get();
+
             return ApiResponse::success($testCases);
+
         } catch (\Exception $e) {
             return ApiResponse::notFound('Test cases not found');
         }
-    }
+}
 
     public function show(string $id)
     {
