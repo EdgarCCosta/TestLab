@@ -25,21 +25,17 @@ export class Login {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      const { email, password } = this.form.value;
-      console.log(email, password);
-      this._auth.login(email, password).subscribe({
-        next: (response) => {
-          console.log(response);
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('id', response.data.user.entity_hash);
-          localStorage.setItem('nombre', response.data.user.name);
-          localStorage.setItem('rol', response.data.user.rol);
-          
-          this.router.navigate(['/'])
-        },
-        error: () => this.error = 'Credenciales inválidas'
-      });
-    }
+  
+  if (this.form.valid) {
+    const { email, password } = this.form.value;
+
+    this._auth.login(email, password).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: () => this.error = 'Credenciales inválidas'
+    });
+  }
+
   }
 }

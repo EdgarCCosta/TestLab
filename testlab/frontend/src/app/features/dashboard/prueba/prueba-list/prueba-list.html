@@ -28,7 +28,7 @@
       [modo]="'nuevo'">
     </app-prueba-detail>
   } @else if (pruebaSelId) {
-      @if (pruebaSelId && role !== 'tester') {
+      @if (pruebaSelId) {
         <app-prueba-detail 
           [(listado)]="this.pruebas" 
           (listadoChange)="listadoChange($event)" 
@@ -36,11 +36,11 @@
           [modo]="'detalle'">
         </app-prueba-detail>
       }
-      @if (pruebaSelId && role === 'tester') {
+      <!-- @if (pruebaSelId && role() === 'tester') {
         <div class="p-4 text-center">
           <h4>No tienes permisos para editar este caso de prueba</h4>
         </div>
-      }
+      } -->
   }
 </app-modal-detail>
 <app-loading [show]="_spinnerService.loading() && loading"></app-loading>

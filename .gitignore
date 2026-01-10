@@ -1,1 +1,19 @@
-.vscode
+# Angular
+testlab/frontend/dist/
+testlab/frontend/.angular/
+testlab/frontend/node_modules/
+
+# Laravel
+testlab/backend/vendor/
+testlab/backend/node_modules/
+testlab/backend/storage/
+testlab/backend/public/build/
+testlab/backend/public/hot/
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

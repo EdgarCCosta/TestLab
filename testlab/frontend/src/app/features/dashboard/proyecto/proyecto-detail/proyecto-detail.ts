@@ -13,6 +13,7 @@ import { Prueba } from '../../../../models/prueba';
 import { Ejecucion } from '../../../../models/ejecucion';
 import { ProyectoDashboard } from '../../../../models/proyectoDashboard';
 import { ToastService } from '../../../../layout/shared/toast/toast';
+import { AuthService } from '../../../../services/auth-service';
 
 import { UsuarioService } from '../../../../services/usuario-service';
 import { PruebaService } from '../../../../services/prueba-service';
@@ -37,6 +38,7 @@ import { Img } from '../../../../layout/shared/img/img/img';
 import { ProyectoLinkTestcase } from "../proyecto-link-testcase/proyecto-link-testcase";
 import { Modal } from 'bootstrap';
 
+
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
@@ -45,6 +47,10 @@ import { Modal } from 'bootstrap';
   styleUrls: ['./proyecto-detail.css']
 })
 export class ProyectoDetail {
+
+  auth = inject(AuthService);
+  // Acceso directo al rol reactivo
+  role = this.auth.role;
   proyectoId = signal<string | null>(null);
   proyecto = signal<Proyecto | null>(null);
 

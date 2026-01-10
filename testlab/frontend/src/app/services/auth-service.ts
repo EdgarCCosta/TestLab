@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -9,13 +9,26 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private readonly apiUrl = environment.apiUrl;
-  private readonly endpoint = '/login'; // coincide con proxy.conf.json
+  private readonly endpoint = '/login';
+
+  // Uso de signal para controlar de forma reactiva el rol del usuario y evitar accesos
+  // manipulando el localStorage detectando lógica inconsistente
+  role = signal(localStorage.getItem('rol') ?? 'tester');
 
   constructor(private http: HttpClient, private _router: Router) {}
 
   login(email: string, password: string): Observable<any> {
-    console.log('login', email, password);
-    return this.http.post<any>(this.apiUrl + this.endpoint, { email, password });
+    return this.http.post<any>(this.apiUrl + this.endpoint, { email, password }).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('id', response.data.user.entity_hash);
+        localStorage.setItem('nombre', response.data.user.name);
+        localStorage.setItem('rol', response.data.user.rol);
+
+        // Reactividad real
+        this.role.set(response.data.user.rol);
+      })
+    );
   }
 
   checklogin(): string {
@@ -85,4 +98,13 @@ export class AuthService {
     return permisosPorRol[rol]?.includes(permiso) ?? false;
   }
 
+  can = (permiso: string) => {
+    const rol = this.role();
+    const permisosPorRol: Record<string, string[]> = {
+      admin: ['crear_usuario', 'crear_proyecto', 'editar_proyecto', 'borrar_proyecto'],
+      manager: ['crear_proyecto', 'editar_proyecto'],
+      tester: []
+    };
+    return permisosPorRol[rol]?.includes(permiso) ?? false;
+  };
 }

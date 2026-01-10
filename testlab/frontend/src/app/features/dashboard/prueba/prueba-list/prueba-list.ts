@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Prueba } from '../../../../models/prueba';
 import { PruebaService } from '../../../../services/prueba-service';
 import { CommonModule } from '@angular/common';
@@ -25,9 +25,12 @@ export class PruebaList {
   public nuevaPrueba: boolean = false;
   public _filtro: string = '';
   public loading: boolean = true;
-  public role = localStorage.getItem('rol');
+
   public puedeCrearProyecto: boolean = false;
-  
+  auth = inject(AuthService);
+  // Acceso directo al rol reactivo
+  public role = this.auth.role;
+    
   constructor(
     private _pruebaservice: PruebaService, private _router: Router, public _spinnerService: SpinnerService
   ) {

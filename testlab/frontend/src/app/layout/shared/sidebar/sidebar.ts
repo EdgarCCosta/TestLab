@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { importProvidersFrom } from '@angular/core';
@@ -17,7 +17,14 @@ import { UsuarioService } from '../../../services/usuario-service';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
-   usuarioNombre: string | null = null;
+  usuarioNombre: string | null = null;
+  auth = inject(AuthService);
+  // Acceso directo al rol reactivo
+  role = this.auth.role;
+
+
+
+
 
 
   constructor (public router: Router, private _authService: AuthService, private _usuarioService: UsuarioService) {

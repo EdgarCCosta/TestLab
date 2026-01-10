@@ -41,10 +41,12 @@
   <div class="mb-4" [class.was-validated]="form.get('steps')?.dirty || form.get('steps')?.touched">
     <label for="steps" class="form-label">
       Pasos
-      <small class="text-muted d-block">
-        <i class="bi bi-info-circle text-secondary"></i>
-        Sepáralos por comas, puntos o pulsando Enter
-      </small>
+      @if (role() !== 'tester') {
+        <small class="text-muted d-block">
+          <i class="bi bi-info-circle text-secondary"></i>
+          Sepáralos por comas, puntos o pulsando Enter
+        </small>
+      }
     </label>
     <textarea id="steps" class="form-control" formControlName="steps" rows="4" required minlength="10"></textarea>
 
@@ -110,9 +112,11 @@
     <div class="d-flex flex-column gap-2 mt-2">
       @for (v of versions; track v.id) {
         <label class="d-flex align-items-center gap-2">
-          <input type="checkbox"
+          @if (role() !== 'tester') {
+            <input type="checkbox"
                 [checked]="form.value.version_ids?.includes(v.id)"
                 (change)="toggleVersion(v.id, $event)">
+          }
           {{ v.version_number }}
         </label>
       }
@@ -125,18 +129,20 @@
     }
   </div>
 
-  <!-- BOTONES -->
-  @if (modo() === 'detalle') {
-    <div class="d-flex justify-content-evenly mt-5">
-      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      <button type="button" class="btn btn-danger" (click)="borrar(pruebaId())" data-bs-dismiss="modal">Eliminar prueba</button>
-      <button type="submit" class="btn btn-primary" [disabled]="form.invalid" data-bs-dismiss="modal">Guardar cambios</button>
-    </div>
-  } @else {
-    <div class="d-flex justify-content-evenly mt-5">
-      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-      <button type="submit" class="btn btn-success" [disabled]="form.invalid" data-bs-dismiss="modal">Crear prueba</button>
-    </div>
+  @if (role() !== 'tester') {
+    <!-- BOTONES -->
+    @if (modo() === 'detalle') {
+      <div class="d-flex justify-content-evenly mt-5">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" (click)="borrar(pruebaId())" data-bs-dismiss="modal">Eliminar prueba</button>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid" data-bs-dismiss="modal">Guardar cambios</button>
+      </div>
+    } @else {
+      <div class="d-flex justify-content-evenly mt-5">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="form.invalid" data-bs-dismiss="modal">Crear prueba</button>
+      </div>
+    }
   }
 
 </form>

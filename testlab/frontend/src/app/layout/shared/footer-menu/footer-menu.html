@@ -9,6 +9,7 @@
           <i class="bi bi-speedometer2"></i>
         </a>
       </li>
+      @if (role() !== 'tester') {
       <li class="nav-item my-2">
         <a [routerLink]="['/usuario']" class="nav-link link-dark"
           routerLinkActive="active"
@@ -16,6 +17,7 @@
           <i class="bi bi-person-circle"></i>
         </a>
       </li>
+      }
       <li class="nav-item my-2">
         <a [routerLink]="['/proyecto']" class="nav-link link-dark" class="nav-link link-dark"
           routerLinkActive="active"

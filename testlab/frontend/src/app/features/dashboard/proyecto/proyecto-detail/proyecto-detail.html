@@ -6,15 +6,17 @@
 <div class="item-detallado card border rounded p-3 shadow-sm">
 
   <!-- Acciones -->
-  <div class="acciones">
-    <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
-    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
-    <button id="btnAbrirModalProyecto"
-        class="d-none"
-        data-bs-toggle="modal"
-        data-bs-target="#detalleModal">
-    </button>
-  </div>
+   @if (role() !== 'tester') {
+    <div class="acciones">
+      <i class="bi bi-pencil fs-3 text-primary" (click)="editarProyecto()" title="Editar proyecto"></i>
+      <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarProyecto()" title="Eliminar proyecto"></i>
+      <button id="btnAbrirModalProyecto"
+          class="d-none"
+          data-bs-toggle="modal"
+          data-bs-target="#detalleModal">
+      </button>
+    </div>
+   }
     <app-loading [show]="loadingDetalle()"></app-loading>
 
   <div class="card-body">
@@ -88,6 +90,7 @@
       <app-loading [show]="loadingDetalle()"></app-loading>
       <div class="d-flex justify-content-between align-items-end mb-3">
         <h2>Usuarios asociados al proyecto</h2>
+        @if (role() === 'admin') {
         <button type="button"
             class="btn btn-nuevo"
             data-bs-toggle="modal"
@@ -95,8 +98,9 @@
             (click)="abrirAsociarUsuario(this.proyectoId()!)">
           <i class="bi bi-plus-lg"></i> Asociar nuevo usuario
         </button>
-        
+        }
       </div>
+      
 
       @if(usuarios.length) {
       
@@ -113,9 +117,11 @@
                   </div>
 
                   <!-- Acciones -->
+                  @if (role() === 'admin') {
                   <div class="acciones">
                     <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarUsuario(u.id)" title="Eliminar usuario del proyecto"></i>
                   </div>
+                  }
                 </div>
               </li>
             }
@@ -143,6 +149,7 @@
 
       <div class="d-flex justify-content-between align-items-end mb-3">
         <h2>Versiones del proyecto</h2>
+      @if (role() !== 'tester') {
         <button type="button"
           class="btn btn-nuevo"
           data-bs-toggle="modal"
@@ -150,6 +157,7 @@
           (click)="abrirNuevaVersion()">
           <i class="bi bi-plus-lg"></i> Añadir versión
         </button>
+      }
       </div>
 
       @if(versiones.length) {
@@ -169,15 +177,17 @@
                   </div>
 
                   <!-- Acciones -->
-                  <div class="acciones">
-                    <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
-                      <button id="btnAbrirModalVersion"
-                        class="d-none"
-                        data-bs-toggle="modal"
-                        data-bs-target="#detalleModal">
-                      </button>
-                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
-                  </div>
+                  @if (role() !== 'tester') {
+                    <div class="acciones">
+                      <i class="bi bi-pencil fs-3 text-primary" (click)="editarVersion(v.id)" title="Editar versión"></i>
+                        <button id="btnAbrirModalVersion"
+                          class="d-none"
+                          data-bs-toggle="modal"
+                          data-bs-target="#detalleModal">
+                        </button>
+                      <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarVersion(v.id)" title="Eliminar versión"></i>
+                    </div>
+                  }
                 </div>
               </li>
             }
@@ -231,9 +241,11 @@
                   </div>
 
                   <!-- Acciones -->
+                  @if (role() !== 'tester') {
                   <div class="acciones">
                     <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
                   </div>
+                  }
                 </div>
               </li>
             }
@@ -321,7 +333,9 @@
                   <!-- Acciones -->
                   <div class="acciones">
                     <i class="bi bi-pencil fs-3 text-primary" (click)="editarEjecucion(e.id)" title="Editar ejecución"></i>
-                    <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
+                    @if (role() !== 'tester') {
+                      <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
+                    }
                   </div>
                 </div>
               </li>

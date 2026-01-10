@@ -1,4 +1,4 @@
-import { Component, input, model, effect } from '@angular/core';
+import { Component, input, model, effect, inject } from '@angular/core';
 import { Prueba, UpdatePruebaDto } from '../../../../models/prueba';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PruebaService } from '../../../../services/prueba-service';
@@ -13,6 +13,10 @@ import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-one-step.validator';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline/loading-inline";
+import { AuthService } from '../../../../services/auth-service';
+
+
+
 
 @Component({
   selector: 'app-prueba-detail',
@@ -22,6 +26,9 @@ import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline
   styleUrl: './prueba-detail.css',
 })
 export class PruebaDetail {
+
+  auth = inject(AuthService);
+  role = this.auth.role; // signal<string>
 
   loading = true;
 
@@ -73,6 +80,13 @@ export class PruebaDetail {
           project_id: '',
           version_ids: []
         });
+      }
+    });
+    effect(() => {
+      if (this.role() === 'tester') {
+        this.form.disable();   // 🔥 Bloquea todos los campos
+      } else {
+        this.form.enable();    // Admin/manager pueden editar
       }
     });
   }

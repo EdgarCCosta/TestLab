@@ -16,15 +16,18 @@
         <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
       </a>
     </li>
-    <li class="nav-item my-2">
-      <a [routerLink]="['/usuario']" class="nav-link link-dark"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        title="{{ 'SIDEBAR.USERS' | translate }}">
-        <i class="bi bi-person-circle"></i>
-        <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
-      </a>
-    </li>
+    @if (role() !== 'tester') {
+
+      <li class="nav-item my-2">
+        <a [routerLink]="['/usuario']" class="nav-link link-dark"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          title="{{ 'SIDEBAR.USERS' | translate }}">
+          <i class="bi bi-person-circle"></i>
+          <span class="d-none d-xxl-inline ms-3">{{ 'SIDEBAR.USERS' | translate }}</span>
+        </a>
+      </li>
+    }
     <li class="nav-item my-2">
       <a [routerLink]="['/proyecto']" class="nav-link link-dark"
         routerLinkActive="active"

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, effect } from '@angular/core';
+import { Component, OnInit, signal, effect, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Proyecto } from '../../../../models/proyecto';
 import { ProyectoService } from '../../../../services/proyecto-service';
@@ -26,7 +26,7 @@ export class ProyectoList implements OnInit {
   public _filtro: string = '';
   abrirModalDetail = false;
   loading = true;
-  puedeCrearProyecto: boolean = false;
+  puedeCrearProyecto = signal(false);
 
   constructor(
     private _proyectoService: ProyectoService,
@@ -34,15 +34,24 @@ export class ProyectoList implements OnInit {
     public _spinnerService: SpinnerService,
     private _authService: AuthService) {
       
-      this.puedeCrearProyecto = this._authService.hasPermission('crear_proyecto');
-      // Cada vez que cambia proyectoSelId → navegar al detalle
-      effect(() => {
-        const id = this.proyectoSelId();
-        if (id) {
-          this.detalleProyecto(id);
-        }
-        this.loading = false;
-      });
+
+      
+    // Cada vez que cambia proyectoSelId → navegar al detalle
+    effect(() => {
+      const id = this.proyectoSelId();
+      if (id) {
+        this.detalleProyecto(id);
+      }
+      this.loading = false;
+    });
+
+    // Efectos reactivos según el rol del usuario
+    effect(() => {
+      // Cada vez que cambie el rol → recalcular permiso
+      const puede = this._authService.hasPermission('crear_proyecto');
+      this.puedeCrearProyecto.set(puede);
+    });
+
     }
 
   ngOnInit(): void {
