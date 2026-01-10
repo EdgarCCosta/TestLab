@@ -52,7 +52,6 @@ class TestExecutionController extends Controller
     {
         $uc = new UserController;
         $userId = $uc->getIdFromEntityHash($request->user_id);
-        // echo "UserId: " . $request->user_id;
         $request->merge(['user_id' => $userId]);
 
         $request->merge(['test_data' => [$request->test_data]]);

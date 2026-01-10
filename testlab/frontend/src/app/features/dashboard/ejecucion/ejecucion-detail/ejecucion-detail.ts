@@ -16,8 +16,8 @@ export class EjecucionDetail {
   userId = input<string | null>();
   versionId = input<string | null>();
   pruebaId = input<string | null>();
-  ejecucionId = input<string | null>();
-  modo = input<'nuevo' | 'editar'>('editar');       // valor por defecto: 'editar'
+  ejecucionId = input<string | null>(null);
+  modo = input<string | null>();       // valor por defecto: 'editar'
   listado = model<any[]>([]);
 
   ejecucion!: UpdateEjecucionDto;
@@ -41,8 +41,10 @@ export class EjecucionDetail {
       executed_at: [this.toISOStringLocal(new Date)],
     });
 
+    console.log('EjecucionDetail, modo: ', this.modo());
+
     effect(() => {
-      if (this.ejecucionId() != null) {
+      if (this.ejecucionId() != null && this.modo() === 'editar') {
         console.log('Cambia la ejecucion', this.ejecucionId());
         this.getEjecucionById(this.ejecucionId()!);
       }
@@ -51,17 +53,17 @@ export class EjecucionDetail {
 
   /*** Recuperación de versión ***/
   getEjecucionById(id: string): void {
-    console.log('En propiedad getVersionById');
+    console.log('En propiedad getEjecucionById');
     this._ejecucionService.getEjecucionById(id).subscribe({
       next: (datos) => {
 
         console.log(datos);
-        this.ejecucion = datos;
+        this.ejecucion = datos.data;
 
         this.form.patchValue({
           result: this.ejecucion?.result,
           comment: this.ejecucion?.comment,
-          descrtest_dataiption: this.ejecucion?.test_data,
+          test_data: this.ejecucion?.test_data,
           error_status: this.ejecucion?.error_status,
           correction_notes: this.ejecucion?.correction_notes,
           observations: this.ejecucion?.observations,

@@ -79,7 +79,7 @@ export class ProyectoDetail {
   public userSelId = model<string | null>(null);
   public versionSelId: string | null  = null;
   public pruebaSelId: string | null  = null;
-  public ejecucionSelId: string | null  = null;
+  public ejecucionSelId =  model<string | null>(null);
   public modo: 'nuevo' | 'editar' = 'editar';
   public tituloModalDetail = '';
 
@@ -262,7 +262,7 @@ export class ProyectoDetail {
     this._proyectoService.unlinkUsuarioFromProyecto(id, idUsuario).subscribe({
     next: () => {
         this._toastService.show('Usuario eliminado del proyecto', 'success');
-      // 🔥 Recargar SOLO los usuarios
+      // Recargar SOLO los usuarios
       this.usuarios = this.usuarios.filter(u => u.id !== idUsuario);
       console.log('usuarios post', this.usuarios);
       },
@@ -406,26 +406,31 @@ export class ProyectoDetail {
     this.nuevaEjecucion = true;
     this.versionSelId = String(versionId);
     this.pruebaSelId = String(pruebaId);
+    this.ejecucionSelId.set(null);
     this.tituloModalDetail = 'Nueva ejecución';
   }
 
-  editarEjecucion(versionId: string) {
+  editarEjecucion(ejecucionId: string, tituloPrueba: string, versionId: string) {
     this.modal = 'ejecucion';
     this.modo = 'editar';
-    this.ejecucionSelId = versionId;
+    this.ejecucionSelId.set(ejecucionId);
     this.nuevaEjecucion = false;
-    this.tituloModalDetail = 'Editar ejecución';
+    console.log('VersionId: ', versionId);
+    // console.log('versiones: ', this.versiones.find((version) => version.id = String(versionId)));
+    let versionNumber = this.versiones.find((version) => version.id = String(versionId))?.version_number;
+    console.log('Version Number: ', versionNumber);
+    this.tituloModalDetail = 'Editar ejecución: ' + tituloPrueba + ' (' + versionNumber + ')';
   }
 
-  eliminarEjecucion(versionId: string) {
-    this.ejecucionSelId = versionId;
+  eliminarEjecucion(ejecucionId: string) {
+    this.ejecucionSelId.set(ejecucionId);
     // TODO: Modal para eliminar versión
     const ok = confirm('¿Estás seguro de eliminar esta ejecución?');
     if (!ok) return;
-    this._ejecucionService.deleteEjecucion(this.ejecucionSelId!).subscribe({
+    this._ejecucionService.deleteEjecucion(this.ejecucionSelId()!).subscribe({
       next: () => {
         this._toastService.show('Ejecución eliminada correctamente', 'success');
-        this.ejecuciones = this.ejecuciones.filter(e => e.id !== this.ejecucionSelId);
+        this.ejecuciones = this.ejecuciones.filter(e => e.id !== this.ejecucionSelId());
       },
       error: (err) => {
         console.error('Error eliminando ejecución:', err);

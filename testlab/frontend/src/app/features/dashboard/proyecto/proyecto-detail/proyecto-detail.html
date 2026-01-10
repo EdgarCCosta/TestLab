@@ -338,7 +338,11 @@
 
                   <!-- Acciones -->
                   <div class="acciones">
-                    <i class="bi bi-pencil fs-3 text-primary" (click)="editarEjecucion(e.id)" title="Editar ejecución"></i>
+                    <i class="bi bi-pencil fs-3 text-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detalleModal"
+                      (click)="editarEjecucion(e.id, e.test_case.title, e.version_id)" title="Editar ejecución">
+                    </i>
                     @if (role() !== 'tester') {
                       <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
                     }
@@ -435,8 +439,8 @@
         [userId]="this.usuarioEditor"
         [pruebaId]="this.pruebaSelId"
         [versionId]="this.versionSelId"
-        [ejecucionId]="this.ejecucionSelId"
-        [modo]="modo">
+        [ejecucionId]="this.ejecucionSelId()"
+        [modo]="this.modo">
       </app-ejecucion-detail>
     }
 
