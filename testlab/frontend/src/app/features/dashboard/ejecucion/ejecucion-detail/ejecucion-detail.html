@@ -78,14 +78,13 @@
   <!-- Fecha de ejecución -->
   <div class="mb-4" [class.was-validated]="this.form.get('executed_at')?.dirty || this.form.get('executed_at')?.touched">
     <label for="executed_at" class="form-label">Fecha de ejecución</label>
-    @if(this.modo() === 'nuevo') {
-      <input id="executed_at" type="datetime-local" name="executed_at" class="form-control"
-        formControlName="executed_at" required>
-    }
+    <input id="executed_at" type="datetime-local" name="executed_at" class="form-control"
+      formControlName="executed_at" required>
+
     <div>
       @if (
-            this.form.get('release_date')?.invalid && 
-            (this.form.get('release_date')?.dirty || this.form.get('release_date')?.touched)
+            this.form.get('executed_at')?.invalid && 
+            (this.form.get('executed_at')?.dirty || this.form.get('executed_at')?.touched)
           ) 
       {
         <div class="invalid-feedback d-block m-0 pt-2">

@@ -17,7 +17,7 @@ export class EjecucionDetail {
   versionId = input<string | null>();
   pruebaId = input<string | null>();
   ejecucionId = input<string | null>(null);
-  modo = input<string | null>();       // valor por defecto: 'editar'
+  modo = input<string | null>();
   listado = model<any[]>([]);
 
   ejecucion!: UpdateEjecucionDto;
@@ -30,7 +30,7 @@ export class EjecucionDetail {
     private fb: FormBuilder,
     private _toastService: ToastService
   ) {
-    // console.log('ID proyecto inicial: ', this.projectId());
+    console.log('ID ejecucion en ejecucion-detail: ', this.ejecucionId());
     this.form = this.fb.group({
       result: ['', [Validators.required, Validators.pattern('passed|failed')]],
       comment: ['', [Validators.required]],
@@ -38,12 +38,20 @@ export class EjecucionDetail {
       error_status: ['', [Validators.required, Validators.pattern('critical|high|medium|low|none')]],
       correction_notes: [''],
       observations: [''],
-      executed_at: [this.toISOStringLocal(new Date)],
+      executed_at: [this.toISOStringLocal()],
     });
 
     console.log('EjecucionDetail, modo: ', this.modo());
 
     effect(() => {
+      if(this.modo() == 'nuevo') {
+        console.log('Reseteo del formulario de ejecucion-detail');
+        this.form.reset({
+          executed_at: [this.toISOStringLocal()],
+      });
+      }
+      
+      
       if (this.ejecucionId() != null && this.modo() === 'editar') {
         console.log('Cambia la ejecucion', this.ejecucionId());
         this.getEjecucionById(this.ejecucionId()!);
@@ -60,6 +68,8 @@ export class EjecucionDetail {
         console.log(datos);
         this.ejecucion = datos.data;
 
+        const tiempoEjecucion = String(this.ejecucion?.executed_at?.substring(0, 19));
+        console.log(tiempoEjecucion);
         this.form.patchValue({
           result: this.ejecucion?.result,
           comment: this.ejecucion?.comment,
@@ -67,7 +77,7 @@ export class EjecucionDetail {
           error_status: this.ejecucion?.error_status,
           correction_notes: this.ejecucion?.correction_notes,
           observations: this.ejecucion?.observations,
-          executed_at: this.ejecucion?.executed_at,
+          executed_at: tiempoEjecucion,
         });
 
         this.form.updateValueAndValidity();
@@ -149,6 +159,7 @@ export class EjecucionDetail {
       const modalEl = document.getElementById('detalleEjecucionModal');
       if (modalEl) {
         const modal = Modal.getInstance(modalEl);
+        this.form.reset(); 
         modal?.hide();
       }
     }
@@ -158,11 +169,18 @@ export class EjecucionDetail {
     return this.form.controls;
   }
 
-  toISOStringLocal(d: Date) {
+  toISOStringLocal() {
+
+    let d = null;
+    d = new Date();
   
     function normalizarFecha(n: any){return (n<10?'0':'') + n}
-    return d.getFullYear() + '-' + normalizarFecha(d.getMonth()+1) + '-' +
+    const fecha = d.getFullYear() + '-' + normalizarFecha(d.getMonth()+1) + '-' +
           normalizarFecha(d.getDate()) + 'T' + normalizarFecha(d.getHours()) + ':' +
-          normalizarFecha(d.getMinutes()) + ':' + normalizarFecha(d.getSeconds())
+          normalizarFecha(d.getMinutes());
+
+    console.log('Fecha de toISOStringLocal: ', fecha);
+  
+    return fecha;
   }
 }

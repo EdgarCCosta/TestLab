@@ -407,7 +407,11 @@ export class ProyectoDetail {
     this.versionSelId = String(versionId);
     this.pruebaSelId = String(pruebaId);
     this.ejecucionSelId.set(null);
-    this.tituloModalDetail = 'Nueva ejecución';
+
+    let versionNumber = this.versiones.find((version) => version.id == String(versionId))?.version_number;
+    let tituloPrueba = this.pruebas.find((prueba) => prueba.id == String(pruebaId))?.title;
+
+    this.tituloModalDetail = 'Nueva ejecución: ' + tituloPrueba + ' (' + versionNumber + ')';
   }
 
   editarEjecucion(ejecucionId: string, tituloPrueba: string, versionId: string) {
@@ -416,9 +420,9 @@ export class ProyectoDetail {
     this.ejecucionSelId.set(ejecucionId);
     this.nuevaEjecucion = false;
     console.log('VersionId: ', versionId);
-    // console.log('versiones: ', this.versiones.find((version) => version.id = String(versionId)));
-    let versionNumber = this.versiones.find((version) => version.id = String(versionId))?.version_number;
-    console.log('Version Number: ', versionNumber);
+
+    let versionNumber = this.versiones.find((version) => version.id == String(versionId))?.version_number;
+
     this.tituloModalDetail = 'Editar ejecución: ' + tituloPrueba + ' (' + versionNumber + ')';
   }
 
