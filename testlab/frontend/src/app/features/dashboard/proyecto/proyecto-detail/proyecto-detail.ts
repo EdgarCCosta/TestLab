@@ -78,7 +78,7 @@ export class ProyectoDetail {
   userSelId = model<string | null>(null);
   versionSelId: string | null  = null;
   pruebaSelId = model<string | null>(null);
-  ejecucionSelId = model<string | null>(null);
+  ejecucionSelId: string | null  = null;
   modo: 'nuevo' | 'editar' = 'editar';
   tituloModalDetail = '';
 
@@ -419,7 +419,7 @@ export class ProyectoDetail {
       next: () => {
         this._toastService.show('Prueba eliminada de la versión', 'success');
 
-        // 🔥 Actualizar listado local para prueba y version determinadas
+        // Actualizar listado local para prueba y version determinadas
         this.pruebas = this.pruebas.filter(
           p => !(p.id === testCaseId && p.version_id === versionId)
         );
@@ -442,16 +442,37 @@ export class ProyectoDetail {
 
   /************************ EJECUCIONES ********************************/
 
-  editarEjecucion(idEjecucion: string) {
-    // TODO: Modal para editar ejecucion
+  abrirNuevaEjecucion() {
+    this.modal = 'ejecucion';
+    this.modo = 'nuevo';
+    this.nuevaEjecucion = true;
+    this.tituloModalDetail = 'Nueva ejecución';
   }
 
-  eliminarEjecucion(idEjecucion: string) {
-    this._ejecucionService.deleteEjecucion(idEjecucion).subscribe({
+  editarEjecucion(versionId: string) {
+    this.modal = 'ejecucion';
+    this.modo = 'editar';
+    this.ejecucionSelId = versionId;
+    this.nuevaVersion = false;
+    this.tituloModalDetail = 'Editar ejecución';
+    document.getElementById('btnAbrirModalEjecucion')?.click();
+
+  }
+
+  eliminarEjecucion(versionId: string) {
+    this.ejecucionSelId = versionId;
+    // TODO: Modal para eliminar versión
+    const ok = confirm('¿Estás seguro de eliminar esta ejecución?');
+    if (!ok) return;
+    this._ejecucionService.deleteEjecucion(this.ejecucionSelId!).subscribe({
       next: () => {
-        // TODO: Modal o toast informativos
+        this._toastService.show('Ejecución eliminada correctamente', 'success');
+        this.ejecuciones = this.ejecuciones.filter(e => e.id !== this.ejecucionSelId);
       },
-      error: (err) => console.error('Error eliminando ejecución:', err)
+      error: (err) => {
+        console.error('Error eliminando ejecución:', err);
+        this._toastService.show('No se pudo eliminar la ejecución', 'error');
+      }
     });
   }
 
