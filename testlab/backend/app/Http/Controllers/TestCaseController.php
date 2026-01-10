@@ -15,7 +15,7 @@ class TestCaseController extends Controller
             $user = auth()->user();
 
             // ADMIN y MANAGER → ven todos los test cases
-            if (in_array($user->rol, ['admin', 'manager'])) {
+            if ($user->rol === 'admin') {
                 $testCases = TestCase::with('versions')->get();
                 return ApiResponse::success($testCases);
             }

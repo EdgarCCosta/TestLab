@@ -21,7 +21,7 @@ class ProjectController extends Controller
 
 
             // Si es tester → solo proyectos donde participa
-            if ($user->rol === 'tester') {
+            if ($user->rol !== 'admin') {
                 $projects = Project::whereHas('users', function ($q) use ($user) {
                     $q->where('user_id', $user->id);
                 })->get();
