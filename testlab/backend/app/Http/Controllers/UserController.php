@@ -121,4 +121,15 @@ class UserController extends Controller
             return ApiResponse::error('Failed to delete user', 500, $e->getMessage());
         }
     }
+
+    public function getIdFromEntityHash(string $entity_hash)
+    {
+        try {
+            $user = User::where('entity_hash', $entity_hash);
+
+            return $user->id;
+        } catch (\Exception $e) {
+            return ApiResponse::notFound('User not found');
+        }
+    }
 }

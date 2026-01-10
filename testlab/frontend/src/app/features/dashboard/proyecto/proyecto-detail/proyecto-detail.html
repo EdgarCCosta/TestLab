@@ -246,7 +246,7 @@
                     <i class="bi bi-clipboard2-check ms-4 me-3 fs-3 text-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#detalleModal"
-                      (click)="abrirNuevaEjecucion()"
+                      (click)="abrirNuevaEjecucion(p.version_id, p.id)"
                       title="Registrar ejecución">
                     </i>
                     <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
@@ -432,8 +432,8 @@
       <app-ejecucion-detail
         [(listado)]="this.ejecuciones"
         (listadoEjecucionesChange)="listadoEjecucionesChange($event)"
-        [userId]="this.userSelId()"
-        [pruebaId]="this.pruebaSelId()"
+        [userId]="this.usuarioEditor"
+        [pruebaId]="this.pruebaSelId"
         [versionId]="this.versionSelId"
         [ejecucionId]="this.ejecucionSelId"
         [modo]="modo">

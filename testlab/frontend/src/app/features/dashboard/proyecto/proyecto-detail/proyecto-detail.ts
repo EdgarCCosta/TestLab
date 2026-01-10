@@ -53,40 +53,43 @@ export class ProyectoDetail {
   role = this.auth.role;
   proyectoId = signal<string | null>(null);
   proyecto = signal<Proyecto | null>(null);
+  public proyectoId = signal<string | null>(null);
+  public proyecto = signal<Proyecto | null>(null);
+  public usuarioEditor = localStorage.getItem('id');
 
-  usuarios: Usuario[] = [];
-  versiones: Version[] = [];
-  pruebas: Prueba[] = [];
-  ejecuciones: Ejecucion[] = [];
+  public usuarios: Usuario[] = [];
+  public versiones: Version[] = [];
+  public pruebas: Prueba[] = [];
+  public ejecuciones: Ejecucion[] = [];
 
   // Mostrar más/menos
-  mostrarTodosUsuarios = false;
-  mostrarTodasVersiones = false;
-  mostrarTodasPruebas = false;
-  mostrarTodasEjecuciones = false;
+  public mostrarTodosUsuarios = false;
+  public mostrarTodasVersiones = false;
+  public mostrarTodasPruebas = false;
+  public mostrarTodasEjecuciones = false;
 
   // Spinner local
-  loadingDetalle = signal(false);
-  logingUsuario = signal(false);
-  loadingVersiones = signal(false);
-  loadingPruebas = signal(false);
-  loadingEjecuciones = signal(false);
+  public loadingDetalle = signal(false);
+  public logingUsuario = signal(false);
+  public loadingVersiones = signal(false);
+  public loadingPruebas = signal(false);
+  public loadingEjecuciones = signal(false);
 
   // Estado modal
-  modal: 'proyecto' | 'usuario' | 'version' | 'prueba' | 'ejecucion' | null = null;
-  proyectoSelId = model<string | null>(null);
-  userSelId = model<string | null>(null);
-  versionSelId: string | null  = null;
-  pruebaSelId = model<string | null>(null);
-  ejecucionSelId: string | null  = null;
-  modo: 'nuevo' | 'editar' = 'editar';
-  tituloModalDetail = '';
+  public modal: 'proyecto' | 'usuario' | 'version' | 'prueba' | 'ejecucion' | null = null;
+  public proyectoSelId = model<string | null>(null);
+  public userSelId = model<string | null>(null);
+  public versionSelId: string | null  = null;
+  public pruebaSelId: string | null  = null;
+  public ejecucionSelId: string | null  = null;
+  public modo: 'nuevo' | 'editar' = 'editar';
+  public tituloModalDetail = '';
 
   // Models para vigilar y actualizar los arrays de los listados
-  listadoUsuarios = model<any[]>([]);
-  listadoVersiones = model<any[]>([]);
-  listadoPruebas = model<any[]>([]);
-  listadoEjecuciones = model<any[]>([]);
+  public listadoUsuarios = model<any[]>([]);
+  public listadoVersiones = model<any[]>([]);
+  public listadoPruebas = model<any[]>([]);
+  public listadoEjecuciones = model<any[]>([]);
 
   public nuevoUser: boolean = false;
   public nuevaVersion: boolean = false;
@@ -145,33 +148,6 @@ export class ProyectoDetail {
   // 🔵 CARGA COMPLETA DEL DETALLE CON forkJoin
   cargarDetalle(id: string) {
     this.loadingDetalle.set(true);
-
-  //   forkJoin({
-  //     proyecto: this._proyectoService.getProyectoById(id),
-  //     usuarios: this._proyectoService.getUsersFromProyectoById(id),
-  //     pruebas: this._proyectoService.getPruebasFromProyectoById(id),
-  //     versiones: this._versionService.getVersionesByProject(id),
-  //     ejecuciones: this._ejecucionService.getEjecuciones()
-  //   })
-  //   .pipe(
-  //     finalize(() => this.loadingDetalle.set(false))
-  //   )
-  //   .subscribe({
-  //     next: ({ proyecto, usuarios, pruebas, versiones, ejecuciones }) => {
-  //       this.proyecto.set(proyecto)
-  //       this.usuarios = usuarios;
-  //       this.pruebas = pruebas;
-  //       this.versiones = versiones;
-  //       this.ejecuciones = ejecuciones.filter(e => e.version.project_id.toString() === id);
-  //     },
-  //     error: (error) => {
-  //       console.log('Error: ', error);
-  //       this._toastService.show('No se pudo cargar el proyecto', 'error');
-  //       this._router.navigate(['/proyecto']);
-  //     }
-  //   });
-  // }
-
   
     this._proyectoService.getProyectoDashboard(id)
       .pipe(finalize(() => this.loadingDetalle.set(false)))
@@ -184,18 +160,11 @@ export class ProyectoDetail {
           this.usuarios = dashboard.users;
           console.log('usuarios', this.usuarios);
 
-          // Pruebas → vienen dentro de test cases de cada versión
-          // Si quieres mantener pruebas como entidad separada:
+          // Pruebas → vienen dentro de test cases de cada versión:
           this.pruebas = dashboard.versions_summary
             .flatMap((v: any) => v.test_cases || []);
 
           // Versiones del proyecto
-          // this.versiones = dashboard.versions_summary.map((v: any) => ({
-          //   id: v.id,
-          //   version_number: v.version_number,
-          //   test_cases_count: v.test_cases_count,
-          //   executions_count: v.executions_count
-          // }));
           this.versiones = dashboard.project.versions;
           console.log("versiones",this.versiones);
 
@@ -210,7 +179,7 @@ export class ProyectoDetail {
       });
   }
 
-    // CARGA de proyecto (para actualizaciones tras editar)
+  // CARGA de proyecto (para actualizaciones tras editar)
   cargarProyecto(id: string) {
     this.loadingDetalle.set(true);
 
@@ -234,10 +203,6 @@ export class ProyectoDetail {
 
 
   /*********************** PROYECTO *************************************/
-
-  // editarProyecto() {
-  //   this.router.navigate(['/proyectos', this.proyectoId, 'editar']);
-  // }
 
   editarProyecto() {
     this.modal = 'proyecto';
@@ -277,12 +242,7 @@ export class ProyectoDetail {
   /************************ USUARIOS ********************************/
 
   abrirAsociarUsuario(proyectoId: string) {
-    // TODO: Modal y componente de asociación de usuario a proyecto
-    // this.nuevoUser = true;
     this.modal = 'usuario';
-    // this.modo = 'nuevo';
-    // this.userSelId.set(null);
-
     this.proyectoSelId.set(proyectoId);
     this.tituloModalDetail = 'Asociar usuario al proyecto';
 
@@ -442,10 +402,12 @@ export class ProyectoDetail {
 
   /************************ EJECUCIONES ********************************/
 
-  abrirNuevaEjecucion() {
+  abrirNuevaEjecucion(versionId: any, pruebaId: any) {
     this.modal = 'ejecucion';
     this.modo = 'nuevo';
     this.nuevaEjecucion = true;
+    this.versionSelId = String(versionId);
+    this.pruebaSelId = String(pruebaId);
     this.tituloModalDetail = 'Nueva ejecución';
   }
 
@@ -453,10 +415,8 @@ export class ProyectoDetail {
     this.modal = 'ejecucion';
     this.modo = 'editar';
     this.ejecucionSelId = versionId;
-    this.nuevaVersion = false;
+    this.nuevaEjecucion = false;
     this.tituloModalDetail = 'Editar ejecución';
-    document.getElementById('btnAbrirModalEjecucion')?.click();
-
   }
 
   eliminarEjecucion(versionId: string) {

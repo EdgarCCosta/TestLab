@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TestExecution;
 use App\Models\TestCase;
 use App\Models\Version;
+use App\Http\Controllers\UserController;
 
 class TestExecutionController extends Controller
 {
@@ -49,6 +50,11 @@ class TestExecutionController extends Controller
 
     public function store(Request $request)
     {
+        $uc = new UserController;
+        $userId = $uc->getIdFromEntityHash($request['user_id']);
+
+        $request['user_id'] = $userId;
+
         $validated = $request->validate([
             'test_case_id' => 'required|exists:test_cases,id',
             'version_id' => 'required|exists:versions,id',

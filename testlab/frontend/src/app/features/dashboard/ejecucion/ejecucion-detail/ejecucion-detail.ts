@@ -38,7 +38,7 @@ export class EjecucionDetail {
       error_status: ['', [Validators.required, Validators.pattern('critical|high|medium|low|none')]],
       correction_notes: [''],
       observations: [''],
-      executed_at: [''],
+      executed_at: [this.toISOStringLocal(new Date)],
     });
 
     effect(() => {
@@ -106,6 +106,15 @@ export class EjecucionDetail {
     if (this.form.valid) {
 
       console.log('Valores formulario', this.form.value);
+      console.log('userId: ', this.userId());
+      console.log('versionId: ', this.versionId());
+      console.log('pruebaId: ', this.pruebaId());
+
+      this.form.value.test_data = [this.form.value.test_data];
+
+      this.form.value.test_case_id = this.pruebaId();
+      this.form.value.version_id = this.versionId();
+      this.form.value.user_id = this.userId();
 
       if (this.modo() === 'editar' && this.versionId()) {
         this._ejecucionService.updateEjecucion(this.ejecucionId()!, this.form.value).subscribe({
@@ -147,5 +156,13 @@ export class EjecucionDetail {
 
   get formControls() {
     return this.form.controls;
+  }
+
+  toISOStringLocal(d: Date) {
+  
+    function normalizarFecha(n: any){return (n<10?'0':'') + n}
+    return d.getFullYear() + '-' + normalizarFecha(d.getMonth()+1) + '-' +
+          normalizarFecha(d.getDate()) + 'T' + normalizarFecha(d.getHours()) + ':' +
+          normalizarFecha(d.getMinutes()) + ':' + normalizarFecha(d.getSeconds())
   }
 }

@@ -1,6 +1,111 @@
-<p>ejecucion-detail works!</p>
-<p>userId: {{this.userId()}}</p>
-<p>versionId: {{this.versionId()}}</p>
-<p>pruebaId: {{this.pruebaId()}}</p>
-<p>ejecucionId: {{this.ejecucionId()}}</p>
-<p>modo: {{this.modo()}}</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  
+  <!-- Resultado -->
+  <div class="mb-4" [class.was-validated]="this.form.get('result')?.dirty || this.form.get('result')?.touched">
+    <label for="result" class="form-label">
+      Resultado
+    </label>
+    <select id="result" type="text" name="result" class="form-control" formControlName="result" required>
+      <option value="passed">Correcto</option>
+      <option value="failed">Incorrecto</option>
+    </select>
+    <div>
+      @if (
+            this.form.get('result')?.invalid && 
+            (this.form.get('result')?.dirty || this.form.get('result')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes elegir un resultado para el test.
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Comentario -->
+  <div class="mb-4">
+    <label for="comment" class="form-label">Comentario</label>
+    <textarea id="comment" name="comment" class="form-control" formControlName="comment">
+    </textarea>
+  </div>
+
+  <!-- Datos del test -->
+  <div class="mb-4">
+    <label for="test_data" class="form-label">Datos del test (valores utilizados)</label>
+    <textarea id="test_data" name="test_data" class="form-control" formControlName="test_data">
+    </textarea>
+  </div>
+
+  <!-- Error status -->
+  <div class="mb-4" [class.was-validated]="this.form.get('error_status')?.dirty || this.form.get('error_status')?.touched">
+    <label for="error_status" class="form-label">
+      Estado del error
+    </label>
+    <select id="error_status" type="text" name="error_status" class="form-control" formControlName="error_status" required>
+      <option value="critical">Crítico</option>
+      <option value="high">Elevado</option>
+      <option value="medium">Medio</option>
+      <option value="low">Bajo</option>
+      <option value="none">Ninguno</option>
+    </select>
+    <div>
+      @if (
+            this.form.get('error_status')?.invalid && 
+            (this.form.get('error_status')?.dirty || this.form.get('error_status')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Si el resultado es incorrecto debes elegir un estado para el error.
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Notas de corrección -->
+  <div class="mb-4">
+    <label for="correction_notes" class="form-label">Notas de corrección</label>
+    <textarea id="correction_notes" name="correction_notes" class="form-control" formControlName="correction_notes">
+    </textarea>
+  </div>
+
+  <!-- Observaciones -->
+  <div class="mb-4">
+    <label for="observations" class="form-label">Observaciones</label>
+    <textarea id="observations" name="observations" class="form-control" formControlName="observations">
+    </textarea>
+  </div>
+
+  <!-- Fecha de ejecución -->
+  <div class="mb-4" [class.was-validated]="this.form.get('executed_at')?.dirty || this.form.get('executed_at')?.touched">
+    <label for="executed_at" class="form-label">Fecha de ejecución</label>
+    @if(this.modo() === 'nuevo') {
+      <input id="executed_at" type="datetime-local" name="executed_at" class="form-control"
+        formControlName="executed_at" required>
+    }
+    <div>
+      @if (
+            this.form.get('release_date')?.invalid && 
+            (this.form.get('release_date')?.dirty || this.form.get('release_date')?.touched)
+          ) 
+      {
+        <div class="invalid-feedback d-block m-0 pt-2">
+          Debes escribir una fecha y hora de ejecución válidas.
+        </div>
+      }
+    </div>
+    
+  </div>
+
+  <!-- Acciones -->
+  <div class="d-flex justify-content-evenly mt-5">
+    @if (this.modo() === 'editar') {
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+      <button type="button" class="btn btn-danger" (click)="borrar(this.versionId())" data-bs-dismiss="modal">Eliminar versión</button> 
+      <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+    } @else {
+      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+      <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Registrar ejecución</button>
+    }
+  </div>
+
+</form>
