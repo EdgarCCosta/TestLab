@@ -1,4 +1,4 @@
-import { Component, input, model, effect } from '@angular/core';
+import { Component, input, model, effect, inject } from '@angular/core';
 import { UpdateUsuarioDto } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline/loading-inline";
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../services/auth-service';
 
 
 @Component({
@@ -21,6 +22,10 @@ export class UsuarioDetail {
   usuarioId = input<string | null>();                 // puede ser string o null
   modo = input<'nuevo' | 'detalle'>('detalle');       // valor por defecto: 'detalle'
   listado = model<any[]>([]);
+
+  auth = inject(AuthService);
+  // Acceso directo al rol reactivo
+  role = this.auth.role;
   
   
 
@@ -64,6 +69,14 @@ export class UsuarioDetail {
 
       if (this.modo() === 'nuevo') {
         this.loading = false;
+      }
+    });
+
+    effect(() => {
+      if (this.role() !== 'admin') {
+        this.form.disable();   // 🔥 Bloquea todos los campos
+      } else {
+        this.form.enable();    // Admin/manager pueden editar
       }
     });
   }

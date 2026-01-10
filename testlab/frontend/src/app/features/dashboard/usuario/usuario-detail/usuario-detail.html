@@ -37,6 +37,7 @@
       
     </div>
 
+    @if (role() === 'admin') {
     <div class="mb-4" [class.was-validated]="this.form.get('password')?.dirty || this.form.get('password')?.touched">
       <label for="password" class="form-label">Contraseña</label>
       <input id="password" type="password" name="password" class="form-control" formControlName="password" required minlength="6" autocomplete="new-password">
@@ -52,6 +53,7 @@
         }
       </div>
     </div>
+  }
 
     <div class="mb-4" [class.was-validated]="this.form.get('rol')?.dirty || this.form.get('rol')?.touched" required minlength="1">
       <label for="rol" class="form-label">Rol</label>
@@ -73,18 +75,20 @@
       </div>
     </div>
 
-    @if (this.modo() === 'detalle'){
+    @if (role() === 'admin') {
+      @if (this.modo() === 'detalle'){
+        <div class="d-flex justify-content-evenly mt-5">
+          <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+          <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())" data-bs-dismiss="modal">Eliminar usuario</button> 
+          <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+        </div>
+      } @else {
       <div class="d-flex justify-content-evenly mt-5">
-        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
-        <button type="button" class="btn btn-danger" (click)="borrar(this.usuarioId())" data-bs-dismiss="modal">Eliminar usuario</button> 
-        <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid"  data-bs-dismiss="modal">Guardar cambios</button>
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+        <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear usuario</button>
       </div>
-    } @else {
-    <div class="d-flex justify-content-evenly mt-5">
-      <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-      <button type="submit" class="btn btn-success" [disabled]="this.form.invalid" data-bs-dismiss="modal">Crear usuario</button>
-    </div>
-  }
+      }
+    }
 
     
   </form>

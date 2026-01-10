@@ -15,8 +15,24 @@ class ProjectController extends Controller
     public function index()
     {
         try {
+
+        $user = auth()->user();
+
+
+
+            // Si es tester → solo proyectos donde participa
+            if ($user->rol === 'tester') {
+                $projects = Project::whereHas('users', function ($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                })->get();
+
+                return ApiResponse::success($projects);
+            }
+
+            // Admin y manager → todos los proyectos
             $projects = Project::all();
             return ApiResponse::success($projects);
+
         } catch (\Exception $e) {
             return ApiResponse::notFound('Projects not found');
         }
@@ -300,4 +316,5 @@ public function removeUser(Project $project, User $user)
                 return ApiResponse::error('Failed to load executions', 500, $e->getMessage());
             }
     }
+
 }

@@ -1,4 +1,4 @@
-import { Component,  } from '@angular/core';
+import { Component, inject,  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario-service';
@@ -12,6 +12,7 @@ import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { signal, computed } from '@angular/core';
 import { OnInit } from '@angular/core';
+import { AuthService } from '../../../../services/auth-service';
 
 
 @Component({
@@ -42,6 +43,9 @@ export class UsuarioList implements OnInit {
       (u.rol && u.rol.toLowerCase().includes(term))
     );
   });
+
+  auth = inject(AuthService);
+  role = this.auth.role;
 
   constructor(
     private _usuarioService: UsuarioService, 

@@ -8,13 +8,17 @@
 
 <div class="d-flex justify-content-between mb-5">
   <h1>Usuarios</h1>
-<button type="button"
-        class="btn btn-nuevo"
-        data-bs-toggle="modal"
-        data-bs-target="#detalleModal"
-        (click)="abrirNuevoUsuario()">
-  <i class="bi bi-plus-lg"></i> Nuevo usuario
-</button></div>
+
+@if (role() === 'admin') {
+  <button type="button"
+          class="btn btn-nuevo"
+          data-bs-toggle="modal"
+          data-bs-target="#detalleModal"
+          (click)="abrirNuevoUsuario()">
+    <i class="bi bi-plus-lg"></i> Nuevo usuario
+  </button>
+}
+</div>
 
 <app-listado [(itemSelId)]="this.usuarioSelId"
   [cabeceras]="['Nombre', 'Email', 'Rol']" 
