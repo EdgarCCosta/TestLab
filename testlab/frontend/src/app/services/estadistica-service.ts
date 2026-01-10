@@ -46,6 +46,10 @@ export class EstadisticaService {
   getLastSixMonths(): Observable<EvolutionResponse> {
     return this.http.get<EvolutionResponse>(`${this.apiUrl + this.dash}/last-months`);
   }
+  
+  getTestCasesMonthComparison(): Observable<any> {
+    return this.http.get(`${this.apiUrl + this.dash}/test-cases/month-comparison`);
+  }
 
   /** ============================
    *  📦 ESTADÍSTICAS POR PROYECTO

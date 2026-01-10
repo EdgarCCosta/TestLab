@@ -475,7 +475,13 @@ canvas {
 
 .stat-success {
   color: var(--success-color);
+  font-weight: 600;
 }
+.stat-danger {
+  color: #F44336;
+  font-weight: 600;
+}
+
 
 .stat-fail {
   color: var(--fail-color);

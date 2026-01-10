@@ -58,8 +58,16 @@
             <div id="totalEjecutados" class="stat-number" [countUp]="this.successRates!.total_executed"
               [options]="{ enableScrollSpy: false, scrollSpyOnce: false }">
             </div>
-            <div class="stat-comment stat-success">
-              <i class="bi bi-caret-up-fill"></i>12% frente al mes anterior
+            <div class="stat-comment"
+              [ngClass]="testCasesMonthComparison?.percent >= 0 ? 'stat-success' : 'stat-danger'">
+
+              <i class="bi"
+                [ngClass]="testCasesMonthComparison?.percent >= 0 ? 'bi-caret-up-fill' : 'bi-caret-down-fill'">
+              </i>
+
+              {{ testCasesMonthComparison?.percent }}%
+              ({{ testCasesMonthComparison?.current }} este mes /
+              {{ testCasesMonthComparison?.previous }} mes anterior)
             </div>
           </div>
         </div>

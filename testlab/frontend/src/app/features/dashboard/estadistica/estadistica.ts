@@ -25,13 +25,14 @@ export class Estadistica implements OnInit, AfterViewInit  {
   public dashboard: any = null;
   public summary: any = null;
   public loading = true;
+  public testCasesMonthComparison: any = null;
   public evolution: EvolutionResponse['data']['evolution'] = [];
 public successRates: SuccessRatesResponse['data'] = {
   total_executed: 0,
   total_passed: 0,
   total_failed: 0,
   success_rate: 0,
-  failure_rate: 0
+  failure_rate: 0,
 };
   public pending_total = 0;
   public pending_rate = 0;
@@ -53,10 +54,12 @@ public successRates: SuccessRatesResponse['data'] = {
       evolution: this._estadisticaService.getLastSixMonths(),
       rates: this._estadisticaService.getSuccessRates(),
       projects: this._estadisticaService.getProjectStats(),
-      users: this._estadisticaService.getUserStats()
+      users: this._estadisticaService.getUserStats(),
+      testCasesMonthComparison: this._estadisticaService.getTestCasesMonthComparison(),
 
-    }).subscribe(({ main, evolution, rates, projects, users }) => {
+    }).subscribe(({ main, evolution, rates, projects, users, testCasesMonthComparison }) => {
       this.projectStats = projects.data;
+      this.testCasesMonthComparison = testCasesMonthComparison;
       
       // console.log(projects);
       // console.log(users);

@@ -90,6 +90,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('dashboard/tests-executed', [DashboardController::class, 'testsExecuted'])->middleware('role:admin,manager,tester');
     // Devuelve las tasas de éxito y fallo de los tests ejecutados, junto con totales de tests aprobados, fallidos y ejecutados.
     Route::get('dashboard/success-rates', [DashboardController::class, 'successRates'])->middleware('role:admin,manager,tester');
+    Route::get('/dashboard/test-cases/month-comparison', [DashboardController::class, 'getTestCasesMonthComparison'])->middleware(['role:admin,manager,tester']); // Comparación de test cases por mes actual y anterior
+
+    
     // Añadido
     Route::get('/dashboard/last-months', [DashboardController::class, 'lastSixMonths'])->middleware('role:admin,manager,tester');
 

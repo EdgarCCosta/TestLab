@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use App\Services\DashboardService;
+use App\Models\TestCase;
 
 class DashboardController extends Controller
 {
@@ -127,6 +128,36 @@ class DashboardController extends Controller
     public function getUserStats()
     { 
         return ApiResponse::success($this->dashboardService->getUserStats());
+    }
+
+    public function getTestCasesMonthComparison(): array
+    {
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+
+        $previousMonth = now()->subMonth()->month;
+        $previousYear = now()->subMonth()->year;
+
+        // Tests creados este mes
+        $current = TestCase::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+
+        // Tests creados el mes anterior
+        $previous = TestCase::whereYear('created_at', $previousYear)
+            ->whereMonth('created_at', $previousMonth)
+            ->count();
+
+        // Porcentaje
+        $percent = $previous > 0
+            ? round((($current - $previous) / $previous) * 100, 2)
+            : 0;
+
+        return [
+            'current' => $current,
+            'previous' => $previous,
+            'percent' => $percent
+        ];
     }
 
 }
