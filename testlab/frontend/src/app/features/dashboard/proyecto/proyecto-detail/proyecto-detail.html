@@ -232,6 +232,12 @@
 
                   <!-- Acciones -->
                   <div class="acciones">
+                    <i class="bi bi-clipboard2-check ms-4 me-3 fs-3 text-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#detalleModal"
+                      (click)="abrirNuevaEjecucion()"
+                      title="Registrar ejecución">
+                    </i>
                     <i class="bi bi-trash ms-4 me-3 fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
                   </div>
                 </div>
@@ -394,26 +400,36 @@
       </app-version-detail>
     }
 
-@if (modal === 'prueba') {
-  <app-proyecto-link-testcase
-    [(listado)]="pruebas"
-    [versiones]="versiones"
-    >
-  </app-proyecto-link-testcase>
-}
+    @if (modal === 'prueba') {
+      <app-proyecto-link-testcase
+        [(listado)]="pruebas"
+        [versiones]="versiones"
+        >
+      </app-proyecto-link-testcase>
+    }
 
-      
-
-    @if (this.nuevaPrueba && pruebaSelId() === null) {
+    <!-- @if (this.nuevaPrueba && pruebaSelId() === null) {
       <app-prueba-detail [(listado)]="this.pruebas" (listadoPruebasChange)="listadoPruebasChange($event)" [pruebaId]="null" [modo]="'nuevo'"></app-prueba-detail>
     } @else if (pruebaSelId()) {
       <app-prueba-detail [(listado)]="this.pruebas" (listadoPruebasChange)="listadoPruebasChange($event)" [pruebaId]="pruebaSelId()" [modo]="'detalle'"></app-prueba-detail>
+    } -->
+
+    @if(this.modal == 'ejecucion') {
+      <app-ejecucion-detail
+        [(listado)]="this.ejecuciones"
+        (listadoEjecucionesChange)="listadoEjecucionesChange($event)"
+        [userId]="this.userSelId()"
+        [pruebaId]="this.pruebaSelId()"
+        [versionId]="this.versionSelId"
+        [ejecucionId]="this.ejecucionSelId"
+        [modo]="modo">
+      </app-ejecucion-detail>
     }
 
-    <!-- @if (this.nuevaEjecucion && ejecucionSelId() === null) {
+    <!-- @if (this.nuevaEjecucion && ejecucionSelId === null) {
       <app-ejecucion-detail [(listado)]="this.ejecuciones" (listadoUsuariosChange)="listadoEjecucionesChange($event)" [usuarioId]="null" [modo]="'nuevo'"></app-ejecucion-detail>
     } @else if (userSelId()) {
-      <app-ejecucion-detail [(listado)]="this.ejecuciones" [ejecucionId]="ejecucionSelId()" (listadoUsuariosChange)="listadoEjecucionesChange($event)" [modo]="'detalle'"></app-ejecucion-detail>
+      <app-ejecucion-detail [(listado)]="this.ejecuciones" [ejecucionId]="ejecucionSelId" (listadoUsuariosChange)="listadoEjecucionesChange($event)" [modo]="'detalle'"></app-ejecucion-detail>
     } -->
 
   </app-modal-detail>
