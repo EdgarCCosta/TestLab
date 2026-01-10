@@ -7,6 +7,7 @@ use App\Models\User;
 use App\DTOs\UserDTO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -125,8 +126,8 @@ class UserController extends Controller
     public function getIdFromEntityHash(string $entity_hash)
     {
         try {
-            $user = User::where('entity_hash', $entity_hash);
-
+            $entity_hash = preg_replace('/\s+/', '', $entity_hash);
+            $user = DB::table('users')->where('entity_hash', $entity_hash)->first();
             return $user->id;
         } catch (\Exception $e) {
             return ApiResponse::notFound('User not found');

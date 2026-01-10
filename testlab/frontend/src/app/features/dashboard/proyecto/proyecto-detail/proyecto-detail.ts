@@ -51,8 +51,6 @@ export class ProyectoDetail {
   auth = inject(AuthService);
   // Acceso directo al rol reactivo
   role = this.auth.role;
-  proyectoId = signal<string | null>(null);
-  proyecto = signal<Proyecto | null>(null);
   public proyectoId = signal<string | null>(null);
   public proyecto = signal<Proyecto | null>(null);
   public usuarioEditor = localStorage.getItem('id');

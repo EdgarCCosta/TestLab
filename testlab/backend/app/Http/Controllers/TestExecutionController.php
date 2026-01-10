@@ -51,9 +51,9 @@ class TestExecutionController extends Controller
     public function store(Request $request)
     {
         $uc = new UserController;
-        $userId = $uc->getIdFromEntityHash($request['user_id']);
-
-        $request['user_id'] = $userId;
+        $userId = $uc->getIdFromEntityHash($request->user_id);
+        // echo "UserId: " . $request->user_id;
+        $request->merge(['user_id' => $userId]);
 
         $validated = $request->validate([
             'test_case_id' => 'required|exists:test_cases,id',
