@@ -104,7 +104,7 @@
           Selecciona un evento del calendario<br>
 
           <div *ngIf="nextVersion" class="mt-3">
-            <strong>Próximo lanzamiento de {{ monthText}}</strong><br>
+            <strong>Próximo lanzamiento de {{ monthText}}:</strong><br>
             {{ nextVersion.version_number }} — {{ nextVersion.release_date | date }}
           </div>
             <!-- Cantidades por mes -->
@@ -112,13 +112,11 @@
 
 
           <div class="mt-3">
-            <strong>Lanzamientos pendientes en {{ monthText}}:</strong><br>
-              {{ versionesMesActual }}
+            <strong>Lanzamientos pendientes en {{ monthText}}:</strong> {{ versionesMesActual }}
             </div>
 
             <div class="mt-3">
-              <strong>Lanzamientos de versiones en el mes siguiente:</strong><br>
-              {{ versionesMesSiguiente }}
+              <strong>Lanzamientos de versiones en el mes siguiente:</strong> {{ versionesMesSiguiente }}
             </div>
           </div>
 

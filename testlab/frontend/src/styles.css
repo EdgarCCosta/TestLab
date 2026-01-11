@@ -381,7 +381,12 @@ app-footer-menu {
     padding: 2rem 1.6rem;
   }
 
-  .hidden-1399 {
+  .hidden-1399-nombre {
+    display: inline;
+    color: light-dark(var(--dark-txt-color), var(--light-txt-color));
+  }
+
+  .hidden-1399-salir {
     display: inline;
   }
 
@@ -391,6 +396,58 @@ app-footer-menu {
 }
 
 /**************************** MAIN ************************/
+
+/************** CALENDARIO ********************/
+
+
+app-calendar {
+  & .cal-dia {
+    height: 7rem;      /* altura consistente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  & .btn-reset {
+    background-color: var(--light-accent-bg-color) !important;
+    border: none !important;
+    padding: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  & .bg-proyecto {
+    background-color: var(--light-accent-bg-color) !important; /* azul clarito */
+  }
+
+  & .alert-secondary {
+    background-color: transparent;
+    border-radius: 1rem;
+  }
+}
+
+.home-background-container {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 14rem);
+}
+
+.home-background {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  z-index: -10;
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  filter: blur(.2rem);
+  /* background-image: url(../public/img/home.webp);
+  background-repeat: no-repeat;
+  background-position: bottom; */
+}
+
 
 .atras {
   cursor: pointer;

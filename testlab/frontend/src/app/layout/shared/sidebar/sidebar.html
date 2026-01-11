@@ -67,14 +67,14 @@
       }
       
       @if (usuarioNombre) { <!-- Comprueba que está almacenado lo ha cargado de LocalStorage -->
-        <strong class="hidden-1399 ps-1">
+        <strong class="hidden-1399-nombre ps-1">
           {{ usuarioNombre }}
         </strong>
       }
     </span>
     <span (click)="logout()" class="ps-1 pe-3 fs-3 link-danger" title="Salir de TestLab">
       <i class="bi bi-box-arrow-left me-2 fs-3 link-danger"></i> 
-      <strong class="hidden-1399">
+      <strong class="hidden-1399-salir">
         Salir
       </strong>
     </span>
