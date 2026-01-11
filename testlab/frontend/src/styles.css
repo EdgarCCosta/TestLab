@@ -430,7 +430,7 @@ app-calendar {
 .home-background-container {
   position: relative;
   width: 100%;
-  height: calc(100% - 14rem);
+  height: calc(100% - 18rem);
 }
 
 .home-background {
@@ -442,10 +442,10 @@ app-calendar {
   bottom: 0;
   top: auto;
   width: 100%;
-  filter: blur(.2rem);
-  /* background-image: url(../public/img/home.webp);
-  background-repeat: no-repeat;
-  background-position: bottom; */
+  filter: opacity(50%) blur(.2rem);
+  & img {
+    width: 60%;
+  }
 }
 
 
@@ -704,8 +704,8 @@ form select + div {
 
 .form-select {
   font-size: 1.6rem;
-  background-color: light-dark(var(--dark-background), var(--dark-bg-color)) !important;
-  color: light-dark(var(--light-txt-color), var(--light-txt-color)) !important;
+  background-color: light-dark(var(--light-background), var(--dark-bg-color)) !important;
+  color: light-dark(var(--dark-txt-color), var(--light-txt-color)) !important;
 }
 
 /* Tablas angular material */
