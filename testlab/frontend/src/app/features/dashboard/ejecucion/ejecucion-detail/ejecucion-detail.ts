@@ -77,7 +77,7 @@ export class EjecucionDetail {
         this.form.patchValue({
           result: this.ejecucion?.result,
           comment: this.ejecucion?.comment,
-          test_data: this.ejecucion?.test_data,
+          test_data: JSON.stringify(this.ejecucion.test_data, null, 2),
           error_status: this.ejecucion?.error_status,
           correction_notes: this.ejecucion?.correction_notes,
           observations: this.ejecucion?.observations,
@@ -153,11 +153,11 @@ export class EjecucionDetail {
           }
         });
       } else if (this.modo() === 'nuevo') {
-        this.form.value.test_data = JSON.stringify({
+        this.form.value.test_data = {
           browser: navigator.userAgent,
           os: this.detectarSO(),
           resolution: `${window.screen.width}x${window.screen.height}`
-        });
+        };
 
 
         this._ejecucionService.createEjecucion(this.form.value).subscribe({

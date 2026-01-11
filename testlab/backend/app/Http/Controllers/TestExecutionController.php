@@ -55,7 +55,7 @@ class TestExecutionController extends Controller
         $userId = $uc->getIdFromEntityHash($request->user_id);
         $request->merge(['user_id' => $userId]);
 
-        $request->merge(['test_data' => [$request->test_data]]);
+        // $request->merge(['test_data' => [$request->test_data]]);
 
         $validated = $request->validate([
             'test_case_id' => 'required|exists:test_cases,id',
