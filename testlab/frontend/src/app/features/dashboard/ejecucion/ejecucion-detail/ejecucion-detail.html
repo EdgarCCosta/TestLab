@@ -30,11 +30,13 @@
   </div>
 
   <!-- Datos del test -->
+  @if (this.modo() !== 'nuevo') {
   <div class="mb-4">
     <label for="test_data" class="form-label">Datos del test (valores utilizados)</label>
     <textarea id="test_data" name="test_data" class="form-control" formControlName="test_data">
     </textarea>
   </div>
+  }
 
   <!-- Error status -->
   <div class="mb-4" [class.was-validated]="this.form.get('error_status')?.dirty || this.form.get('error_status')?.touched">

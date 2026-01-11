@@ -49,7 +49,8 @@ class TestExecutionController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
+
         $uc = new UserController;
         $userId = $uc->getIdFromEntityHash($request->user_id);
         $request->merge(['user_id' => $userId]);

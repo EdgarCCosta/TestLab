@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { Modal } from 'bootstrap';
 
+
 @Component({
   selector: 'app-ejecucion-detail',
   imports: [ReactiveFormsModule],
@@ -22,6 +23,7 @@ export class EjecucionDetail {
 
   ejecucion!: UpdateEjecucionDto;
   form!: FormGroup;
+  public browser = navigator.userAgent;
 
   constructor(
     private _ejecucionService: EjecucionService,
@@ -31,6 +33,8 @@ export class EjecucionDetail {
     private _toastService: ToastService
   ) {
     console.log('ID ejecucion en ejecucion-detail: ', this.ejecucionId());
+    console.log('Modo en ejecucion-detail: ', this.modo());
+    console.log('Browser en ejecucion-detail: ', this.browser);
     this.form = this.fb.group({
       result: ['', [Validators.required, Validators.pattern('passed|failed')]],
       comment: ['', [Validators.required]],
@@ -47,8 +51,8 @@ export class EjecucionDetail {
       if(this.modo() == 'nuevo') {
         console.log('Reseteo del formulario de ejecucion-detail');
         this.form.reset({
-          executed_at: [this.toISOStringLocal()],
-      });
+          executed_at: this.toISOStringLocal(),
+        });
       }
       
       
@@ -149,10 +153,17 @@ export class EjecucionDetail {
           }
         });
       } else if (this.modo() === 'nuevo') {
+        this.form.value.test_data = JSON.stringify({
+          browser: navigator.userAgent,
+          os: this.detectarSO(),
+          resolution: `${window.screen.width}x${window.screen.height}`
+        });
+
+
         this._ejecucionService.createEjecucion(this.form.value).subscribe({
           next: (datos) => {
             this.listado.update((listado) => ([...listado, datos.data]));
-            this._toastService.show('Ejeución creada correctamente', 'success');
+            this._toastService.show('Ejecución creada correctamente', 'success');
           },
           error: (err) => {
             console.error('Error creando ejecución:', err);
@@ -182,10 +193,21 @@ export class EjecucionDetail {
     function normalizarFecha(n: any){return (n<10?'0':'') + n}
     const fecha = d.getFullYear() + '-' + normalizarFecha(d.getMonth()+1) + '-' +
           normalizarFecha(d.getDate()) + 'T' + normalizarFecha(d.getHours()) + ':' +
-          normalizarFecha(d.getMinutes());
+          normalizarFecha(d.getMinutes())+ ':' + normalizarFecha(d.getSeconds());
 
     console.log('Fecha de toISOStringLocal: ', fecha);
   
     return fecha;
+  }
+  detectarSO() {
+    const ua = navigator.userAgent;
+
+    if (/Windows NT/i.test(ua)) return 'Windows';
+    if (/Mac OS X/i.test(ua)) return 'macOS';
+    if (/Android/i.test(ua)) return 'Android';
+    if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+    if (/Linux/i.test(ua)) return 'Linux';
+
+    return 'Unknown';
   }
 }
