@@ -244,7 +244,7 @@
                   </div>
 
                   <!-- Acciones -->
-                  @if (role() !== 'tester') {
+                  
                   <div class="acciones">
                     <i class="bi bi-clipboard2-check fs-3 text-primary"
                       data-bs-toggle="modal"
@@ -252,9 +252,11 @@
                       (click)="abrirNuevaEjecucion(p.version_id, p.id)"
                       title="Registrar ejecución">
                     </i>
-                    <i class="bi bi-trash fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
+                    @if (role() !== 'tester') {
+                      <i class="bi bi-trash fs-3 text-danger" (click)="disociarPruebaDeVersion(p.version_id, p.id)" title="Eliminar prueba del proyecto"></i>
+                    }
                   </div>
-                  }
+                  
                 </div>
               </li>
             }
@@ -340,16 +342,16 @@
                   </div>
 
                   <!-- Acciones -->
-                  <div class="acciones">
-                    <i class="bi bi-pencil fs-3 text-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#detalleModal"
-                      (click)="editarEjecucion(e.id, e.test_case.id, e.version_id)" title="Editar ejecución">
-                    </i>
-                    @if (role() !== 'tester') {
+                  @if (role() !== 'tester') {
+                    <div class="acciones">
+                      <i class="bi bi-pencil fs-3 text-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#detalleModal"
+                        (click)="editarEjecucion(e.id, e.test_case.id, e.version_id)" title="Editar ejecución">
+                      </i>
                       <i class="bi bi-trash fs-3 text-danger" (click)="eliminarEjecucion(e.id)" title="Eliminar ejecución"></i>
-                    }
-                  </div>
+                    </div>
+                  }
                 </div>
               </li>
             }
