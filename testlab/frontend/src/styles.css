@@ -341,7 +341,7 @@ app-footer-menu {
     }
   }
 
-  .hidden-1399 {
+  .hidden-1399-nombre, .hidden-1399-salir {
     display: none;
   }
 }
@@ -359,7 +359,7 @@ app-footer-menu {
     padding: 2rem 1.4rem;
   }
 
-  .hidden-1399 {
+  .hidden-1399-nombre, .hidden-1399-salir {
     display: none;
   }
 
@@ -424,6 +424,7 @@ app-calendar {
   & .alert-secondary {
     background-color: transparent;
     border-radius: 1rem;
+    color: light-dark(var(--dark-txt-color), var(--light-txt-color));
   }
 }
 
@@ -465,6 +466,17 @@ h1 {
   font-size: 3rem;
 }
 
+.list-group-item {
+  background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
+}
+
+.contenido-list-item {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* TARJETAS */
 
 .menu-pildoras {
@@ -487,10 +499,6 @@ h1 {
   }
 }
 
-.list-group-item {
-  background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
-}
-
 /* ESTADISTICAS */
 
 app-estadistica {
@@ -508,10 +516,6 @@ canvas {
   background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
   display: flex;
   flex-direction: column;
-}
-
-.card-body {
-
 }
 
 .stat-title {
@@ -638,9 +642,15 @@ canvas {
 }
 
 .acciones {
-  position: absolute;
-  right: 1rem;
-  cursor: pointer;
+
+  white-space: nowrap;
+  > i {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
 }
 
 .mostrar-mas {
@@ -710,6 +720,13 @@ form select + div {
 
 /* Tablas angular material */
 
+td {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .mat-mdc-row:hover {
   background-color: light-dark(var(--light-accent-bg-color), var(--dark-accent-bg-color)) !important;
   color: var(--dark-txt-color) !important;
@@ -723,13 +740,6 @@ form select + div {
 }
 
 .mat-mdc-header-cell {
-  /* background-color: #828282 !important;
-  color: light-dark(var(--light-background), var(--dark-background)) !important;
-  font-weight: 600;
-  svg {
-    color: light-dark(var(--light-background), var(--dark-background)) !important;
-  } */
-
   background-color: light-dark(var(--dark-background), var(--dark-bg-color)) !important;
   color: light-dark(var(--light-txt-color), var(--light-txt-color)) !important;
   border-top: 1px solid light-dark(var(--light-border-color), var(--dark-border-color));
