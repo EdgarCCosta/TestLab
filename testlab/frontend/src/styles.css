@@ -127,7 +127,6 @@ app-root {
 
 /********************** LOGIN ******************************/
 
-
 app-login {
   display: flex;
   height: 100vh;
@@ -283,6 +282,17 @@ app-footer-menu {
   background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
   /* background-color: transparent; */
   border-top: .1rem solid light-dark(var(--light-border-color), var(--dark-border-color));
+
+  & .dropdown-menu {
+    cursor: pointer;
+    user-select: none;
+    background-color: light-dark(var(--light-bg-color), var(--dark-bg-color));
+    color: light-dark(var(--dark-txt-color), var(--light-txt-color));
+
+    & i:hover {
+      background-color: none !important;
+    }
+  }
 }
 
 /******** BREAKPOINTS SIDEBAR / FOOTER MENU ******************/
@@ -324,7 +334,7 @@ app-footer-menu {
     }
   }
 
-  app-footer-menu i {
+  app-footer-menu > ul > li > a > i {
     font-size: 4rem;
     &:hover {
       background-color: light-dark(var(--light-accent-bg-color), var(--dark-accent-bg-color));

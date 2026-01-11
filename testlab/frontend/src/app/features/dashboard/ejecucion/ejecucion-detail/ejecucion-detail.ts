@@ -121,10 +121,10 @@ export class EjecucionDetail {
   onSubmit() {
     if (this.form.valid) {
 
-      console.log('Valores formulario', this.form.value);
-      console.log('userId: ', this.userId());
-      console.log('versionId: ', this.versionId());
-      console.log('pruebaId: ', this.pruebaId());
+      // console.log('Valores formulario', this.form.value);
+      // console.log('userId: ', this.userId());
+      // console.log('versionId: ', this.versionId());
+      // console.log('pruebaId: ', this.pruebaId());
 
       this.form.value.test_case_id = this.pruebaId();
       this.form.value.version_id = this.versionId();
@@ -158,7 +158,6 @@ export class EjecucionDetail {
           os: this.detectarSO(),
           resolution: `${window.screen.width}x${window.screen.height}`
         };
-
 
         this._ejecucionService.createEjecucion(this.form.value).subscribe({
           next: (datos) => {

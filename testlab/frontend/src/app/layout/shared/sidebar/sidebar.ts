@@ -18,34 +18,21 @@ import { UsuarioService } from '../../../services/usuario-service';
 })
 export class Sidebar {
   usuarioNombre: string | null = null;
+  usuarioGravatar: string | null = null;
   auth = inject(AuthService);
   // Acceso directo al rol reactivo
   role = this.auth.role;
 
-
-
-
-
-
   constructor (public router: Router, private _authService: AuthService, private _usuarioService: UsuarioService) {
 
-    this.usuarioNombre = this._authService.checklogin()
+    this.usuarioNombre = this._authService.checklogin();
+    this.usuarioGravatar = localStorage.getItem('gravatar');
   }
 
   logout() {
     const confirmado = window.confirm('¿Seguro que quieres cerrar sesión?');
     if (confirmado) {
       this._authService.logout(); // El servicio de autenticación se encarga de cerrar sesión y de borrar el token
-      // const id = localStorage.getItem('id');
-      // if (id) {
-      //   this._authService.logout(id).subscribe({
-      //     next: (response) => {
-      //       console.log("Respuesta:", response);
-      //       // borra token y usuario
-      //       localStorage.removeItem('token');
-      //       localStorage.removeItem('id');
-      //       localStorage.removeItem('nombre');
-      //       this.router.navigate(['/login']); // redirige al login
-          }
-      };
+    }
+  }
 }

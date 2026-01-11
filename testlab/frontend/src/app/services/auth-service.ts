@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { SHA256 } from 'crypto-js'
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,7 +25,8 @@ export class AuthService {
         localStorage.setItem('id', response.data.user.entity_hash);
         localStorage.setItem('nombre', response.data.user.name);
         localStorage.setItem('rol', response.data.user.rol);
-
+        localStorage.setItem('email', response.data.user.email);
+        localStorage.setItem('gravatar', this.hashearGravatar(response.data.user.email));
         // Reactividad real
         this.role.set(response.data.user.rol);
       })
@@ -107,4 +109,11 @@ export class AuthService {
     };
     return permisosPorRol[rol]?.includes(permiso) ?? false;
   };
+
+
+  // Devuelve la ruta de iconos generados por Gravatar
+  hashearGravatar(correo: string): string {
+    const hashedEmail = SHA256(correo);
+    return 'https://www.gravatar.com/avatar/' + hashedEmail + '?d=identicon&s=';
+  }
 }
