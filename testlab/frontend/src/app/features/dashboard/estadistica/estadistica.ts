@@ -8,10 +8,11 @@ import { SpinnerService } from '../../../services/spinner-service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
 import { CountUpModule } from 'ngx-countup';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-estadistica',
-  imports: [LoadingComponent, CommonModule, CountUpModule],
+  imports: [LoadingComponent, CommonModule, CountUpModule, FormsModule],
   templateUrl: './estadistica.html',
   styleUrl: './estadistica.css',
 })
@@ -44,6 +45,8 @@ public successRates: SuccessRatesResponse['data'] = {
 
   public userStats: any[] = [];
   public top4Users: any[] = [];
+
+  public minTests: number = 1; // valor por defecto
 
   constructor(private _estadisticaService: EstadisticaService, public _spinnerService: SpinnerService) {}
 
@@ -82,15 +85,8 @@ public successRates: SuccessRatesResponse['data'] = {
 
       // Con un criterio de 70% para ratio y un 30% para el número de test sobre el total del proyecto
       const maxTotal = Math.max(...this.projectStats.map(p => p.total));
-
-      this.top3Projects = [...this.projectStats] // .. Convierte los argumentos de un array en elementos sueltos
-        .filter(p => p.total > 0)
-        .map(p => ({
-          ...p,
-          score: p.success_rate * 0.7 + (p.total / maxTotal) * 0.3
-        }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
+      console.log("Project stats:", this.projectStats);
+this.updateTopProjects();
 
       console.log(this.top3Projects);
 
@@ -140,6 +136,22 @@ public successRates: SuccessRatesResponse['data'] = {
     }
   }, 50);
 }
+updateTopProjects() {
+    const maxTotal = Math.max(...this.projectStats.map(p => p.total));
+
+    this.top3Projects = [...this.projectStats]
+      .filter(p => p.total >= this.minTests)
+      .map(p => ({
+        ...p,
+        score: (p.success_rate / 100) * 0.5 + (p.total / maxTotal) * 0.5
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    if (this.graficoComparativaProyectos) {
+      this.createGraficoComparativaProyectos();
+    }
+  }
 
   createGraphics() {
     this.createGraficoEvolucion();
