@@ -55,8 +55,13 @@ class TestExecutionController extends Controller
         $userId = $uc->getIdFromEntityHash($request->user_id);
         $request->merge(['user_id' => $userId]);
 
-        // $request->merge(['test_data' => [$request->test_data]]);
-
+        // Normalizar test_data
+        if ($request->has('test_data')) {
+            if (is_string($request->test_data)) {
+                $decoded = json_decode($request->test_data, true);
+                $request->merge(['test_data' => $decoded]);
+            }
+        }
         $validated = $request->validate([
             'test_case_id' => 'required|exists:test_cases,id',
             'version_id' => 'required|exists:versions,id',
@@ -97,6 +102,13 @@ class TestExecutionController extends Controller
 
     public function update(Request $request, string $id)
     {
+
+        if ($request->has('test_data')) {
+            if (is_string($request->test_data)) {
+                $decoded = json_decode($request->test_data, true);
+                $request->merge(['test_data' => $decoded]);
+            }
+        }
         try {
             $testExecution = TestExecution::findOrFail($id);
 
