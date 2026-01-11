@@ -129,7 +129,11 @@ export class EjecucionDetail {
       if (this.modo() === 'editar' && this.ejecucionId()) {
         this._ejecucionService.updateEjecucion(this.ejecucionId()!, this.form.value).subscribe({
           next: data => {
-            console.log('Editado OK!', data);
+
+            // Añade los objetos extra que espera el listado original
+            this.form.value.test_case = data.data.test_case;
+            this.form.value.user = data.data.user;
+
             this.listado.update(list =>
               list.map(e =>
                 e.id === this.ejecucionId()
