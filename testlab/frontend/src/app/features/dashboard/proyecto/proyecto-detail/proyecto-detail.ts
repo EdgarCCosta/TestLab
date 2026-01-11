@@ -290,8 +290,6 @@ export class ProyectoDetail {
     this.versionSelId = versionId;
     this.nuevaVersion = false;
     this.tituloModalDetail = 'Editar version';
-    document.getElementById('btnAbrirModalVersion')?.click();
-
   }
 
   eliminarVersion(versionId: string) {
@@ -407,6 +405,8 @@ export class ProyectoDetail {
     this.versionSelId = String(versionId);
     this.pruebaSelId = String(pruebaId);
     this.ejecucionSelId.set(null);
+    
+    this.listadoEjecuciones.set(this.ejecuciones);
 
     let versionNumber = this.versiones.find((version) => version.id == String(versionId))?.version_number;
     let tituloPrueba = this.pruebas.find((prueba) => prueba.id == String(pruebaId))?.title;
@@ -414,14 +414,17 @@ export class ProyectoDetail {
     this.tituloModalDetail = 'Nueva ejecución: ' + tituloPrueba + ' (' + versionNumber + ')';
   }
 
-  editarEjecucion(ejecucionId: string, tituloPrueba: string, versionId: string) {
+  editarEjecucion(ejecucionId: string, pruebaId: string, versionId: string) {
     this.modal = 'ejecucion';
     this.modo = 'editar';
+    this.versionSelId = versionId;
+    this.pruebaSelId = pruebaId;
     this.ejecucionSelId.set(ejecucionId);
     this.nuevaEjecucion = false;
     console.log('VersionId: ', versionId);
 
     let versionNumber = this.versiones.find((version) => version.id == String(versionId))?.version_number;
+    let tituloPrueba = this.pruebas.find((prueba) => prueba.id == String(pruebaId))?.title;
 
     this.tituloModalDetail = 'Editar ejecución: ' + tituloPrueba + ' (' + versionNumber + ')';
   }

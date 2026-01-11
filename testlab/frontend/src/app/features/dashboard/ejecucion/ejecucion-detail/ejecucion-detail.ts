@@ -126,9 +126,10 @@ export class EjecucionDetail {
       this.form.value.version_id = this.versionId();
       this.form.value.user_id = this.userId();
 
-      if (this.modo() === 'editar' && this.versionId()) {
+      if (this.modo() === 'editar' && this.ejecucionId()) {
         this._ejecucionService.updateEjecucion(this.ejecucionId()!, this.form.value).subscribe({
-          next: () => {
+          next: data => {
+            console.log('Editado OK!', data);
             this.listado.update(list =>
               list.map(e =>
                 e.id === this.ejecucionId()
