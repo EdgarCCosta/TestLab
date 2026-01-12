@@ -42,19 +42,26 @@ app-root {
   max-height: 100vh;
 }
 
-.layout {
-  /* width: 100%; */
-}
+/* .layout {
+  width: 100%;
+} */
 
 .content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100%;
   width: 100%
 }
 
 .contenido-ruta {
+  height: 100%;
   padding: 3rem;
+}
+
+app-home {
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 
 .col {
@@ -307,8 +314,16 @@ app-footer-menu {
     padding-bottom: 9rem;
   }
 
+  app-calendar {
+    background-image: none !important;
+  }
+
   mat-paginator {
     margin-bottom: 9rem;
+  }
+
+  .hidden-1399-nombre, .hidden-1399-salir {
+    display: none;
   }
 
 }
@@ -317,6 +332,10 @@ app-footer-menu {
   app-sidebar,
   .sidebar {
     display: none;
+  }
+
+  app-calendar {
+    background-image: none !important;
   }
 
   app-footer-menu {
@@ -363,9 +382,22 @@ app-footer-menu {
     display: none;
   }
 
+  app-calendar {
+    background-image: none !important;
+  }
+
   app-footer-menu {
     display: none;
   }
+}
+
+/* Aparece imagen de fondo en Home */
+@media only screen and (min-width: 1000px) {
+
+  app-calendar {
+    background-image: url(../public/img/home.webp) !important;
+  }
+
 }
 
 @media only screen and (min-width: 1400px) {
@@ -390,6 +422,10 @@ app-footer-menu {
     display: inline;
   }
 
+  app-calendar {
+    background-image: url(../public/img/home.webp) !important;
+  }
+
   app-footer-menu {
     display: none;
   }
@@ -401,6 +437,12 @@ app-footer-menu {
 
 
 app-calendar {
+  width: 100%;
+  background-image: url(../public/img/home.webp);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: 50%;
+
   & .cal-dia {
     height: 7rem;      /* altura consistente */
     display: flex;
@@ -428,7 +470,7 @@ app-calendar {
   }
 }
 
-.home-background-container {
+/* .home-background-container {
   position: relative;
   width: 100%;
   height: calc(100% - 18rem);
@@ -447,7 +489,7 @@ app-calendar {
   & img {
     width: 60%;
   }
-}
+} */
 
 
 .atras {
