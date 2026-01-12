@@ -83,7 +83,6 @@ export class UsuarioDetail {
 
   /*** Recuperación de Usuario ***/
   getUsuarioById(id: string): void {
-    console.log('En propiedad getUsuarioById');
     this._usuarioService.getUsuarioById(id, { silent: true }).subscribe({
       next: (datos) => {
         console.log(datos);

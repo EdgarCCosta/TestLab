@@ -72,7 +72,7 @@ export class EjecucionDetail {
         console.log(datos);
         this.ejecucion = datos.data;
 
-        const tiempoEjecucion = String(this.ejecucion?.executed_at?.substring(0, 19));
+        const tiempoEjecucion = String(this.ejecucion?.executed_at?.substring(0, 16));
         console.log(tiempoEjecucion);
         this.form.patchValue({
           result: this.ejecucion?.result,
@@ -192,7 +192,7 @@ export class EjecucionDetail {
     function normalizarFecha(n: any){return (n<10?'0':'') + n}
     const fecha = d.getFullYear() + '-' + normalizarFecha(d.getMonth()+1) + '-' +
           normalizarFecha(d.getDate()) + 'T' + normalizarFecha(d.getHours()) + ':' +
-          normalizarFecha(d.getMinutes())+ ':' + normalizarFecha(d.getSeconds());
+          normalizarFecha(d.getMinutes());
 
     console.log('Fecha de toISOStringLocal: ', fecha);
   

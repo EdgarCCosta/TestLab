@@ -16,7 +16,7 @@ import { Estadistica } from './features/dashboard/estadistica/estadistica';
 import { Unauthorized } from './layout/shared/unauthorized/unauthorized';
 
 export const routes: Routes = [
-  { path: 'login', component: Login },   // 👈 libre de guard
+  { path: 'login', component: Login },
 
   { 
     path: '', 
@@ -24,8 +24,6 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home },
       { path: 'usuario', component: UsuarioList, canActivate: [authGuard], data: { roles: ['admin', 'manager'] } },
-      // { path: 'usuario/:id', component: UsuarioDetail, canActivate: [authGuard] },
-      // { path: 'usuario', component: UsuarioList},
       { path: 'usuario/:id', component: UsuarioDetail },
       { path: 'proyecto', component: ProyectoList },
       { path: 'proyecto/:id', component: ProyectoDetail },
@@ -34,7 +32,6 @@ export const routes: Routes = [
       { path: 'version', component: VersionList },
       { path: 'estadistica', component: Estadistica },
       { path: 'unauthorized', component: Unauthorized },
-      // { path: '404', component: NotFound },
     ]
   },
   { path: '**', redirectTo: '' },

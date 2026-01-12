@@ -319,16 +319,14 @@ export class ProyectoDetail {
   /************************ PRUEBAS ********************************/
 
   abrirAsociarPrueba(proyectoId: string) {
-    // TODO: Modal y componente de asociación de prueba a proyecto (desde prueba ya existente o creación de prueba y asociar)
     this.tituloModalDetail = 'Asociar prueba al proyecto';
     this.modal = 'prueba';
     this.proyectoSelId.set(proyectoId);
 
     // cargar pruebas y versiones si no las tienes ya
     this.loadingPruebas.set(true);
-    // this.loadingVersiones.set(true);
 
-    this._pruebaService. getPruebas().subscribe(pruebas => {
+    this._pruebaService.getPruebas().subscribe(pruebas => {
       this.listadoPruebas.set(pruebas);
       this.loadingPruebas.set(false);
     });
@@ -339,36 +337,36 @@ export class ProyectoDetail {
 
   }
 
-  asociarPrueba(event: { versionId: string; testCaseId: string }) {
-    const { versionId, testCaseId } = event;
+  // asociarPrueba(event: { versionId: string; testCaseId: string }) {
+  //   const { versionId, testCaseId } = event;
 
-    this._versionService.linkPruebaToVersion(versionId, testCaseId).subscribe({
-      next: () => {
-        this._toastService.show('Prueba asociada correctamente', 'success');
+  //   this._versionService.linkPruebaToVersion(versionId, testCaseId).subscribe({
+  //     next: () => {
+  //       this._toastService.show('Prueba asociada correctamente', 'success');
 
-        // Obtener prueba seleccionada
-        const prueba = this.listadoPruebas().find(p => p.id === testCaseId);
-        const version = this.listadoVersiones().find(v => v.id === versionId);
+  //       // Obtener prueba seleccionada
+  //       const prueba = this.listadoPruebas().find(p => p.id === testCaseId);
+  //       const version = this.listadoVersiones().find(v => v.id === versionId);
 
-        if (prueba && version) {
-          // Añadir nueva relación prueba–versión
-          this.pruebas = [
-            ...this.pruebas,
-            {
-              ...prueba,
-              version_id: version.id,
-              version_number: version.version_number
-            }
-          ];
-        }
+  //       if (prueba && version) {
+  //         // Añadir nueva relación prueba–versión
+  //         this.pruebas = [
+  //           ...this.pruebas,
+  //           {
+  //             ...prueba,
+  //             version_id: version.id,
+  //             version_number: version.version_number
+  //           }
+  //         ];
+  //       }
 
-      },
-      error: (err) => {
-        console.error('Error asociando prueba:', err);
-        this._toastService.show('No se pudo asociar la prueba', 'error');
-      }
-    });
-  }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error asociando prueba:', err);
+  //       this._toastService.show('No se pudo asociar la prueba', 'error');
+  //     }
+  //   });
+  // }
 
   disociarPruebaDeVersion(versionId: string, testCaseId: string) {
     this._versionService.unlinkPruebaFromVersion(versionId.toString(), testCaseId).subscribe({

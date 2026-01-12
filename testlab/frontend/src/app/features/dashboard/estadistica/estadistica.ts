@@ -86,7 +86,7 @@ public successRates: SuccessRatesResponse['data'] = {
       // Con un criterio de 70% para ratio y un 30% para el número de test sobre el total del proyecto
       const maxTotal = Math.max(...this.projectStats.map(p => p.total));
       console.log("Project stats:", this.projectStats);
-this.updateTopProjects();
+      this.updateTopProjects();
 
       console.log(this.top3Projects);
 

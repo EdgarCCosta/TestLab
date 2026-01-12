@@ -68,11 +68,11 @@ export class ProyectoLinkTestcase {
           }
         ]);
 
-      // Volver a "Selecciona una versión"
-      this.form.get('versionId')?.setValue('');
+        // Volver a "Selecciona una versión"
+        this.form.get('versionId')?.setValue('');
 
-      // Si también quieres resetear el testCaseId:
-      this.form.get('testCaseId')?.setValue('');
+        // Resetear el testCaseId:
+        this.form.get('testCaseId')?.setValue('');
 
         this._toastService.show('Prueba asociada correctamente', 'success');
       },
