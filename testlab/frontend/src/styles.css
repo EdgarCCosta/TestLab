@@ -247,6 +247,7 @@ pattern {
     &:hover,
     &:active {
       background-color: var(--logo-accent-color) !important;
+      color: var(--light-txt-color);
     }
   }
 
@@ -738,6 +739,7 @@ tbody td {
   &:hover,
   &:active {
     background-color: var(--logo-accent-color) !important;
+    color: var(--light-txt-color);
   }
   padding: 1rem;
   font-size: 1.6rem !important;

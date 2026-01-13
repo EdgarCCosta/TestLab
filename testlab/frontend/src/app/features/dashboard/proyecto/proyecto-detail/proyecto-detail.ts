@@ -26,23 +26,19 @@ import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 
 import { SpinnerService } from '../../../../services/spinner-service';
 
-import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { UsuarioDetail } from "../../usuario/usuario-detail/usuario-detail";
 import { VersionDetail } from "../../version/version-detail/version-detail";
-import { PruebaDetail } from "../../prueba/prueba-detail/prueba-detail";
 import { EjecucionDetail } from "../../ejecucion/ejecucion-detail/ejecucion-detail";
 import { ProyectoLinkUser } from '../proyecto-link-user/proyecto-link-user';
 
 import { Img } from '../../../../layout/shared/img/img/img';
 import { ProyectoLinkTestcase } from "../proyecto-link-testcase/proyecto-link-testcase";
-import { Modal } from 'bootstrap';
 
 
 @Component({
   selector: 'app-proyecto-detail',
   standalone: true,
-  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, ProyectoLinkUser, UsuarioDetail, VersionDetail, PruebaDetail, EjecucionDetail, Img, ProyectoLinkTestcase],
+  imports: [CommonModule, ModalDetail, ProyectoNew, LoadingComponent, ProyectoLinkUser, VersionDetail, EjecucionDetail, Img, ProyectoLinkTestcase],
   templateUrl: './proyecto-detail.html',
   styleUrls: ['./proyecto-detail.css']
 })
@@ -207,7 +203,6 @@ export class ProyectoDetail {
     this.modo = 'editar';
     this.proyectoSelId.set(this.proyectoId()); // el id actual
     this.tituloModalDetail = 'Editar proyecto';
-    document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
 
@@ -244,7 +239,7 @@ export class ProyectoDetail {
     this.proyectoSelId.set(proyectoId);
     this.tituloModalDetail = 'Asociar usuario al proyecto';
 
-    document.getElementById('btnAbrirModalProyecto')?.click();
+    // document.getElementById('btnAbrirModalProyecto')?.click();
   }
 
   listadoUsuariosChange($e: any) {
@@ -333,40 +328,9 @@ export class ProyectoDetail {
 
     // Ya tenemos las versiones cargadas
     this.listadoVersiones.set(this.versiones);
-    document.getElementById('btnAbrirModalProyecto')?.click();
+    // document.getElementById('btnAbrirModalProyecto')?.click();
 
   }
-
-  // asociarPrueba(event: { versionId: string; testCaseId: string }) {
-  //   const { versionId, testCaseId } = event;
-
-  //   this._versionService.linkPruebaToVersion(versionId, testCaseId).subscribe({
-  //     next: () => {
-  //       this._toastService.show('Prueba asociada correctamente', 'success');
-
-  //       // Obtener prueba seleccionada
-  //       const prueba = this.listadoPruebas().find(p => p.id === testCaseId);
-  //       const version = this.listadoVersiones().find(v => v.id === versionId);
-
-  //       if (prueba && version) {
-  //         // Añadir nueva relación prueba–versión
-  //         this.pruebas = [
-  //           ...this.pruebas,
-  //           {
-  //             ...prueba,
-  //             version_id: version.id,
-  //             version_number: version.version_number
-  //           }
-  //         ];
-  //       }
-
-  //     },
-  //     error: (err) => {
-  //       console.error('Error asociando prueba:', err);
-  //       this._toastService.show('No se pudo asociar la prueba', 'error');
-  //     }
-  //   });
-  // }
 
   disociarPruebaDeVersion(versionId: string, testCaseId: string) {
     this._versionService.unlinkPruebaFromVersion(versionId.toString(), testCaseId).subscribe({

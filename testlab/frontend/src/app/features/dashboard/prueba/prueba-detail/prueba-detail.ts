@@ -9,7 +9,6 @@ import { Modal } from 'bootstrap';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../../layout/shared/toast/toast';
 import { Version } from '../../../../models/version';
-import { LoadingComponent } from '../../../../layout/shared/loading/loading';
 import { atLeastOneStep } from '../../../../layout/shared/validators/at-least-one-step.validator';
 import { SpinnerService } from '../../../../services/spinner-service';
 import { LoadingInlineComponent } from "../../../../layout/shared/loading-inline/loading-inline";
@@ -21,7 +20,7 @@ import { AuthService } from '../../../../services/auth-service';
 @Component({
   selector: 'app-prueba-detail',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingComponent, CommonModule, LoadingInlineComponent],
+  imports: [ReactiveFormsModule, CommonModule, LoadingInlineComponent],
   templateUrl: './prueba-detail.html',
   styleUrl: './prueba-detail.css',
 })
