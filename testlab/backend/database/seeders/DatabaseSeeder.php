@@ -2,142 +2,203 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Version;
 use App\Models\TestCase;
 use App\Models\TestExecution;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Crear usuarios
-        $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@test.com',
-            'password' => Hash::make('password123'),
-            'rol' => 'admin'
+        /*
+        |--------------------------------------------------------------------------
+        | 1️⃣ USUARIOS
+        |--------------------------------------------------------------------------
+        */
+
+        $users = [];
+
+        $users['ana'] = User::updateOrCreate(
+            ['email' => 'ana.lopez@example.com'],
+            ['name' => 'Ana López', 'password' => Hash::make('password'), 'rol' => 'admin']
+        );
+
+        $users['carlos'] = User::updateOrCreate(
+            ['email' => 'carlos.garcia@example.com'],
+            ['name' => 'Carlos García', 'password' => Hash::make('password'), 'rol' => 'manager']
+        );
+
+        $users['marta'] = User::updateOrCreate(
+            ['email' => 'marta.fernandez@example.com'],
+            ['name' => 'Marta Fernández', 'password' => Hash::make('password'), 'rol' => 'tester']
+        );
+
+        $users['luis'] = User::updateOrCreate(
+            ['email' => 'luis.martinez@example.com'],
+            ['name' => 'Luis Martínez', 'password' => Hash::make('password'), 'rol' => 'tester']
+        );
+
+        $users['elena'] = User::updateOrCreate(
+            ['email' => 'elena.ruiz@example.com'],
+            ['name' => 'Elena Ruiz', 'password' => Hash::make('password'), 'rol' => 'admin']
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2️⃣ PROYECTOS (created_by explícito)
+        |--------------------------------------------------------------------------
+        */
+
+        $projects = [];
+
+        $projects['escolar'] = Project::updateOrCreate(
+            ['name' => 'Gestión Escolar'],
+            [
+                'description' => 'Sistema para gestionar alumnos y profesores',
+                'status' => 'active',
+                'created_by' => $users['ana']->id
+            ]
+        );
+
+        $projects['ecommerce'] = Project::updateOrCreate(
+            ['name' => 'E-commerce Moda'],
+            [
+                'description' => 'Tienda online de ropa',
+                'status' => 'active',
+                'created_by' => $users['carlos']->id
+            ]
+        );
+
+        $projects['crm'] = Project::updateOrCreate(
+            ['name' => 'CRM Ventas'],
+            [
+                'description' => 'Gestión de clientes y oportunidades',
+                'status' => 'inactive',
+                'created_by' => $users['elena']->id
+            ]
+        );
+
+        $projects['fitness'] = Project::updateOrCreate(
+            ['name' => 'App Fitness'],
+            [
+                'description' => 'Aplicación móvil para entrenamientos',
+                'status' => 'active',
+                'created_by' => $users['marta']->id
+            ]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3️⃣ VERSIONES
+        |--------------------------------------------------------------------------
+        */
+
+        $versions = [];
+
+        $versions['v1'] = Version::updateOrCreate(
+            ['version_number' => 'v1.0', 'project_id' => $projects['escolar']->id],
+            ['release_date' => '2025-01-01', 'description' => 'Versión inicial']
+        );
+
+        $versions['v1_1'] = Version::updateOrCreate(
+            ['version_number' => 'v1.1', 'project_id' => $projects['escolar']->id],
+            ['release_date' => '2025-02-01', 'description' => 'Corrección de errores']
+        );
+
+        $versions['v2'] = Version::updateOrCreate(
+            ['version_number' => 'v2.0', 'project_id' => $projects['ecommerce']->id],
+            ['release_date' => '2025-03-01', 'description' => 'Nueva funcionalidad']
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | 4️⃣ TEST CASES
+        |--------------------------------------------------------------------------
+        */
+
+        $testCases = [];
+
+        $testCases['login_ok'] = TestCase::updateOrCreate(
+            ['title' => 'Login correcto'],
+            [
+                'objective' => 'Verificar acceso con credenciales válidas',
+                'preconditions' => 'Usuario registrado',
+                'steps' => json_encode(['Abrir login', 'Ingresar credenciales', 'Enviar']),
+                'expected_result' => 'Acceso concedido',
+                'user_profile' => 'tester'
+            ]
+        );
+
+        $testCases['login_fail'] = TestCase::updateOrCreate(
+            ['title' => 'Login incorrecto'],
+            [
+                'objective' => 'Verificar rechazo con credenciales inválidas',
+                'preconditions' => 'Usuario registrado',
+                'steps' => json_encode(['Abrir login', 'Ingresar credenciales erróneas', 'Enviar']),
+                'expected_result' => 'Acceso denegado',
+                'user_profile' => 'tester'
+            ]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | 5️⃣ ASOCIAR TEST CASES A VERSIONES (pivot)
+        |--------------------------------------------------------------------------
+        */
+
+        $versions['v1']->testCases()->syncWithoutDetaching([
+            $testCases['login_ok']->id,
+            $testCases['login_fail']->id
         ]);
 
-        $tester = User::create([
-            'name' => 'Tester User',
-            'email' => 'tester@test.com',
-            'password' => Hash::make('password123'),
-            'rol' => 'tester'
-        ]);
+        /*
+        |--------------------------------------------------------------------------
+        | 6️⃣ TEST EXECUTIONS
+        |--------------------------------------------------------------------------
+        */
 
-        $manager = User::create([
-            'name' => 'Manager User',
-            'email' => 'manager@test.com',
-            'password' => Hash::make('password123'),
-            'rol' => 'manager'
-        ]);
+        TestExecution::updateOrCreate(
+            [
+                'test_case_id' => $testCases['login_ok']->id,
+                'version_id'   => $versions['v1']->id,
+                'user_id'      => $users['marta']->id,
+            ],
+            [
+                'result'       => 'passed',
+                'comment'      => 'Login exitoso',
+                'test_data'    => json_encode(['browser' => 'Chrome']),
+                'error_status' => 'none',
+                'observations' => 'Todo correcto',
+                'executed_at'  => now()
+            ]
+        );
 
-        // // 2. Crear proyectos
-        // $project1 = Project::create([
-        //     'name' => 'E-commerce Platform',
-        //     'description' => 'Desarrollo de plataforma de ventas online',
-        //     'status' => 'active'
-        // ]);
+        TestExecution::updateOrCreate(
+            [
+                'test_case_id' => $testCases['login_fail']->id,
+                'version_id'   => $versions['v1']->id,
+                'user_id'      => $users['luis']->id,
+            ],
+            [
+                'result'       => 'failed',
+                'comment'      => 'Credenciales inválidas',
+                'test_data'    => json_encode(['browser' => 'Firefox']),
+                'error_status' => 'low',
+                'observations' => 'Comportamiento esperado',
+                'executed_at'  => now()
+            ]
+        );
 
-        // $project2 = Project::create([
-        //     'name' => 'Mobile App',
-        //     'description' => 'Aplicación iOS y Android',
-        //     'status' => 'active'
-        // ]);
+        /*
+        |--------------------------------------------------------------------------
+        | ✅ FIN
+        |--------------------------------------------------------------------------
+        */
 
-        // // 3. Crear versiones
-        // $version1 = Version::create([
-        //     'version_number' => 'v1.0',
-        //     'release_date' => now()->addDays(30),
-        //     'description' => 'Primera versión estable',
-        //     'project_id' => $project1->id
-        // ]);
-
-        // $version2 = Version::create([
-        //     'version_number' => 'v1.1',
-        //     'release_date' => now()->addDays(60),
-        //     'description' => 'Segunda versión con mejoras',
-        //     'project_id' => $project1->id
-        // ]);
-
-        // // 4. Crear test cases
-        // $testCase1 = TestCase::create([
-        //     'title' => 'Login de usuario',
-        //     'objective' => 'Verificar que el usuario puede iniciar sesión',
-        //     'preconditions' => 'Usuario registrado, cuenta activa',
-        //     'steps' => json_encode([
-        //         'Navegar a página de login',
-        //         'Ingresar email válido',
-        //         'Ingresar contraseña correcta',
-        //         'Hacer clic en Login'
-        //     ]),
-        //     'expected_result' => 'Usuario redirigido al dashboard',
-        //     'user_profile' => 'Usuario estándar',
-        //     // 'version_id' => $version1->id
-        // ]);
-
-        // $testCase2 = TestCase::create([
-        //     'title' => 'Registro de nuevo usuario',
-        //     'objective' => 'Verificar registro de usuario nuevo',
-        //     'preconditions' => 'Email no registrado previamente',
-        //     'steps' => json_encode([
-        //         'Hacer clic en Registrarse',
-        //         'Completar formulario',
-        //         'Aceptar términos',
-        //         'Hacer clic en Crear cuenta'
-        //     ]),
-        //     'expected_result' => 'Usuario registrado y email de confirmación enviado',
-        //     'user_profile' => 'Nuevo usuario',
-        //     // 'version_id' => $version1->id
-        // ]);
-
-        // // 5. Crear test executions
-        // TestExecution::create([
-        //     'test_case_id' => $testCase1->id,
-        //     'version_id' => $version1->id,
-        //     'user_id' => $tester->id,
-        //     'result' => 'passed',
-        //     'comment' => 'Test ejecutado correctamente',
-        //     'test_data' => json_encode(['browser' => 'Chrome', 'os' => 'Windows']),
-        //     'error_status' => 'none',
-        //     'observations' => 'Todo funcionó como se esperaba',
-        //     'executed_at' => now()->subDays(2)
-        // ]);
-
-        // TestExecution::create([
-        //     'test_case_id' => $testCase1->id,
-        //     'version_id' => $version1->id,
-        //     'user_id' => $tester->id,
-        //     'result' => 'failed',
-        //     'comment' => 'El botón de login no funciona en móvil',
-        //     'test_data' => json_encode(['browser' => 'Mobile Safari', 'os' => 'iOS']),
-        //     'error_status' => 'high',
-        //     'correction_notes' => 'Se debe ajustar el responsive design',
-        //     'observations' => 'Falló en resolución móvil',
-        //     'executed_at' => now()->subDays(1)
-        // ]);
-
-        // TestExecution::create([
-        //     'test_case_id' => $testCase2->id,
-        //     'version_id' => $version1->id,
-        //     'user_id' => $admin->id,
-        //     'result' => 'passed',
-        //     'comment' => 'Registro exitoso',
-        //     'test_data' => json_encode(['browser' => 'Firefox', 'os' => 'Linux']),
-        //     'error_status' => 'none',
-        //     'observations' => null,
-        //     'executed_at' => now()
-        // ]);
-
-        $this->command->info('✅ Datos de prueba creados:');
-        $this->command->info('   - 2 usuarios');
-        $this->command->info('   - 2 proyectos');
-        $this->command->info('   - 2 versiones');
-        $this->command->info('   - 2 test cases');
-        $this->command->info('   - 3 test executions');
+        $this->command->info('✅ Seeder ejecutado correctamente (usuarios, proyectos, versiones y tests)');
     }
 }
